@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face { 
+    font-family: "Trispace"; 
+    src: url("/public/assets/fonts/Trispace-Bold.ttf"); 
+} 
+
+@font-face { 
+    font-family: "Noto Sans"; 
+    src: url("/public/assets/fonts/NotoSans-Regular.ttf"); 
+} 
+
+.slick-dots li button:before {
+    font-size: 15px!important;
+    width: 15px!important;
+    height: 15px!important;
+}
+
+.slick-dots {
+    bottom: 91px!important;
+}
+
+.slick-dots li button {
+    background: gray!important;
+    border-radius: 50%;
+    width: 10px!important;
+    height: 10px!important;
+    margin: 0!important;
+}
+
+.slick-dots li.slick-active button {
+    width: 15px!important;
+    background: black!important;
+    border-radius: 10px;;
+}
+
+.slick-dots li button:before {
+    content: ""!important
+}
+
+.slick-dots li {
+    width: 8px!important;
+}

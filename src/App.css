@@ -1,0 +1,19 @@
+.accordion {
+  border: none !important;
+}
+
+.accordion__heading div[aria-expanded="false"] img.accordion_arrow_down {
+  display: inline;
+}
+
+.accordion__heading div[aria-expanded="false"] img.accordion_arrow_up {
+  display: none;
+}
+
+.accordion__heading div[aria-expanded="true"] img.accordion_arrow_down {
+  display: none;
+}
+
+.accordion__heading div[aria-expanded="true"] img.accordion_arrow_up {
+  display: inline;
+}
