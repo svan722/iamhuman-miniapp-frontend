@@ -12,7 +12,7 @@ export default function HelloHuman() {
   return (
     <div className="">
       <Header isBlack={true}/>
-      <div className="px-8 overflow-hidden">
+      <div className="px-8">
         <div className="text-center">
           <p className="font-semibold text-[32px] leading-[38px] mt-[-10px]">Hello human!</p>
           <p className="font-normal text-base px-6">Explore your ImHuman NFTs and rewards in ImHuman App </p>
@@ -36,7 +36,9 @@ export default function HelloHuman() {
         </div>
         <Button background={true} text="Edit personal information" onClick={()=>navigate("/editprofile")}/>
       </div>
-      <Footer/>
+      <div className="fixed bottom-0 w-full">
+        <Footer/>
+      </div>
     </div>
   )
 }

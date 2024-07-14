@@ -28,7 +28,7 @@ export default function WelcomeBoard() {
               <p className="font-noto text-[8px] tracking-[0.2rem] text-[#162749] ml-1">PRIVASEA</p>
             </div>
           </div>
-          <div className="py-3 border border-[#D3D3D3] rounded-lg">
+          <div className="py-3 px-5 border border-[#D3D3D3] rounded-lg">
             <p className="font-semibold text-xl leading-6 text-center">Set up with ImHuman App</p>
             <Button background={true} text="Link ImHuman APP" onClick={()=>setOpenModal(true)}/>
           </div>  
