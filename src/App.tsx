@@ -5,6 +5,7 @@ import VerifySuccess from './pages/VerifySuccess';
 import HelloHuman from './pages/HelloHuman';
 import Profile from "./pages/Profile";
 import VerifyPassed from './pages/VerifyPassed';
+import UpgradePremium from './pages/UpgradePremium';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/hellohuman" element={<HelloHuman />} />
           <Route path="/editprofile" element={<Profile />} />
           <Route path="/verifypassed" element={<VerifyPassed />} />
+          <Route path="/Upgrade_premium" element={<UpgradePremium />} />
         </Routes>
       </Router>
     </>

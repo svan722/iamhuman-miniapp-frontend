@@ -11,7 +11,7 @@ export default function WelcomeBoard() {
   return (
     <>
     <div className="w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden">
-      <Header isBlack={false}/>
+      <Header isDark={false}/>
       <div className="px-4 py-1">
         <div className="p-4 rounded-lg bg-white border-[#D3D3D3] border">
           <div>

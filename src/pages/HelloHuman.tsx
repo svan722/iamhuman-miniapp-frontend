@@ -11,7 +11,7 @@ export default function HelloHuman() {
   const navigate = useNavigate();
   return (
     <div className="">
-      <Header isBlack={true}/>
+      <Header isDark={true}/>
       <div className="px-8">
         <div className="text-center">
           <p className="font-semibold text-[32px] leading-[38px] mt-[-10px]">Hello human!</p>

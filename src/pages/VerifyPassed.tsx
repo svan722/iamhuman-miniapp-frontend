@@ -7,7 +7,7 @@ export default function VerifyPassed() {
   const navigate = useNavigate();
   return (
     <div>
-      <Header isBlack={true}/>
+      <Header isDark={true}/>
       <div className='px-8'>
         <div className='flex justify-center mt-[-20px]'>
           <img src={VerifySuccessImg} alt="verify success" />

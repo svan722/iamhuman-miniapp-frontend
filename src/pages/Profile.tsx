@@ -16,7 +16,7 @@ export default function Profile() {
 
   return (
     <>
-      <Header isBlack={true}/>
+      <Header isDark={true}/>
       <div className="-z-20">
         <div className="px-4 pb-[115px] bg-white">
           <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">
