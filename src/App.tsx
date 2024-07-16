@@ -6,6 +6,10 @@ import HelloHuman from './pages/HelloHuman';
 import Profile from "./pages/Profile";
 import VerifyPassed from './pages/VerifyPassed';
 import UpgradePremium from './pages/UpgradePremium';
+import Payment from './pages/Payment';
+import AccountUpgraded from './pages/AccountUpgraded';
+import SelectVerification from './pages/SelectVerification';
+import IndividualVerification from './pages/IndividualVerification';
 
 
 function App() {
@@ -18,7 +22,11 @@ function App() {
           <Route path="/hellohuman" element={<HelloHuman />} />
           <Route path="/editprofile" element={<Profile />} />
           <Route path="/verifypassed" element={<VerifyPassed />} />
-          <Route path="/Upgrade_premium" element={<UpgradePremium />} />
+          <Route path="/upgrade_premium" element={<UpgradePremium />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/account_upgraded" element={<AccountUpgraded />} />
+          <Route path="/select_verification" element={<SelectVerification />} />
+          <Route path="/individual_verification" element={<IndividualVerification />} />
         </Routes>
       </Router>
     </>
