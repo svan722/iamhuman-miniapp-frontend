@@ -1,15 +1,39 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import Header from "../components/header/Header";
 import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
 import Button from "../components/button/Button";
 import VerifyModal from "../components/verify/VerifyModal";
+import axios from "axios";
+import {BASE_API} from "../config/config";
+import { useTelegram } from "../context/TelegramProvider";
+
+export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
   const [openModal, setOpenModal] = useState(false);
+  const [userId, setUserId] = useState("default1234");
+  const [otp, setOtp] = useState("0000");
+
+  const { user } = useTelegram(); 
+
+  const linkApp = async () => {
+    let user_id = user?.username;
+    if(user_id)  setUserId(user_id);
+
+    const userData =  {user_id: userId}
+    console.log("userData::::::", userData);
+    await axios.post(BASE_API+"signin",userData )
+    .then(res => {
+      console.log(res);
+      setOtp(res.data);
+    })
+    setOpenModal(true);
+  }
+
 
   return (
-    <>
+    <OtpContext.Provider value={otp}>
     <div className="w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden">
       <Header isDark={false}/>
       <div className="px-4 py-1">
@@ -30,12 +54,12 @@ export default function WelcomeBoard() {
           </div>
           <div className="py-3 px-5 border border-[#D3D3D3] rounded-lg">
             <p className="font-semibold text-xl leading-6 text-center">Set up with ImHuman App</p>
-            <Button background={true} text="Link ImHuman APP" onClick={()=>setOpenModal(true)}/>
+            <Button background={true} text="Link ImHuman APP" onClick={()=>linkApp()}/>
           </div>  
         </div>
       </div> 
-      {openModal&&<VerifyModal/>}
+      {openModal&&<VerifyModal close={()=>{setOpenModal(false)}}/>}
     </div>
-    </>
+    </OtpContext.Provider>
   )
 }

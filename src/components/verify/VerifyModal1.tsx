@@ -27,7 +27,7 @@ export default function VerifyModal1(props: VerifyModal1Props) {
         </div>
         <div className="py-2">
           <Button background={true} text="Copy code" onClick={()=>{navigate('/verifypassed')}}/>
-          <Button background={false} text="Cancel"/>
+          <Button background={false} text="Cancel" onClick={props.close}/>
         </div> 
       </div>
     </div>

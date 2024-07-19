@@ -10,11 +10,13 @@ import Payment from './pages/Payment';
 import AccountUpgraded from './pages/AccountUpgraded';
 import SelectVerification from './pages/SelectVerification';
 import IndividualVerification from './pages/IndividualVerification';
+import IndividualActivePortal from './pages/IndividualActivePortal';
+import { TelegramProvider } from "./context/TelegramProvider";
 
 
 function App() {
   return (
-    <>
+    <TelegramProvider>
       <Router>
         <Routes>
           <Route path="/" element={<WelcomeBoard />} />
@@ -27,9 +29,10 @@ function App() {
           <Route path="/account_upgraded" element={<AccountUpgraded />} />
           <Route path="/select_verification" element={<SelectVerification />} />
           <Route path="/individual_verification" element={<IndividualVerification />} />
+          <Route path="/individual_active_portal" element={<IndividualActivePortal />} />
         </Routes>
       </Router>
-    </>
+    </TelegramProvider>
   )
 }
 
