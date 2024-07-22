@@ -1,12 +1,59 @@
+import {useState, useEffect, useContext} from "react";
 import closeSVG from "../../assets/images/bclose.svg";
 import { useNavigate } from 'react-router-dom';
 import Button from "../button/Button";
+import axios from "axios";
+import {BASE_API} from "../../config/config";
+import { useTelegram } from "../../context/TelegramProvider";
+import {UpdateUserDataContext} from "../../pages/Profile";
 
 interface VerifyModal1Props {
   close?: () => void
 }
 export default function VerifyModal1(props: VerifyModal1Props) {
   const navigate = useNavigate();
+  const [time, setTime] = useState(5);
+
+  const {user} = useTelegram();
+  const _updateUserData = useContext(UpdateUserDataContext);
+
+  const updateUserData = async () => {
+    const username = user?user.username:"default1234";
+    try {
+      await axios.put(BASE_API + `/update/:${username}`, {
+        _updateUserData
+      });
+      // Handle success, e.g., show a success message
+      console.log('User updated successfully');
+    } catch (error) {
+      // Handle error, e.g., show an error message
+      console.error('Error updating user:', error);
+    }
+  }
+  useEffect(() => {
+    if (time === 0) {
+        console.log("close");
+        updateUserData();
+        navigate("/verifysuccess");
+      }
+    }, [time]);
+
+  // count down timer
+  useEffect(() => {
+  let timer = setInterval(() => {
+    setTime((time) => {
+      if (time === 0) {
+        clearInterval(timer);
+        return 0;
+      } else return time - 1;
+    });
+  }, 1000);
+
+  return () => {
+    clearInterval(timer);
+  };
+  }, []);
+
   return (
     <>
     <div className="w-full h-full absolute bottom-[-230px] block rounded-lg bg-white border-[#D3D3D3] border z-10">

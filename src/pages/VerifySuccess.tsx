@@ -18,7 +18,7 @@ export default function VerifySuccess() {
         </div>
         <div>
           <Button background={true} text={"Done!"} onClick={()=> {navigate("/hellohuman")}}/>
-          <Button background={false} text={"Edit personal information"}/>
+          <Button background={false} text={"Edit personal information"} onClick={()=>navigate("/editprofile")}/>
         </div>
       </div>
     </div>

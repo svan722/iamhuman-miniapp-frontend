@@ -2,8 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import closeSVG from "../../assets/images/bclose.svg";
 import CopyIcon from "../../assets/images/ic_copy.svg";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 import Button from "../button/Button";
+import { BASE_API } from "../../config/config";
 import { OtpContext } from "../../pages/WelcomeBoard";
+import { useTelegram } from "../../context/TelegramProvider";
 
 interface VerifyModalProps {
   close?: () => void
@@ -11,41 +14,52 @@ interface VerifyModalProps {
 
 export default function VerifyModal(props: VerifyModalProps) {
   const navigate = useNavigate();
-  const [nft, setNFT] = useState<number>(0);
   const [otp, setOtp] = useState<string>("");
-  // const [copiedText, setCopiedText] = useState('');
+  const [isCopied, setIsCopied] = useState(false);
+  const [time, setTime] = useState(5);
 
   const context = useContext(OtpContext);
+  const { user } = useTelegram(); 
 
   useEffect(() => {
-      setOtp(context);
-
-      // Set up the interval
-      const id = setInterval(() => {
-      setNFT((prevCount) => prevCount + 1);
-    }, 1000);
-    
-    if (nft >= 500) {
-      clearInterval(id);
-      navigate("/verifysuccess");
-    }
-    return () => {
-      // Clear the interval when the component unmounts
-        clearInterval(id);
-    };
-  }, [setNFT]);
-
-  useEffect(() => {
-     if (nft >= 500) {
+     if (time === 0) {
       console.log("close");
-      navigate("/verifysuccess");
+      const userData =  {
+        user_id: user?user.username:"default123", 
+        nft_link:"https://nft.com/xxx:user123"
+      }
+      axios.post(BASE_API+"signup",userData)
+        .then(res => {
+          console.log("signUp success",res);
+          navigate("/verifysuccess");
+        })
+        .catch(err=>{console.log("signUp error", err)})
+      // navigate("/verifysuccess");
+      console.log("SignUp failed");
     }
- }, [nft]);
+ }, [time]);
+ 
+// count down timer
+ useEffect(() => {
+  setOtp(context);
+  let timer = setInterval(() => {
+    setTime((time) => {
+      if (time === 0) {
+        clearInterval(timer);
+        return 0;
+      } else return time - 1;
+    });
+  }, 1000);
+
+  return () => {
+    clearInterval(timer);
+  };
+}, []);
 
  const clipboardCopy = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
-    // setCopiedText(text);
+    setIsCopied(true);
     console.log('Text copied to clipboard:', text);
   } catch (err) {
     console.error('Failed to copy text: ', err);
@@ -53,7 +67,7 @@ export default function VerifyModal(props: VerifyModalProps) {
  }
   return (
     <>
-    <div className="w-full h-full absolute bottom-[-80px] block rounded-lg bg-white border-[#D3D3D3] border">
+    <div className={`w-full h-full absolute bottom-[-80px] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`}>
 
       <div className="px-8 py-5">
         <img className="float-end" src={closeSVG} alt="close" onClick={props.close}/>
@@ -69,11 +83,11 @@ export default function VerifyModal(props: VerifyModalProps) {
         
         </div>
         <div className="text-center mt-4">
-          <span >The code is valid for </span><span className="text-red-500">04:59</span>
+          <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
         </div>
         <div className="flex justify-center mt-4">
           <div onClick={()=>clipboardCopy(String(otp))}>
-            <span className="font-bold text-[14px] leading-[22px] inline-block hover: cursor-pointer">Copy code</span>
+            <span className="font-bold text-[14px] leading-[22px] inline-block hover: cursor-pointer">{!isCopied?"Copy code":"Copied"}</span>
             <img className="ml-2 inline-block hover: cursor-pointer" src={CopyIcon} alt="ic_copy"/>
           </div>
         </div>

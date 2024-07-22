@@ -7,28 +7,43 @@ import VerifyModal from "../components/verify/VerifyModal";
 import axios from "axios";
 import {BASE_API} from "../config/config";
 import { useTelegram } from "../context/TelegramProvider";
+import { useNavigate } from "react-router-dom";
 
 export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
   const [openModal, setOpenModal] = useState(false);
-  const [userId, setUserId] = useState("default1234");
+  const [userId, setUserId] = useState("default1235");
   const [otp, setOtp] = useState("0000");
 
+  const navigate = useNavigate();
   const { user } = useTelegram(); 
 
   const linkApp = async () => {
     let user_id = user?.username;
     if(user_id)  setUserId(user_id);
 
-    const userData =  {user_id: userId}
+    const userData =  {
+      user_id: userId, 
+      nft_link:"https://nft.com/xxx:user123"
+    }
     console.log("userData::::::", userData);
     await axios.post(BASE_API+"signin",userData )
     .then(res => {
-      console.log(res);
-      setOtp(res.data);
+      if(res.data.msg === "otp") {
+        console.log("new user",res.data);
+        setOtp(res.data.otp);
+        setOpenModal(true);
+      } else {
+        if(!res.data.userData.nft_link) {
+          console.log("sign in error");
+          setOpenModal(false);
+        } else {
+          console.log("signIn Success",res.data);
+          navigate("/verifysuccess");
+        }
+      }
     })
-    setOpenModal(true);
   }
 
 

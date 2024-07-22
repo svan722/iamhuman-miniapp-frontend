@@ -13,34 +13,47 @@
     src: url("/public/assets/fonts/NotoSans-Regular.ttf"); 
 } 
 
-.slick-dots li button:before {
-    font-size: 15px!important;
-    width: 15px!important;
-    height: 15px!important;
+.modal-anim-slideIn {
+    animation: slideIn .3s linear;
+}
+.modal-anim-slideOut {
+    animation: slideOut .3s linear;
 }
 
-.slick-dots {
-    bottom: 91px!important;
-}
+@keyframes slideIn {
+    0% {
+      transform: translateY(400px);
+      animation-timing-function: ease-out;
+    }
+    60% {
+      transform: translateY(-30px);
+      animation-timing-function: ease-in;
+    }
+    80% {
+      transform: translateY(10px);
+      animation-timing-function: ease-out;
+    }
+    100% {
+      transform: translateY(0px);
+      animation-timing-function: ease-in;
+    }
+  }
 
-.slick-dots li button {
-    background: gray!important;
-    border-radius: 50%;
-    width: 10px!important;
-    height: 10px!important;
-    margin: 0!important;
-}
-
-.slick-dots li.slick-active button {
-    width: 15px!important;
-    background: black!important;
-    border-radius: 10px;;
-}
-
-.slick-dots li button:before {
-    content: ""!important
-}
-
-.slick-dots li {
-    width: 8px!important;
-}
+  @keyframes slideOut {
+    0% {
+      transform: translateY(-400px);
+      animation-timing-function: ease-out;
+    }
+    60% {
+      transform: translateY(30px);
+      animation-timing-function: ease-in;
+    }
+    80% {
+      transform: translateY(-10px);
+      animation-timing-function: ease-out;
+    }
+    100% {
+      transform: translateY(0px);
+      animation-timing-function: ease-in;
+    }
+  }
