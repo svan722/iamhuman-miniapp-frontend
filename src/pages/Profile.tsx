@@ -1,4 +1,5 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
+import axios from "axios";
 import Header from "../components/header/Header";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import Button from "../components/button/Button";
@@ -6,6 +7,7 @@ import Footer from "../components/footer/Footer";
 import VerifyModal1 from "../components/verify/VerifyModal1";
 import { useTelegram } from "../context/TelegramProvider";
 import { validateDiscordUsername, validateURL, validateTwitterUrl } from "../utils/validate";
+import { BASE_API } from "../config/config";
 
 interface IUpdateUserData {
   xlink?: String,
@@ -17,8 +19,8 @@ export const UpdateUserDataContext = createContext<IUpdateUserData>({});
 export default function Profile() {
   const { user } = useTelegram();
 
-  const [inputText, setInputText] = useState("");
-  const [xlink, setXlink] = useState("true");
+  const [bio, setBio] = useState("");
+  const [xlink, setXlink] = useState("");
   const [discordUsername, setDiscordUsername] = useState("");
   const [personal, setPersonal] = useState("")
   const [openModal, setOpenModal] = useState(false);
@@ -26,12 +28,12 @@ export default function Profile() {
   const [isXvalid, setIsXvalid] = useState(true);
   const [discordValid, setDiscordValid] = useState(true);
   const [personalValid, setPersonalValid] = useState(true);
-  const [otp, setOtp] = useState("0000");
+  // const [otp, setOtp] = useState("0000");
 
-  let updateUserData = {};
+  const [updateUserData, setUpdateUserData]  = useState({});
   // event handler
   const handleChange = (event: any) => {
-    setInputText(event.target.value);
+    setBio(event.target.value);
   };
 
   const XhandleChange = (event: any) => {
@@ -48,21 +50,40 @@ export default function Profile() {
     setPersonalValid(validateURL(event.target.value));
   };
 
-  const verify = () => {
+  const verify = async () => {
 
     const userData = {
-      xlink: xlink,
+      bio: bio,
+      x_link: xlink,
       discordUsername: discordUsername,
-      personalWeb: personal,
+      personal_website: personal,
       // otp: 
     }
-    updateUserData = userData;
+    setUpdateUserData(userData);
 
     console.log("UserData", userData);
     if(isXvalid&&personalValid&&discordUsername) {
       setOpenModal(true);
     }
   }
+
+  useEffect(() => {
+    console.log("profile");
+    const username = user?user.username:"default123";
+    async function currentUser() {
+      axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
+        .then(res=> {
+          console.log("res", res);
+          setBio(res.data.bio);
+          setXlink(res.data.x_link);
+          setDiscordUsername(res.data.discordUsername);
+          setPersonal(res.data.personal_website);
+
+        })
+    }
+
+    currentUser();
+  }, []);
 
   return (
     <UpdateUserDataContext.Provider value={updateUserData}>
@@ -79,22 +100,22 @@ export default function Profile() {
             </div>
             <div>
               <label className="text-[16px] leading-[20px] font-normal">Personal bio</label>
-              <textarea className="w-full h-[180px] border border-[#D3D3D3] rounded-md p-3 hover:outline-black outline-1 break-all" placeholder="Write a short intro about yourselef" rows={10} value={inputText} maxLength={150} onChange={handleChange}/>
-              <span>{inputText.length}/{characterLimit} characters</span>
+              <textarea className="w-full h-[180px] border border-[#D3D3D3] rounded-md p-3 hover:outline-black outline-1 break-all" placeholder="Write a short intro about yourselef" rows={10} value={bio} maxLength={150} onChange={handleChange}/>
+              <span>{bio.length}/{characterLimit} characters</span>
             </div>
             <div className="my-4">
-              <label className="text-[16px] leading-[20px] font-normal" onChange={XhandleChange}>X link</label>
-              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your X profile link"/>
+              <label className="text-[16px] leading-[20px] font-normal" >X link</label>
+              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your X profile link" value={xlink} onChange={XhandleChange}/>
               {!isXvalid?<p className="text-red-500 text-xs">Type X link correctly</p>:""}
             </div>
             <div className="my-4">
               <label className="text-[16px] leading-[20px] font-normal" >Discord username</label>
-              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your Discord name" onChange={discordHandleChange}/>
+              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your Discord name" value={discordUsername} onChange={discordHandleChange}/>
               {!discordValid?<p className="text-red-500 text-xs">Type Discord username correctly</p>:""}
             </div>
             <div className="my-4">
               <label className="text-[16px] leading-[20px] font-normal">Personal website link</label>
-              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your website" onChange={personalHandleChange}/>
+              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your website" value={personal} onChange={personalHandleChange}/>
               {!personalValid?<p className="text-red-500 text-xs">Type personal website link correctly</p>:""}
             </div>
             <Button background={true} text="Verify to save edits" onClick={()=>verify()}/>

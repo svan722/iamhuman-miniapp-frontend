@@ -13,7 +13,7 @@ export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
   const [openModal, setOpenModal] = useState(false);
-  const [userId, setUserId] = useState("default1235");
+  const [userId, setUserId] = useState("default123");
   const [otp, setOtp] = useState("0000");
 
   const navigate = useNavigate();

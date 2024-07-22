@@ -13,46 +13,72 @@ interface VerifyModal1Props {
 export default function VerifyModal1(props: VerifyModal1Props) {
   const navigate = useNavigate();
   const [time, setTime] = useState(5);
+  const [otp, setOtp] = useState<string>("");
+  // const [isCopied, setIsCopied] = useState(false);
 
   const {user} = useTelegram();
   const _updateUserData = useContext(UpdateUserDataContext);
 
   const updateUserData = async () => {
-    const username = user?user.username:"default1234";
+    console.log("updateData:::", _updateUserData);
+    const username = user?user.username:"default123";
     try {
-      await axios.put(BASE_API + `/update/:${username}`, {
+      await axios.put(BASE_API + `update/${username}`, {
         _updateUserData
+      }).then(()=>{
+        navigate("/verifysuccess");
       });
       // Handle success, e.g., show a success message
       console.log('User updated successfully');
     } catch (error) {
+      alert("Failed to change your information");
+      props.close;
       // Handle error, e.g., show an error message
       console.error('Error updating user:', error);
     }
   }
+
   useEffect(() => {
     if (time === 0) {
         console.log("close");
         updateUserData();
-        navigate("/verifysuccess");
       }
     }, [time]);
 
   // count down timer
   useEffect(() => {
-  let timer = setInterval(() => {
-    setTime((time) => {
-      if (time === 0) {
-        clearInterval(timer);
-        return 0;
-      } else return time - 1;
-    });
-  }, 1000);
+    const user_id = user?user.username:"default123";
+    async function getOTP() {
+      await axios.post(BASE_API+"getsecondotp",{user_id : user_id})
+      .then(res => {
+        console.log("res",res.data);
+        setOtp(res.data.otp);
+      })
+    } 
+    getOTP();
+    let timer = setInterval(() => {
+      setTime((time) => {
+        if (time === 0) {
+          clearInterval(timer);
+          return 0;
+        } else return time - 1;
+      });
+    }, 1000);
 
-  return () => {
-    clearInterval(timer);
-  };
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
+
+  const clipboardCopy = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      // setIsCopied(true);
+      console.log('Text copied to clipboard:', text);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+   }
 
   return (
     <>
@@ -64,13 +90,14 @@ export default function VerifyModal1(props: VerifyModal1Props) {
         <p className="font-normal text-base text-center pt-5">Paste your one-time passcode into your ImHuman Telegram Bot page by navigating to:</p>
         <p className="font-semibold text-base text-center leading-[22px]">{"Proof > Test your Liveness > TG Bot"}</p>
         <div className="grid grid-cols-4 gap-4 pt-4">
-          <label className="w-[60px] h-[80px] rounded-lg bg-[#EAECF1] text-center text-2xl font-semibold py-5">7</label>
-          <label className="w-[60px] h-[80px] rounded-lg bg-[#EAECF1] text-2xl font-semibold py-5 text-center">7</label>
-          <label className="w-[60px] h-[80px] rounded-lg bg-[#EAECF1] text-2xl font-semibold py-5 text-center">7</label>
-          <label className="w-[60px] h-[80px] rounded-lg bg-[#EAECF1] text-2xl font-semibold py-5 text-center">7</label>
+        {
+            String(otp).split('').map((i:any,index:number)=>(
+              <label className="w-[50px] h-[70px] rounded-lg bg-[#EAECF1] text-center text-2xl font-semibold py-5" key={index}>{i}</label>
+            )) 
+          }
         </div>
-        <div className="text-center mt-4">
-          <span >The code is valid for </span><span className="text-red-500">04:59</span>
+        <div className="text-center mt-4" onClick={()=>clipboardCopy(String(otp))}>
+          <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
         </div>
         <div className="py-2">
           <Button background={true} text="Copy code" onClick={()=>{navigate('/verifypassed')}}/>

@@ -52,9 +52,8 @@ export const validateDiscordUsername = (username: string): validateDiscordUserna
 export function validateTwitterUrl(url: string): boolean {
   // Remove any leading/trailing whitespace
   url = url.trim();
-
   // Check if the URL starts with "https://twitter.com/"
-  if (!url.startsWith("https://twitter.com/") || !url.startsWith("https://x.com/") ) {
+  if (!(url.startsWith("https://twitter.com/") || url.startsWith("https://x.com/")) ) {
     return false;
   }
 
