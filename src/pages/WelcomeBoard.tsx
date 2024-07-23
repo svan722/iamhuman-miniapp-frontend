@@ -34,8 +34,15 @@ export default function WelcomeBoard() {
       nft_link:nft
     }
 
-    await axios.post(BASE_API+"signin",userData )
-    .then(res => {
+    await axios.post(BASE_API+"signin",
+      userData, {
+        headers: {
+           'Access-Control-Allow-Origin': '*',
+           'Content-Type': 'application/json'
+        } 
+     },
+      )
+    .then((res) => {
       if(res.data.msg === "otp") {
         setOtp(res.data.otp);
         setOpenModal(true);
