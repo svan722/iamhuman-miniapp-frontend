@@ -16,21 +16,20 @@ export default function VerifyModal(props: VerifyModalProps) {
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(50);
+  const [nft, setNFT] = useState("");
 
   const context = useContext(OtpContext);
   const { user } = useTelegram(); 
 
   useEffect(() => {
-     if (time === 0) {
-      console.log("close");
+     if (time === 0&&nft.length!==0) {
       const userData =  {
-        user_id: user?user.username:"default123", 
-        nft_link:"https://nft.com/xxx:user123"
+        user_id: user?user.username:"kdstorm", 
+        nft_link:nft
       }
       axios.post(BASE_API+"signup",userData)
-        .then(res => {
-          console.log("signUp success",res);
+        .then(() => {
           navigate("/verifysuccess");
         })
         .catch(err=>{console.log("signUp error", err)})
@@ -43,6 +42,17 @@ export default function VerifyModal(props: VerifyModalProps) {
  useEffect(() => {
   setOtp(context);
   let timer = setInterval(() => {
+
+    async function getNFT() {
+      await axios.post(BASE_API+"getnft",{user_id : "kdstorm"})
+      .then(res => {
+        if(res.data.nft === undefined) setNFT("");
+        else setNFT(res.data.nft);
+      })
+    } 
+
+    getNFT();
+
     setTime((time) => {
       if (time === 0) {
         clearInterval(timer);
@@ -55,6 +65,13 @@ export default function VerifyModal(props: VerifyModalProps) {
     clearInterval(timer);
   };
 }, []);
+
+useEffect(() => {
+  if(nft.length !== 0) {
+    navigate("/verifysuccess");
+  }
+  return () => {};
+}, [nft]);
 
  const clipboardCopy = async (text: string) => {
   try {

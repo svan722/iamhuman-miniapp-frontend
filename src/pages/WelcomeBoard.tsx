@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import Header from "../components/header/Header";
 import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
@@ -13,7 +13,8 @@ export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
   const [openModal, setOpenModal] = useState(false);
-  const [userId, setUserId] = useState("default123");
+  const [userId, setUserId] = useState("kdstorm");
+  const [nft, setNFT] = useState("")
   const [otp, setOtp] = useState("0000");
 
   const navigate = useNavigate();
@@ -23,29 +24,32 @@ export default function WelcomeBoard() {
     let user_id = user?.username;
     if(user_id)  setUserId(user_id);
 
+    await axios.post(BASE_API+"getnft",{data:user_id} )
+      .then(res=> {
+        if(res.data.nft === undefined) setNFT("");
+        else setNFT(res.data.nft);
+      })
     const userData =  {
       user_id: userId, 
-      nft_link:"https://nft.com/xxx:user123"
+      nft_link:nft
     }
-    console.log("userData::::::", userData);
+
     await axios.post(BASE_API+"signin",userData )
     .then(res => {
       if(res.data.msg === "otp") {
-        console.log("new user",res.data);
         setOtp(res.data.otp);
         setOpenModal(true);
       } else {
         if(!res.data.userData.nft_link) {
-          console.log("sign in error");
           setOpenModal(false);
         } else {
-          console.log("signIn Success",res.data);
           navigate("/verifysuccess");
         }
       }
     })
   }
 
+  
 
   return (
     <OtpContext.Provider value={otp}>
