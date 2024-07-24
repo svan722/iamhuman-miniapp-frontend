@@ -28,7 +28,13 @@ export default function VerifyModal(props: VerifyModalProps) {
         user_id: user?user.username:"kdstorm1", 
         nft_link:nft
       }
-      axios.post(BASE_API+"signup",userData)
+      axios.post(BASE_API+"signup",userData,
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        }
+      )
         .then(() => {
           navigate("/verifysuccess");
         })
