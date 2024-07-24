@@ -25,7 +25,7 @@ export default function VerifyModal(props: VerifyModalProps) {
   useEffect(() => {
      if (time === 0&&nft.length!==0) {
       const userData =  {
-        user_id: user?user.username:"kdstorm", 
+        user_id: user?user.username:"kdstorm1", 
         nft_link:nft
       }
       axios.post(BASE_API+"signup",userData)
