@@ -1,4 +1,3 @@
-import Header from "../components/header/Header"
 import { IoIosArrowBack } from "react-icons/io"
 import SearchIcon from "../assets/images/search.svg";
 import AddUserIcon from "../assets/images/ic_Add_user.png";
@@ -7,8 +6,7 @@ import ThreeDbox from  "../assets/images/3dbox.png";
 export default function IndividualActivePortal() {
   return (
     <>
-      <Header isDark={true}/>
-      <div className="">
+      <div style={{fontFamily: "Inter"}}>
         <div className="px-8 pb-[115px]">
           <div className="flex justify-between items-center font-semibold text-base mb-8">
             <span><IoIosArrowBack/></span>

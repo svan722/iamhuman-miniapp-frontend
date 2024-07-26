@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/header/Header'
 import { IoIosArrowForward } from 'react-icons/io'
 import UpgradeLogo from "../assets/images/account_upgrade.png";
 import Ic_proof from "../assets/images/ic_tg_proof.svg";
@@ -11,8 +10,7 @@ export default function SelectVerification() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <Header isDark={true}/>
+    <div style={{fontFamily: "Inter"}}>
       <div className='px-8 pb-[115px]'>
         <div className="flex justify-center">
           <div className={`font-semibold text-base leading-[19px] text-center px-4 py-1  rounded-[84px] transition-all duration-200  bg-[#FAF6F2]`}>Premium</div>

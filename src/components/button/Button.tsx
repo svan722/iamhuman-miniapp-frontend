@@ -1,14 +1,17 @@
+import Bg_button from "../../assets/images/button_bg.png";
 
 interface ButtonProps {
   background: boolean,
+  disabled: boolean,
   text: string,
   onClick?: () => void
 }
 
 export default function Button(props: ButtonProps) {
   return (
-    <div className="flex justify-center">
-      <button className={`w-full h-[40px] rounded-[36px] ${props.background?"bg-[#000] text-white": "bg-[#fff] text-black border"} mt-4 py-2 px-4`} onClick={props.onClick}>{props.text}</button>
+    <div className="flex justify-center relative mt-4 cursor-pointer" onClick={props.onClick}>
+      <img className="z-2 absolute" src={Bg_button} />
+      <button className={`w-full h-[40px] z-1 rounded-[36px] ${props.background? props.disabled? "" : "hover:bg-[#000]" : props.disabled? "" : "hover:bg-['transparent']"} ${props.background? props.disabled? "bg-[#D3D3D3] text-white opacity-70" : "bg-[#2D2D2D] text-white" : props.disabled? "bg-[#fff] text-black border opacity-70": "bg-[#fff] text-black border"} py-2 px-4`}>{props.text}</button>
     </div>
   )
 }

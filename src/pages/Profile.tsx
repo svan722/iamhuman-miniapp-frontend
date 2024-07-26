@@ -1,6 +1,5 @@
 import { useState, createContext, useEffect } from "react";
 import axios from "axios";
-import Header from "../components/header/Header";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import Button from "../components/button/Button";
 import Footer from "../components/footer/Footer";
@@ -69,7 +68,7 @@ export default function Profile() {
 
   useEffect(() => {
     console.log("profile");
-    const username = user?user.username:"default123";
+    const username = user?user.username:"user123";
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
@@ -87,44 +86,45 @@ export default function Profile() {
 
   return (
     <UpdateUserDataContext.Provider value={updateUserData}>
-      <Header isDark={true}/>
-      <div className="-z-20">
-        <div className="px-4 pb-[115px] bg-white">
-          <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">
-            <h1 className="font-semibold text-xl leading-6">Edit your profile</h1>
-            <div className="flex items-center pt-3">
-              <div className="w-6 h-6 bg-black rounded-md p-[1px]">
-                <img src={SmallSpaceImg} alt="logo"/>
+      <div className="pt-[20px] " style={{fontFamily: "Inter"}}>
+        <div className="-z-20">
+          <div className="px-4 pb-[115px] bg-white">
+            <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">
+              <h1 className="font-semibold text-xl leading-6">Edit your profile</h1>
+              <div className="flex items-center pt-3">
+                <div className="w-6 h-6 bg-black rounded-md p-[1px]">
+                  <img src={SmallSpaceImg} alt="logo"/>
+                </div>
+                <span className="mx-2 my-2">{user?.username}</span>
               </div>
-              <span className="mx-2 my-2">{user?.username}</span>
+              <div>
+                <label className="text-[16px] leading-[20px] font-normal">Personal bio</label>
+                <textarea className="w-full h-[180px] border border-[#D3D3D3] rounded-md p-3 hover:outline-black outline-1 break-all" placeholder="Write a short intro about yourselef" rows={10} value={bio} maxLength={150} onChange={handleChange}/>
+                <span>{bio.length}/{characterLimit} characters</span>
+              </div>
+              <div className="my-4">
+                <label className="text-[16px] leading-[20px] font-normal" >X link</label>
+                <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your X profile link" value={xlink} onChange={XhandleChange}/>
+                {!isXvalid?<p className="text-red-500 text-xs">Type X link correctly</p>:""}
+              </div>
+              <div className="my-4">
+                <label className="text-[16px] leading-[20px] font-normal" >Discord username</label>
+                <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your Discord name" value={discordUsername} onChange={discordHandleChange}/>
+                {!discordValid?<p className="text-red-500 text-xs">Type Discord username correctly</p>:""}
+              </div>
+              <div className="my-4">
+                <label className="text-[16px] leading-[20px] font-normal">Personal website link</label>
+                <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your website" value={personal} onChange={personalHandleChange}/>
+                {!personalValid?<p className="text-red-500 text-xs">Type personal website link correctly</p>:""}
+              </div>
+              <Button background={true} disabled={false} text="Verify to save edits" onClick={()=>verify()}/>
             </div>
-            <div>
-              <label className="text-[16px] leading-[20px] font-normal">Personal bio</label>
-              <textarea className="w-full h-[180px] border border-[#D3D3D3] rounded-md p-3 hover:outline-black outline-1 break-all" placeholder="Write a short intro about yourselef" rows={10} value={bio} maxLength={150} onChange={handleChange}/>
-              <span>{bio.length}/{characterLimit} characters</span>
-            </div>
-            <div className="my-4">
-              <label className="text-[16px] leading-[20px] font-normal" >X link</label>
-              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your X profile link" value={xlink} onChange={XhandleChange}/>
-              {!isXvalid?<p className="text-red-500 text-xs">Type X link correctly</p>:""}
-            </div>
-            <div className="my-4">
-              <label className="text-[16px] leading-[20px] font-normal" >Discord username</label>
-              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your Discord name" value={discordUsername} onChange={discordHandleChange}/>
-              {!discordValid?<p className="text-red-500 text-xs">Type Discord username correctly</p>:""}
-            </div>
-            <div className="my-4">
-              <label className="text-[16px] leading-[20px] font-normal">Personal website link</label>
-              <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your website" value={personal} onChange={personalHandleChange}/>
-              {!personalValid?<p className="text-red-500 text-xs">Type personal website link correctly</p>:""}
-            </div>
-            <Button background={true} text="Verify to save edits" onClick={()=>verify()}/>
           </div>
+          {openModal&&<VerifyModal1 close={()=>{setOpenModal(false)}}/>}
         </div>
-        {openModal&&<VerifyModal1 close={()=>{setOpenModal(false)}}/>}
-      </div>
-      <div className="fixed bottom-0 w-full z-10">
-        <Footer/>
+        <div className="fixed bottom-0 w-full z-10">
+          <Footer/>
+        </div>
       </div>
     </UpdateUserDataContext.Provider>
   )

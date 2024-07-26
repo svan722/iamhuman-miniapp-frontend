@@ -81,9 +81,7 @@ export default function VerifyModal1(props: VerifyModal1Props) {
    }
 
   return (
-    <>
     <div className="w-full h-full absolute bottom-[-230px] block rounded-lg bg-white border-[#D3D3D3] border z-10">
-
       <div className="px-8 py-5">
         <img className="float-end" src={closeSVG} alt="close" onClick={props.close}/>
         <p className="font-semibold text-[20px] text-center pt-8 leading-6">Verify your Human Likeness in ImHuman App with this code</p>
@@ -100,11 +98,10 @@ export default function VerifyModal1(props: VerifyModal1Props) {
           <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
         </div>
         <div className="py-2">
-          <Button background={true} text="Copy code" onClick={()=>{navigate('/verifypassed')}}/>
-          <Button background={false} text="Cancel" onClick={props.close}/>
+          <Button background={true} disabled={false} text="Copy code" onClick={()=>{navigate('/verifypassed')}}/>
+          <Button background={false} disabled={false} text="Cancel" onClick={props.close}/>
         </div> 
       </div>
     </div>
-    </>
   )
 }

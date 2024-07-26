@@ -115,8 +115,8 @@ useEffect(() => {
           </div>
         </div>
         <div className="py-2">
-          <Button background={true} text="Copy code" onClick={()=>{navigate('/verifysuccess')}}/>
-          <Button background={false} text="Cancel" onClick={props.close}/>
+          <Button background={true} disabled={false} text="Download ImHuman" onClick={()=>{navigate('/verifysuccess')}}/>
+          <Button background={false} disabled={false} text="Cancel" onClick={props.close}/>
         </div> 
       </div>
     </div>

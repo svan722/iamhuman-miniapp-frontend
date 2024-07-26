@@ -9,7 +9,7 @@ export default function ActivePortalModal(props: ActivePortalProps) {
 
   return (
     <>
-    <div className="w-full absolute  bottom-[0px] block rounded-lg bg-white border-white shadow-[0_0px_10px_0px_rgba(0,0,0,0.3)] border z-10">
+    <div className="pt-[10px] w-full absolute  bottom-[0px] block rounded-lg bg-white border-white shadow-[0_0px_10px_0px_rgba(0,0,0,0.3)] border z-10">
 
       <div className="px-8 py-5">
         <img className="float-end" src={closeSVG} alt="close" />
@@ -22,8 +22,8 @@ export default function ActivePortalModal(props: ActivePortalProps) {
           <input placeholder="Maximum 12 characters" className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1 mt-1"/>
         </div>
         <div className="py-2">
-          <Button background={true} text="Activate" onClick={props.active}/>
-          <Button background={false} text="Cancel"/>
+          <Button background={true} disabled={false} text="Activate" onClick={props.active}/>
+          <Button background={false} disabled={false} text="Cancel"/>
         </div> 
       </div>
     </div>

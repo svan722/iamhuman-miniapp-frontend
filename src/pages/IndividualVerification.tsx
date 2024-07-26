@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Header from "../components/header/Header"
 import PortalCard from "../components/individual_verify/PortalCard";
 import { IoIosArrowBack } from "react-icons/io";
 import ActivePortalModal from "../components/individual_verify/ActivePortalModal";
@@ -15,9 +14,7 @@ export default function IndividualVerification() {
   }
 
   return (
-    <>
-    <Header isDark={true}/>
-    <div className="">
+    <div style={{fontFamily: "Inter"}}>
       <div className="px-4 pb-[115px]">
         <div className="flex justify-between items-center font-semibold text-base mb-8">
           <span><IoIosArrowBack/></span>
@@ -30,6 +27,5 @@ export default function IndividualVerification() {
       </div>
       {openModal&&<ActivePortalModal active={active}/>}
     </div>
-    </>
   )
 }

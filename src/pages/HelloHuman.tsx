@@ -1,4 +1,3 @@
-import Header from "../components/header/Header";
 import HumanSpaceImg from "../assets/images/human_space.png";
 import HumanIdLogo from "../assets/images/HumanId_logo.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
@@ -10,8 +9,7 @@ import { useNavigate } from 'react-router-dom';
 export default function HelloHuman() {
   const navigate = useNavigate();
   return (
-    <div className="">
-      <Header isDark={true}/>
+    <div className="pt-[30px] " style={{fontFamily: "Inter"}}>
       <div className="px-8">
         <div className="text-center">
           <p className="font-semibold text-[32px] leading-[38px] mt-[-10px]">Hello human!</p>
@@ -34,7 +32,7 @@ export default function HelloHuman() {
           </div>
           <img src={ArrowRight} alt="arrow right"/>
         </div>
-        <Button background={true} text="Edit personal information" onClick={()=>navigate("/editprofile")}/>
+        <Button background={true} disabled={false} text="Edit personal information" onClick={()=>navigate("/editprofile")}/>
       </div>
       <div className="fixed bottom-0 w-full">
         <Footer/>

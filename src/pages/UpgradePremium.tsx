@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header/Header";
 import { IoIosArrowForward } from "react-icons/io";
 import Free from "../components/upgrate_premium/Free";
 import Premium from "../components/upgrate_premium/Premium";
@@ -12,8 +11,7 @@ export default function UpgradePremium() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <Header isDark={true}/>
+    <div className="pt-[10px] " style={{fontFamily: "Inter"}}>
       <div className="px-4 pb-[115px] bg-white">
         <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">
           <div className="flex justify-center">
@@ -26,7 +24,7 @@ export default function UpgradePremium() {
           </div>
           {isFree?<Free/>:<Premium/>}
         </div>
-        <Button background={true} text="Upgrade to Premium" onClick={()=>{navigate("/payment")}}/>
+        <Button background={true} disabled={false} text="Upgrade to Premium" onClick={()=>{navigate("/payment")}}/>
       </div>
       <div className="w-full flex justify-center fixed bottom-0">
         <Footer/>
