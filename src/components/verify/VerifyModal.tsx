@@ -89,29 +89,27 @@ useEffect(() => {
   }
  }
   return (
-    <>
-    <div className={`w-full h-full absolute bottom-[-80px] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`}>
-
+    <div className={`w-full h-full absolute bottom-[-10px] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
       <div className="px-8 py-5">
         <img className="float-end" src={closeSVG} alt="close" onClick={props.close}/>
-        <p className="font-semibold text-[20px] text-center pt-6 leading-6">{`Verify your Human Likeness in ImHuman App with this code`}</p>
-        <p className="font-normal text-base text-center pt-5">Paste your one-time passcode into your ImHuman Telegram Bot page by navigating to:</p>
-        <p className="font-semibold text-base text-center leading-[22px]">{"Proof > Test your Liveness > TG Bot"}</p>
+        <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Verify your Human Likeness in ImHuman App with this code`}</p>
+        <p className="font-[400] text-[16px] px-[10px] leading-[22px] text-center pt-5">Paste your one-time passcode into your ImHuman Telegram Bot page by navigating to:</p>
+        <p className="font-[600] text-[16px] text-center px-[40px] leading-[22px]">{"Proof > Test your Liveness > TG Bot Link Portal"}</p>
         <div className="grid grid-cols-4 gap-4 pt-4">
           {
             String(otp).split('').map((i:any,index:number)=>(
-              <label className="w-[50px] h-[70px] rounded-lg bg-[#EAECF1] text-center text-2xl font-semibold py-5" key={index}>{i}</label>
-            )) 
+              <div className="w-[60px] h-[80px] rounded-[8px] bg-[#EAECF1] text-center p-[12px] leading-[29.05px] text-[24px] font-[600] justify-center items-center flex" key={index}>{i}</div>
+            ))
           }
         
         </div>
-        <div className="text-center mt-4">
+        <div className="text-center mt-[30px] text-[14px] font-[400] leading-[22px]">
           <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
         </div>
         <div className="flex justify-center mt-4">
           <div onClick={()=>clipboardCopy(String(otp))}>
-            <span className="font-bold text-[14px] leading-[22px] inline-block hover: cursor-pointer">{!isCopied?"Copy code":"Copied"}</span>
-            <img className="ml-2 inline-block hover: cursor-pointer" src={CopyIcon} alt="ic_copy"/>
+            <span className="font-[700] text-[14px] leading-[22px] inline-block hover: cursor-pointer">{!isCopied?"Copy code":"Copied"}</span>
+            <img className="ml-[10px] inline-block hover:cursor-pointer w-[24px] h-[24px]" src={CopyIcon} alt="ic_copy"/>
           </div>
         </div>
         <div className="py-2">
@@ -120,6 +118,5 @@ useEffect(() => {
         </div> 
       </div>
     </div>
-    </>
   )
 }

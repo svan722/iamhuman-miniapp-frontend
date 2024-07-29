@@ -57,26 +57,26 @@ export default function WelcomeBoard() {
 
   return (
     <OtpContext.Provider value={otp}>
-    <div className="pt-[10px] w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden" style={{fontFamily: "Inter"}}>
+    <div className="py-[10px] w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden" style={{fontFamily: "Inter"}}>
       {/* <Header isDark={false}/> */}
       <div className="px-4 py-1">
         <div className="p-4 rounded-lg bg-white border-[#D3D3D3] border">
           <div>
-            <h2 className="text-[40px] font-semibold leading-[38px]">Welcome to PrivaseaBot</h2>
-            <p className="text-base font-medium leading-[22px]">Verify your human liveness, edit personal information, and verify your group members' liveness on Telegram.</p>
+            <h2 className="text-[40px] font-[600] leading-[48.41px]">Welcome to PrivaseaBot</h2>
+            <p className="text-[16px] font-[400] leading-[22px]">Verify your human liveness, edit personal information, and verify your group members' liveness on Telegram.</p>
           </div>
-          <div>
+          <div className="mb-[10px]">
             <div className="flex justify-center">
-              <img className="my-[10px]" src={BoxIllustraionImg} alt="Box"/>  
+              <img className="mt-[10px] w-[176px]" src={BoxIllustraionImg} alt="Box"/>  
             </div>
             <div className="flex items-center justify-center">
-              <p className="text-sm font-normal leading-[22px]">Powered by</p>
-              <img src={Shape}/>
-              <p className="font-noto text-[8px] tracking-[0.2rem] text-[#162749] ml-1">PRIVASEA</p>
+              <p className="text-[14px] font-[400] leading-[22px]">Powered by</p>
+              <img className="w-[12.35px] h-[15.17px]" src={Shape}/>
+              <p className="font-[noto] text-[8px] tracking-[0.2rem] text-[#162749] ml-1">PRIVASEA</p>
             </div>
           </div>
           <div className="py-3 px-5 border border-[#D3D3D3] rounded-lg">
-            <p className="font-semibold text-xl leading-6 text-center">Set up with ImHuman App</p>
+            <p className="font-[600] text-[20px] leading-[24.2px] text-center">Set up with ImHuman App</p>
             <Button background={true} disabled={false} text="Link ImHuman APP" onClick={()=>linkApp()}/>
           </div>
         </div>
