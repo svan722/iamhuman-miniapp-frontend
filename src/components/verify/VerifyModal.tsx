@@ -89,7 +89,7 @@ useEffect(() => {
   }
  }
   return (
-    <div className={`w-full h-full absolute bottom-[-10px] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
+    <div className={`w-full h-full absolute bottom-[-14px] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
       <div className="px-8 py-5">
         <img className="float-end" src={closeSVG} alt="close" onClick={props.close}/>
         <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Verify your Human Likeness in ImHuman App with this code`}</p>

@@ -12,23 +12,23 @@ export default function HelloHuman() {
     <div className="pt-[30px] " style={{fontFamily: "Inter"}}>
       <div className="px-8">
         <div className="text-center">
-          <p className="font-semibold text-[32px] leading-[38px] mt-[-10px]">Hello human!</p>
-          <p className="font-normal text-base px-6">Explore your ImHuman NFTs and rewards in ImHuman App </p>
+          <p className="font-[600] text-[32px] leading-[38.73px] mt-[-10px]">Hello human!</p>
+          <p className="font-[400] text-[16px] leading-[22px] px-6">Explore your ImHuman NFTs and rewards in ImHuman App </p>
         </div>
-        <div className="flex justify-center pt-3">
-          <img src={HumanSpaceImg} alt="Hello Human logo" className="w-[150px]"/>
+        <div className="flex justify-center my-[20px]">
+          <img src={HumanSpaceImg} alt="Hello Human logo" className="w-[160px]"/>
         </div>
-        <div className="flex justify-center pt-5">
-          <img src={HumanIdLogo} alt="Human logo"/>
-          <span className="font-bold text-base leading-[19px]">#4455</span>
+        <div className="flex justify-center items-center">
+          <img className="w-[24px]" src={HumanIdLogo} alt="Human logo"/>
+          <span className="font-[700] text-[16px] leading-[19.36px] ml-[5px]">#4455</span>
         </div>
         <div className="w-full rounded-lg bg-[#F5F5F5] px-5 py-3 flex justify-between items-center mt-4">
           <div className="w-8 h-8 bg-black rounded-md flex justify-center items-center">
-            <img src={SmallSpaceImg} alt="logo"/>
+            <img className="w-[32px]" src={SmallSpaceImg} alt="logo"/>
           </div>
-          <div className="ml-[-50px]">
-            <p>ImHuman account</p>
-            <p className="font-semibold text-base">yunanX3202</p>
+          <div className="font-[400] text-[16px] leading-[19.36px] ml-[-50px]">
+            <p className="opacity-[60%]">ImHuman account</p>
+            <p>yunanX3202</p>
           </div>
           <img src={ArrowRight} alt="arrow right"/>
         </div>

@@ -90,31 +90,31 @@ export default function Profile() {
         <div className="-z-20">
           <div className="px-4 pb-[115px] bg-white">
             <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">
-              <h1 className="font-semibold text-xl leading-6">Edit your profile</h1>
+              <h1 className="font-[600] text-[20px] leading-[24.2px]">Edit your profile</h1>
               <div className="flex items-center pt-3">
                 <div className="w-6 h-6 bg-black rounded-md p-[1px]">
-                  <img src={SmallSpaceImg} alt="logo"/>
+                  <img className="w-[24px]" src={SmallSpaceImg} alt="logo"/>
                 </div>
-                <span className="mx-2 my-2">{user?.username}</span>
+                <span className="font-[400] text-[16px] leading-[19.36px] mx-2 my-2">{user?.username}</span>
               </div>
               <div>
-                <label className="text-[16px] leading-[20px] font-normal">Personal bio</label>
+                <label className="text-[16px] leading-[19.36px] font-[400]">Personal bio</label>
                 <textarea className="w-full h-[180px] border border-[#D3D3D3] rounded-md p-3 hover:outline-black outline-1 break-all" placeholder="Write a short intro about yourselef" rows={10} value={bio} maxLength={150} onChange={handleChange}/>
-                <span>{bio.length}/{characterLimit} characters</span>
+                <span className="opacity-[60%] text-[14px]">{bio.length}/{characterLimit} characters</span>
               </div>
-              <div className="my-4">
-                <label className="text-[16px] leading-[20px] font-normal" >X link</label>
-                <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your X profile link" value={xlink} onChange={XhandleChange}/>
+              <div className="my-[25px]">
+                <label className="text-[16px] leading-[19.36px] font-[400]" >X link</label>
+                <input className="w-full h-[56px] border border-[#D3D3D3] rounded-[8px] p-2 placeholder:text-[16px] leading-[19.36px] font-[400] hover:outline-black outline-1" placeholder="Enter your X profile link" value={xlink} onChange={XhandleChange}/>
                 {!isXvalid?<p className="text-red-500 text-xs">Type X link correctly</p>:""}
               </div>
-              <div className="my-4">
-                <label className="text-[16px] leading-[20px] font-normal" >Discord username</label>
-                <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your Discord name" value={discordUsername} onChange={discordHandleChange}/>
+              <div className="my-[25px]">
+                <label className="text-[16px] leading-[19.36px] font-[400]" >Discord username</label>
+                <input className="w-full h-[56px] border border-[#D3D3D3] rounded-[8px] p-2 placeholder:text-[16px] leading-[19.36px] font-[400] hover:outline-black outline-1" placeholder="Enter your Discord name" value={discordUsername} onChange={discordHandleChange}/>
                 {!discordValid?<p className="text-red-500 text-xs">Type Discord username correctly</p>:""}
               </div>
-              <div className="my-4">
-                <label className="text-[16px] leading-[20px] font-normal">Personal website link</label>
-                <input className="w-full h-9 border border-[#D3D3D3] rounded-md p-2 placeholder:text-[16px] leading-[19px] font-normal hover:outline-black outline-1" placeholder="Enter your website" value={personal} onChange={personalHandleChange}/>
+              <div className="my-[25px]">
+                <label className="text-[16px] leading-[19.36px] font-[400]">Personal website link</label>
+                <input className="w-full h-[56px] border border-[#D3D3D3] rounded-[8px] p-2 placeholder:text-[16px] leading-[19.36px] font-[400] hover:outline-black outline-1" placeholder="Enter your website" value={personal} onChange={personalHandleChange}/>
                 {!personalValid?<p className="text-red-500 text-xs">Type personal website link correctly</p>:""}
               </div>
               <Button background={true} disabled={false} text="Verify to save edits" onClick={()=>verify()}/>
