@@ -131,28 +131,32 @@ export default function ViewProfile() {
                 </div>
               </div>
               <div>
-                <label className="text-[16px] leading-[19.36px] font-[400]">Personal bio</label>
-                <div>The WorkHeart NFT ensures that nodes are live and maintained by humans, providing seamless FHE AI services. Currently, the WorkHeart Combo is available for reservation with a fee of 0.015 ETH, applied towards the total payment.</div>
+                <label className="text-[16px] leading-[19.36px] font-[500]">Personal bio</label>
+                <div className="text-[14px] font-[400] leading-[16.94px]">The WorkHeart NFT ensures that nodes are live and maintained by humans, providing seamless FHE AI services. Currently, the WorkHeart Combo is available for reservation with a fee of 0.015 ETH, applied towards the total payment.</div>
               </div>
               <div className="my-[25px]">
-                <label className="text-[16px] leading-[19.36px] font-[400]" >X link</label>
-                <input className="w-full h-[56px] border border-[#D3D3D3] rounded-[8px] p-2 placeholder:text-[16px] leading-[19.36px] font-[400] hover:outline-black outline-1" placeholder="Enter your X profile link" value={xlink} onChange={XhandleChange}/>
-                {!isXvalid?<p className="text-red-500 text-xs">Type X link correctly</p>:""}
+                <label className="text-[16px] leading-[19.36px] font-[500]" >X link</label>
+                <div className="flex items-center">
+                  <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
+                  <div className="">https://x.com/yunan_minami</div>
+                </div>
               </div>
               <div className="my-[25px]">
-                <label className="text-[16px] leading-[19.36px] font-[400]" >Discord username</label>
-                <input className="w-full h-[56px] border border-[#D3D3D3] rounded-[8px] p-2 placeholder:text-[16px] leading-[19.36px] font-[400] hover:outline-black outline-1" placeholder="Enter your Discord name" value={discordUsername} onChange={discordHandleChange}/>
-                {!discordValid?<p className="text-red-500 text-xs">Type Discord username correctly</p>:""}
+                <label className="text-[16px] leading-[19.36px] font-[500]" >Discord username</label>
+                <div className="flex items-center">
+                  <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
+                  <div className="">@102020</div>
+                </div>
               </div>
-              <div className="my-[25px]">
-                <label className="text-[16px] leading-[19.36px] font-[400]">Personal website link</label>
-                <input className="w-full h-[56px] border border-[#D3D3D3] rounded-[8px] p-2 placeholder:text-[16px] leading-[19.36px] font-[400] hover:outline-black outline-1" placeholder="Enter your website" value={personal} onChange={personalHandleChange}/>
-                {!personalValid?<p className="text-red-500 text-xs">Type personal website link correctly</p>:""}
+              <div className="">
+                <label className="text-[16px] leading-[19.36px] font-[500]">Personal website link</label>
+                <div className="flex items-center">
+                  <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
+                  <div className="">www.privasea.ai</div>
+                </div>
               </div>
-              <Button background={true} disabled={false} text="Verify to save edits" onClick={()=>verify()}/>
             </div>
           </div>
-          {openModal&&<VerifyModal1 close={()=>{setOpenModal(false)}}/>}
         </div>
         <div className="fixed bottom-0 w-full z-10">
           <Footer/>
