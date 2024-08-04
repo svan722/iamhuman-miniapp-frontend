@@ -5,7 +5,7 @@ import Button from "../button/Button";
 import axios from "axios";
 import {BASE_API} from "../../config/config";
 import { useTelegram } from "../../context/TelegramProvider";
-import {UpdateUserDataContext} from "../../pages/Profile";
+import {UpdateUserDataContext} from "../../pages/EditProfile";
 
 interface VerifyModal1Props {
   close?: () => void

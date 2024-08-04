@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WelcomeBoard from './pages/WelcomeBoard';
 import VerifySuccess from './pages/VerifySuccess';
 import HelloHuman from './pages/HelloHuman';
-import Profile from "./pages/Profile";
+import EditProfile from './pages/EditProfile';
+import ViewProfile from "./pages/ViewProfile";
 import VerifyPassed from './pages/VerifyPassed';
 import UpgradePremium from './pages/UpgradePremium';
 import Payment from './pages/Payment';
@@ -22,7 +23,8 @@ function App() {
           <Route path="/" element={<WelcomeBoard />} />
           <Route path="/verifysuccess" element={<VerifySuccess />} />
           <Route path="/hellohuman" element={<HelloHuman />} />
-          <Route path="/editprofile" element={<Profile />} />
+          <Route path="/editprofile" element={<EditProfile />} />
+          <Route path="/viewprofile" element={<ViewProfile />} />
           <Route path="/verifypassed" element={<VerifyPassed />} />
           <Route path="/upgrade_premium" element={<UpgradePremium />} />
           <Route path="/payment" element={<Payment />} />

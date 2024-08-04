@@ -22,7 +22,7 @@ export default function HelloHuman() {
           <img className="w-[24px]" src={HumanIdLogo} alt="Human logo"/>
           <span className="font-[700] text-[16px] leading-[19.36px] ml-[5px]">#4455</span>
         </div>
-        <div className="w-full rounded-lg bg-[#F5F5F5] px-5 py-3 flex justify-between items-center mt-4">
+        <div className="w-full cursor-pointer rounded-lg bg-[#F5F5F5] px-5 py-3 flex justify-between items-center mt-4" onClick={() => navigate('/viewprofile')}>
           <div className="w-8 h-8 bg-black rounded-md flex justify-center items-center">
             <img className="w-[32px]" src={SmallSpaceImg} alt="logo"/>
           </div>
