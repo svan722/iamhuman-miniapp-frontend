@@ -3,6 +3,7 @@ import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
 import Button from "../components/button/Button";
 import VerifyModal from "../components/verify/VerifyModal";
+import RefreshModal from "../components/refresh/RefreshModal";
 import axios from "axios";
 import {BASE_API} from "../config/config";
 import { useTelegram } from "../context/TelegramProvider";
@@ -11,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
-  const [openModal, setOpenModal] = useState(false);
+  const [openVerifyModal, setOpenVerifyModal] = useState(false);
+  const [openRefreshModal, setOpenRefreshModal] = useState(true);
   const [userId, setUserId] = useState("user123");
   const [nft, setNFT] = useState("")
   const [otp, setOtp] = useState("0000");
@@ -44,10 +46,10 @@ export default function WelcomeBoard() {
     .then((res) => {
       if(res.data.msg === "otp") {
         setOtp(res.data.otp);
-        setOpenModal(true);
+        setOpenVerifyModal(true);
       } else {
         if(!res.data.userData.nft_link) {
-          setOpenModal(false);
+          setOpenVerifyModal(false);
         } else {
           navigate("/verifysuccess");
         }
@@ -81,7 +83,8 @@ export default function WelcomeBoard() {
           </div>
         </div>
       </div> 
-      {openModal&&<VerifyModal close={()=>{setOpenModal(false)}}/>}
+      {openVerifyModal && <VerifyModal close={()=>{setOpenVerifyModal(false)}}/>}
+      {openRefreshModal && <RefreshModal close={()=>{setOpenRefreshModal(false)}}/>}
     </div>
     </OtpContext.Provider>
   )
