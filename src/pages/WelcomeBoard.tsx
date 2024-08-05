@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
 import Button from "../components/button/Button";
@@ -14,10 +14,25 @@ export default function WelcomeBoard() {
   const [openModal, setOpenModal] = useState(false);
   const [userId, setUserId] = useState("user123");
   const [nft, setNFT] = useState("")
-  const [otp, setOtp] = useState("0000");
+  const [otp, setOtp] = useState("00000000");
 
   const navigate = useNavigate();
   const { user } = useTelegram(); 
+
+  useEffect(() => {
+    const username = user?user.username:"user123";
+    async function currentUser() {
+      axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
+        .then(res=> {
+          console.log("res", res);
+          navigate("/hellohuman");
+        }).catch(error=>{
+          console.log("error=>", error);
+        })
+    }
+
+    currentUser();
+  }, []);
 
   const linkApp = async () => {
     let user_id = user?.username;

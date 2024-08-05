@@ -11,6 +11,7 @@ import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from 'react-router-dom';
 import { validateDiscordUsername, validateURL, validateTwitterUrl } from "../utils/validate";
 import { BASE_API } from "../config/config";
+import SearchProfileView from "../components/searchComponents/SearchProfileView";
 
 interface IUpdateUserData {
   xlink?: String,
@@ -34,6 +35,7 @@ export default function ViewProfile() {
   const [personalValid, setPersonalValid] = useState(true);
   const [searchName, setSearchName] = useState("");
   const [isShowClearBtn, setIsShowClearBtn] = useState(false);
+  const [userItems, setuserItems] = useState([]);
   // const [otp, setOtp] = useState("0000");
 
   const [updateUserData, setUpdateUserData]  = useState({});
@@ -82,6 +84,24 @@ export default function ViewProfile() {
   }
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_API}searchprofile?user_id=${searchName}`);
+        setuserItems(response.data.data);
+        console.log("userdata>>>", userItems)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (searchName.trim() !== '') {
+      fetchData();
+    } else {
+      setuserItems([]);
+    }
+  }, [searchName]);
+
+  useEffect(() => {
     console.log("profile");
     const username = user?user.username:"user123";
     async function currentUser() {
@@ -114,6 +134,7 @@ export default function ViewProfile() {
                   </div>
                   {isShowClearBtn && <div className="font-[400] text-[16px] leading-[22px] mt-[3px] cursor-pointer" onClick={() => {setSearchName('');setIsShowClearBtn(false);}}>Clear</div>}
                 </div>
+                <SearchProfileView userList={userItems}/>
               </div>
             </div>
             <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">

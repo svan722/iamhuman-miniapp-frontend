@@ -16,7 +16,7 @@ export default function VerifyModal(props: VerifyModalProps) {
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
-  const [time, setTime] = useState(50);
+  const [time, setTime] = useState(120);
   const [nft, setNFT] = useState("");
 
   const context = useContext(OtpContext);
@@ -95,10 +95,10 @@ useEffect(() => {
         <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Verify your Human Likeness in ImHuman App with this code`}</p>
         <p className="font-[400] text-[16px] px-[10px] leading-[22px] text-center pt-5">Paste your one-time passcode into your ImHuman Telegram Bot page by navigating to:</p>
         <p className="font-[600] text-[16px] text-center px-[40px] leading-[22px]">{"Proof > Test your Liveness > TG Bot Link Portal"}</p>
-        <div className="grid grid-cols-4 gap-4 pt-4">
+        <div className="grid grid-cols-8 gap-4 pt-4">
           {
             String(otp).split('').map((i:any,index:number)=>(
-              <div className="w-[60px] h-[80px] rounded-[8px] bg-[#EAECF1] text-center p-[12px] leading-[29.05px] text-[24px] font-[600] justify-center items-center flex" key={index}>{i}</div>
+              <div className="w-[30px] h-[50px] rounded-[6px] bg-[#EAECF1] text-center p-[12px] leading-[29.05px] text-[20px] font-[600] justify-center items-center flex" key={index}>{i}</div>
             ))
           }
         
