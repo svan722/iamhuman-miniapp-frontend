@@ -83,6 +83,10 @@ export default function ViewProfile() {
     }
   }
 
+  const linkSocial = (linkVal:any) => {
+    window.open(linkVal);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,7 +119,6 @@ export default function ViewProfile() {
 
         })
     }
-
     currentUser();
   }, []);
 
@@ -157,21 +160,21 @@ export default function ViewProfile() {
               </div>
               <div className="my-[25px]">
                 <label className="text-[16px] leading-[19.36px] font-[500]" >X link</label>
-                <div className="flex items-center">
+                <div className="flex items-center cursor-pointer" onClick={() => {linkSocial('https://x.com/yunan_minami')}}>
                   <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
                   <div className="">https://x.com/yunan_minami</div>
                 </div>
               </div>
               <div className="my-[25px]">
                 <label className="text-[16px] leading-[19.36px] font-[500]" >Discord username</label>
-                <div className="flex items-center">
+                <div className="flex items-center cursor-pointer" onClick={() => {linkSocial('https://discord.gg/yunan_minami')}}>
                   <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
                   <div className="">@102020</div>
                 </div>
               </div>
               <div className="">
                 <label className="text-[16px] leading-[19.36px] font-[500]">Personal website link</label>
-                <div className="flex items-center">
+                <div className="flex items-center cursor-pointer" onClick={() => {linkSocial('https://www.privasea.ai')}}>
                   <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
                   <div className="">www.privasea.ai</div>
                 </div>
