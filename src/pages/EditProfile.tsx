@@ -68,19 +68,21 @@ export default function EditProfile() {
 
   useEffect(() => {
     console.log("profile");
-    const username = user?user.username:"user123";
+    const username = user?user.username:"user131";
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
           console.log("res", res);
-          setBio(res.data.bio);
-          setXlink(res.data.x_link);
-          setDiscordUsername(res.data.discordUsername);
-          setPersonal(res.data.personal_website);
+          if(res.data.user.bio.length>150) {
+            setBio(res.data.user.bio.slice(0,150));
+          } 
+          else setBio(res.data.user.bio);
+          setXlink(res.data.user.x_link);
+          setDiscordUsername(res.data.user.discordUsername);
+          setPersonal(res.data.user.personal_website);
 
         })
     }
-
     currentUser();
   }, []);
 

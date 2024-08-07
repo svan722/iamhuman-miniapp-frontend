@@ -13,7 +13,7 @@ export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
   const [openVerifyModal, setOpenVerifyModal] = useState(false);
-  const [openRefreshModal, setOpenRefreshModal] = useState(true);
+  const [openRefreshModal, setOpenRefreshModal] = useState(false);
   const [userId, setUserId] = useState("user123");
   const [nft, setNFT] = useState("")
   const [otp, setOtp] = useState("00000000");
@@ -26,10 +26,20 @@ export default function WelcomeBoard() {
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
-          console.log("res", res);
-          navigate("/hellohuman");
-        }).catch(error=>{
-          console.log("error=>", error);
+          console.log("CURRENT USER", res);
+          if(res.data.user_id)  navigate("/hellohuman");
+          else if(res.data.code === 404){
+            axios.get(BASE_API + `getuserinotp/${username}`)
+              .then(res=> {
+                console.log("GET USER IN OTP >>>", res);
+                if(res.data.user) {
+                  if(res.data.user.user_id)  setOpenRefreshModal(true);
+                }
+              })
+              .catch(err=> {
+                console.log("GET USER IN OTP ERR", err);
+              })
+          }
         })
     }
 

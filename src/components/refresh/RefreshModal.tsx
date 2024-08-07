@@ -1,14 +1,28 @@
-// import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import NeverNodeImg from "../../assets/images/nerve_node.png";
 import Button from "../button/Button";
+import { useNavigate } from "react-router-dom";
 
 interface RefreshModalProps {
   close?: () => void
 }
 
 export default function RefreshModal(props: RefreshModalProps) {
+
+  const [, setTime] = useState(10);
+  const  navigate = useNavigate();
+
   const onclickRefresh = () => {
-    props.close;
+    let timer = setInterval(() => {
+      setTime((time) => {
+        if (time === 0) {
+          clearInterval(timer);
+          props.close;
+          navigate("/verifypassed")
+          return 0;
+        } else return time - 1;
+      });
+    }, 1000);
   }
 
   return ( 

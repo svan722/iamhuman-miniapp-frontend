@@ -16,7 +16,7 @@ export default function VerifyModal(props: VerifyModalProps) {
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
-  const [time, setTime] = useState(120);
+  const [time, setTime] = useState(900);
   const [nft, setNFT] = useState("");
 
   const context = useContext(OtpContext);
@@ -46,18 +46,19 @@ export default function VerifyModal(props: VerifyModalProps) {
  
 // count down timer
  useEffect(() => {
-  setOtp(context);
+  const otp = context.split("-")[0];
+  setOtp(otp);
   let timer = setInterval(() => {
 
-    async function getNFT() {
-      await axios.post(BASE_API+"getnft",{user_id : "kdstorm"})
-      .then(res => {
-        if(res.data.nft === undefined) setNFT("");
-        else setNFT(res.data.nft);
-      })
-    } 
+    // async function getNFT() {
+    //   await axios.post(BASE_API+"getnft",{user_id : "kdstorm"})
+    //   .then(res => {
+    //     if(res.data.nft === undefined) setNFT("");
+    //     else setNFT(res.data.nft);
+    //   })
+    // } 
 
-    getNFT();
+    // getNFT();
 
     setTime((time) => {
       if (time === 0) {
