@@ -75,9 +75,6 @@ export default function WelcomeBoard() {
   }, [isVisible]);
 
   const linkApp = async () => {
-    alert(user?.username)
-    // let user_id = user?.username;
-
     await axios.get(BASE_API+`getotp/${user?.username}`)
     .then(res => {
       alert(res.data.code)
@@ -85,10 +82,10 @@ export default function WelcomeBoard() {
         setOtp(res.data.otp);
         setOpenVerifyModal(true);
       }  else {
-        alert("You can't create OTP code");
+        console.log("You can't create OTP code");
       }
     }).catch((error) => {
-      alert(error);
+      console.log(error);
     })
   }
 
