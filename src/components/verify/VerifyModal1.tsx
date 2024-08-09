@@ -2,6 +2,7 @@ import {useState, useEffect, useContext} from "react";
 import closeSVG from "../../assets/images/bclose.svg";
 import Button from "../button/Button";
 import { OtpContext } from "../../pages/EditProfile";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 interface VerifyModal1Props {
   close: () => void
@@ -20,7 +21,6 @@ export default function VerifyModal1(props: VerifyModal1Props) {
     }, [time]);
 
   // count down timer
-
   useEffect(() => {
     console.log("context otp", context);
     const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
@@ -42,15 +42,15 @@ export default function VerifyModal1(props: VerifyModal1Props) {
     };
   }, []);
 
-  const clipboardCopy = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      // setIsCopied(true);
-      console.log('Text copied to clipboard:', text);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-   }
+  // const clipboardCopy = async (text: string) => {
+  //   try {
+  //     await navigator.clipboard.writeText(text);
+  //     // setIsCopied(true);
+  //     console.log('Text copied to clipboard:', text);
+  //   } catch (err) {
+  //     console.error('Failed to copy text: ', err);
+  //   }
+  //  }
 
   return (
     <div className="w-full h-full absolute bottom-[-230px] block rounded-lg bg-white border-[#D3D3D3] border z-10">
@@ -72,7 +72,9 @@ export default function VerifyModal1(props: VerifyModal1Props) {
           }
         </div>
         <div className="py-2">
-          <Button background={true} disabled={false} text="Copy code" onClick={()=>clipboardCopy(String(otp))}/>
+          <CopyToClipboard text={String(otp)}>
+            <Button background={true} disabled={false} text="Copy code"/>
+          </CopyToClipboard>
           <Button background={false} disabled={false} text="Cancel" onClick={props.close}/>
         </div> 
       </div>

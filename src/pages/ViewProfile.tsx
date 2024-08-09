@@ -49,7 +49,6 @@ export default function ViewProfile() {
       try {
         const response = await axios.get(`${BASE_API}searchprofile?user_id=${searchName}`);
         setuserItems(response.data.data);
-        console.log("userdata>>>", userItems)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -63,16 +62,10 @@ export default function ViewProfile() {
   }, [searchName]);
 
   useEffect(() => {
-    console.log("profile");
-    const username = user?user.username:"imhuman1";
+    const username = user?.username;
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
-          // console.log("res", res);
-          // setBio(res.data.user.bio);
-          // setXlink(res.data.user.x_link);
-          // setDiscordUsername(res.data.user.discordUsername);
-          // setPersonal(res.data.user.personal_website);
           console.log("res", res);
         if (res.data.user) {
           if(res.data.user.bio && res.data.user.bio.length>150) {

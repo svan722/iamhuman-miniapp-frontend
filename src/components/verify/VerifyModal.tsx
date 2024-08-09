@@ -6,6 +6,7 @@ import axios from "axios";
 import Button from "../button/Button";
 import { BASE_API } from "../../config/config";
 import { OtpContext } from "../../pages/WelcomeBoard";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface VerifyModalProps {
   close: () => void
@@ -38,16 +39,9 @@ export default function VerifyModal(props: VerifyModalProps) {
     };
   }, []);
 
- const clipboardCopy = async (text: string) => {
-  try {
-    await navigator.clipboard.writeText(text);
+ const clipboardCopy = () => {
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
-    console.log('Text copied to clipboard:', text);
-  } catch (err) {
-    console.error('Failed to copy text: ', err);
-  }
- 
  }
 
  const handleCancel = async () => {
@@ -72,10 +66,12 @@ export default function VerifyModal(props: VerifyModalProps) {
           <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
         </div>
         <div className="flex justify-center mt-4">
-          <div onClick={()=>clipboardCopy(String(otp))}>
-            <span className="font-[700] text-[14px] leading-[22px] inline-block hover: cursor-pointer">{!isCopied?"Copy code":"Copied"}</span>
-            <img className="ml-[10px] inline-block hover:cursor-pointer w-[24px] h-[24px]" src={CopyIcon} alt="ic_copy"/>
-          </div>
+          <CopyToClipboard text={String(otp)}>
+            <div onClick={() => {clipboardCopy()}}>
+              <span className="font-[700] text-[14px] leading-[22px] inline-block hover: cursor-pointer">{!isCopied?"Copy code":"Copied"}</span>
+              <img className="ml-[10px] inline-block hover:cursor-pointer w-[24px] h-[24px]" src={CopyIcon} alt="ic_copy"/>
+            </div>
+          </CopyToClipboard>
         </div>
         <div className="py-2">
           <Button background={true} disabled={false} text="Download ImHuman" onClick={()=>{navigate('/verifysuccess')}}/>

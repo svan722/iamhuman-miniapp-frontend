@@ -13,7 +13,7 @@ export default function HelloHuman() {
 
   return (
     <div className="pt-[30px] " style={{fontFamily: "Inter"}}>
-      <div className="px-8">
+      <div className="px-8 pb-[90px]">
         <div className="text-center">
           <p className="font-[600] text-[32px] leading-[38.73px] mt-[-10px]">Hello human!</p>
           <p className="font-[400] text-[16px] leading-[22px] px-6">Explore your ImHuman NFTs and rewards in ImHuman App </p>

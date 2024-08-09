@@ -16,21 +16,19 @@ export default function WelcomeBoard() {
   const [openRefreshModal, setOpenRefreshModal] = useState(false);
   const [isVisible, setIsvisible] = useState(true);
   const [username, setUsername] = useState<any>("imhuman1");
-  // const [nft, setNFT] = useState("")
   const [otp, setOtp] = useState("00000000");
 
   const navigate = useNavigate();
   const { user } = useTelegram(); 
 
   useEffect(() => {
-    setUsername(user?.username);
+    if(user !== undefined)
+      setUsername(user?user.username:username);
   }, [user]);
 
   useEffect(() => {
-    // const username = user?user.username:"imhuman1";
- 
-    if(username !== undefined && username !== "imhuman1") {
-
+    console.log("username", username)
+    // if(username !== undefined && username !== "imhuman1") {
       async function currentUser() {
         axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
           .then(res=> {
@@ -63,7 +61,7 @@ export default function WelcomeBoard() {
           setIsvisible(false);
         }
       });
-    }
+    // }
     
   }, [username]);
 
@@ -75,9 +73,8 @@ export default function WelcomeBoard() {
   }, [isVisible]);
 
   const linkApp = async () => {
-    await axios.get(BASE_API+`getotp/${user?.username}`)
+    await axios.get(BASE_API+`getotp/${user?user.username:username}`)
     .then(res => {
-      alert(res.data.code)
       if(res.data.code === 200) {
         setOtp(res.data.otp);
         setOpenVerifyModal(true);

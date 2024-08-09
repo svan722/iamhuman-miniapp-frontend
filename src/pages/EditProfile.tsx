@@ -61,7 +61,6 @@ export default function EditProfile() {
       if(res.data.code === 200) {
         console.log("OTP >>>", res.data)
         setOtp(res.data.otp);
-        // setOpenVerifyModal(true);
       }  else {
         alert("You can't create OTP code");
       }
@@ -73,7 +72,6 @@ export default function EditProfile() {
       x_link: xlink,
       discordUsername: discordUsername,
       personal_website: personal,
-      // otp: 
     }
     setUpdateUserData(userData);
 
@@ -112,14 +110,10 @@ export default function EditProfile() {
     currentUser();
     document.addEventListener('visibilitychange', function() {
       if (document.visibilityState === 'visible') {
-        // isVisible = true;
         setIsvisible(true);
-        // Your app is now visible, you can perform any necessary actions here
         console.log('App is visible');
       } else {
-        // isVisible = false;
         setIsvisible(false);
-        // Your app is now hidden, you can perform any necessary actions here
         console.log('App is hidden');
       }
     });

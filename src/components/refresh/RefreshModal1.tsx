@@ -52,7 +52,7 @@ export default function RefreshModal1(props: RefreshModalProps) {
     }
     
   return ( 
-    <div className={`w-full h-full p-[30px] absolute bottom-[-60%] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
+    <div className={`w-full h-full p-[30px] pb-0 absolute bottom-[-70%] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
       <div className="flex flex-col items-center p-[10px]">
         <img className="rounded-[50%] w-[56px] h-[56px] mb-[10px]" src={NeverNodeImg} alt="close" onClick={handleCancel}/>
         <div className="text-[20px] font-[600] leading-[24.2px] mb-[10px]">Welcome back, human!</div>

@@ -11,12 +11,8 @@ interface RefreshModalProps {
   close: () => void
 }
 
-// const path = "/api/v1/verification/link?channel=TGBot&code=";
-
 export default function RefreshModal(props: RefreshModalProps) {
 
-  // const [, setTime] = useState(10);
-  // const [verifyCode, setVerifyCode] = useState("");
   const [otp, setOtp] = useState<string>("");
   const  navigate = useNavigate();
   
@@ -32,15 +28,13 @@ export default function RefreshModal(props: RefreshModalProps) {
   const onclickRefresh = async () => {
     console.log("otpToken", context);
     const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
-
-      await axios.post(BASE_API+`get/tgbot/verification/link/${otpToken}`, {user_id:user?user.username:"imhuman1"})
-        .then(res=>{
-          console.log("verification",res);
-          if(res.data.msg === "ok" && res.data.code === 200) {
-            navigate("/verifysuccess");
-          }
-        })
-
+    await axios.post(BASE_API+`get/tgbot/verification/link/${otpToken}`, {user_id:user?user.username:"imhuman1"})
+      .then(res=>{
+        console.log("verification",res);
+        if(res.data.msg === "ok" && res.data.code === 200) {
+          navigate("/verifysuccess");
+        }
+      })
   }
 
     const handleCancel = async () => {
