@@ -4,10 +4,13 @@ import SmallSpaceImg from "../assets/images/small_space.png";
 import ArrowRight from "../assets/images/arrow-right.png";
 import Button from "../components/button/Button";
 import Footer from "../components/footer/Footer";
+import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from 'react-router-dom';
 
 export default function HelloHuman() {
   const navigate = useNavigate();
+  const { user } = useTelegram(); 
+
   return (
     <div className="pt-[30px] " style={{fontFamily: "Inter"}}>
       <div className="px-8">
@@ -28,7 +31,7 @@ export default function HelloHuman() {
           </div>
           <div className="font-[400] text-[16px] leading-[19.36px] ml-[-50px]">
             <p className="opacity-[60%]">ImHuman account</p>
-            <p>yunanX3202</p>
+            <p>{user?.username}</p>
           </div>
           <img src={ArrowRight} alt="arrow right"/>
         </div>

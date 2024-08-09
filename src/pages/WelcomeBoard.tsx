@@ -14,71 +14,81 @@ export const OtpContext = createContext<string>("");
 export default function WelcomeBoard() {
   const [openVerifyModal, setOpenVerifyModal] = useState(false);
   const [openRefreshModal, setOpenRefreshModal] = useState(false);
-  const [userId, setUserId] = useState("user123");
-  const [nft, setNFT] = useState("")
+  const [isVisible, setIsvisible] = useState(true);
+  const [username, setUsername] = useState<any>("imhuman1");
+  // const [nft, setNFT] = useState("")
   const [otp, setOtp] = useState("00000000");
 
   const navigate = useNavigate();
   const { user } = useTelegram(); 
 
   useEffect(() => {
-    const username = user?user.username:"user123";
-    async function currentUser() {
-      axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
-        .then(res=> {
-          console.log("CURRENT USER", res);
-          if(res.data.user_id)  navigate("/hellohuman");
-          else if(res.data.code === 404){
-            axios.get(BASE_API + `getuserinotp/${username}`)
-              .then(res=> {
-                console.log("GET USER IN OTP >>>", res);
-                if(res.data.user) {
-                  if(res.data.user.user_id)  setOpenRefreshModal(true);
-                }
-              })
-              .catch(err=> {
-                console.log("GET USER IN OTP ERR", err);
-              })
-          }
-        })
-    }
+    setUsername(user?.username);
+  }, [user]);
 
-    currentUser();
-  }, []);
+  useEffect(() => {
+    // const username = user?user.username:"imhuman1";
+ 
+    if(username !== undefined && username !== "imhuman1") {
+
+      async function currentUser() {
+        axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
+          .then(res=> {
+            console.log("CURRENT USER", res);
+            if(res.data.user)  navigate("/hellohuman");
+            else if(res.data.code === 404){
+              axios.get(BASE_API + `getuserinotp/${username}`)
+                .then(res=> {
+                  console.log("GET USER IN OTP >>>", res.data);
+                  if(res.data.user) {
+                    if(res.data.user.user_id)  {
+                      setOpenRefreshModal(true);
+                      setOtp(res.data.user.otp);
+                    }
+                  }
+                })
+                .catch(err=> {
+                  console.log("GET USER IN OTP ERR", err);
+                })
+            }
+          })
+      }
+  
+      currentUser();
+  
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+          setIsvisible(true);
+        } else {
+          setIsvisible(false);
+        }
+      });
+    }
+    
+  }, [username]);
+
+  useEffect(() => {
+    if( isVisible && otp !== "00000000") {
+      setOpenRefreshModal(true);
+      setOpenVerifyModal(false);
+    }
+  }, [isVisible]);
 
   const linkApp = async () => {
-    let user_id = user?.username;
-    if(user_id)  setUserId(user_id);
+    alert(user?.username)
+    // let user_id = user?.username;
 
-    await axios.post(BASE_API+"getnft",{data:user_id} )
-      .then(res=> {
-        if(res.data.nft === undefined) setNFT("");
-        else setNFT(res.data.nft);
-      })
-    const userData =  {
-      user_id: userId, 
-      nft_link:nft
-    }
-
-    await axios.post(BASE_API+"signin",
-      userData, {
-        headers: {
-           'Access-Control-Allow-Origin': '*',
-           'Content-Type': 'application/json'
-        } 
-     },
-      )
-    .then((res) => {
-      if(res.data.msg === "otp") {
+    await axios.get(BASE_API+`getotp/${user?.username}`)
+    .then(res => {
+      alert(res.data.code)
+      if(res.data.code === 200) {
         setOtp(res.data.otp);
         setOpenVerifyModal(true);
-      } else {
-        if(!res.data.userData.nft_link) {
-          setOpenVerifyModal(false);
-        } else {
-          navigate("/verifysuccess");
-        }
+      }  else {
+        alert("You can't create OTP code");
       }
+    }).catch((error) => {
+      alert(error);
     })
   }
 
@@ -104,7 +114,7 @@ export default function WelcomeBoard() {
           </div>
           <div className="py-3 px-5 border border-[#D3D3D3] rounded-lg">
             <p className="font-[600] text-[20px] leading-[24.2px] text-center">Set up with ImHuman App</p>
-            <Button background={true} disabled={false} text="Link ImHuman APP" onClick={()=>linkApp()}/>
+            <Button background={true} disabled={false} text="Link ImHuman APP" onClick={linkApp}/>
           </div>
         </div>
       </div> 

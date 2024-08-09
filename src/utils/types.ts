@@ -44,4 +44,6 @@ export interface IWebApp {
     isActive: boolean;
   };
   HapticFeedback: any;
+  readTextFromClipboard: Promise<void>;
+  
 }

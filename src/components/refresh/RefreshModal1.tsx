@@ -3,9 +3,9 @@ import NeverNodeImg from "../../assets/images/nerve_node.png";
 import Button from "../button/Button";
 import axios from "axios";
 import { BASE_API } from "../../config/config";
-import { OtpContext } from "../../pages/WelcomeBoard";
+import { OtpContext } from "../../pages/EditProfile";
+import { UpdateUserDataContext } from "../../pages/EditProfile";
 import { useNavigate } from "react-router-dom";
-import { useTelegram } from "../../context/TelegramProvider";
 
 interface RefreshModalProps {
   close: () => void
@@ -13,15 +13,13 @@ interface RefreshModalProps {
 
 // const path = "/api/v1/verification/link?channel=TGBot&code=";
 
-export default function RefreshModal(props: RefreshModalProps) {
+export default function RefreshModal1(props: RefreshModalProps) {
 
-  // const [, setTime] = useState(10);
-  // const [verifyCode, setVerifyCode] = useState("");
   const [otp, setOtp] = useState<string>("");
   const  navigate = useNavigate();
   
   const context = useContext(OtpContext);
-  const { user } = useTelegram(); 
+  const userContext = useContext(UpdateUserDataContext);
 
   useEffect(() => {
     setOtp(context);
@@ -30,16 +28,15 @@ export default function RefreshModal(props: RefreshModalProps) {
   }, []);
 
   const onclickRefresh = async () => {
-    console.log("otpToken", context);
     const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
-
-      await axios.post(BASE_API+`get/tgbot/verification/link/${otpToken}`, {user_id:user?user.username:"imhuman1"})
-        .then(res=>{
-          console.log("verification",res);
-          if(res.data.msg === "ok" && res.data.code === 200) {
-            navigate("/verifysuccess");
-          }
-        })
+    console.log("Updated User Data >>>", context, userContext);
+    await axios.post(BASE_API+`get/tgbot/verification/edit/${otpToken}`, userContext)
+      .then(res=>{
+        console.log("verification",res);
+        if(res.data.code === 200) {
+          navigate("/verifysuccess");
+        }
+      })
 
   }
 
@@ -51,10 +48,11 @@ export default function RefreshModal(props: RefreshModalProps) {
         }).catch(err=> {
           console.log("OTP delete failed", err)
         })
+
     }
     
   return ( 
-    <div className={`w-full h-full p-[30px] absolute bottom-[-40%] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
+    <div className={`w-full h-full p-[30px] absolute bottom-[-60%] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
       <div className="flex flex-col items-center p-[10px]">
         <img className="rounded-[50%] w-[56px] h-[56px] mb-[10px]" src={NeverNodeImg} alt="close" onClick={handleCancel}/>
         <div className="text-[20px] font-[600] leading-[24.2px] mb-[10px]">Welcome back, human!</div>

@@ -1,65 +1,37 @@
 import {useState, useEffect, useContext} from "react";
 import closeSVG from "../../assets/images/bclose.svg";
-import { useNavigate } from 'react-router-dom';
 import Button from "../button/Button";
-import axios from "axios";
-import {BASE_API} from "../../config/config";
-import { useTelegram } from "../../context/TelegramProvider";
-import {UpdateUserDataContext} from "../../pages/EditProfile";
+import { OtpContext } from "../../pages/EditProfile";
 
 interface VerifyModal1Props {
-  close?: () => void
+  close: () => void
 }
 export default function VerifyModal1(props: VerifyModal1Props) {
-  const navigate = useNavigate();
-  const [time, setTime] = useState(5);
+  const [time, setTime] = useState(900);
+  const [timeExpire, setTimeExpire] = useState(false);
   const [otp, setOtp] = useState<string>("");
-  // const [isCopied, setIsCopied] = useState(false);
-
-  const {user} = useTelegram();
-  const _updateUserData = useContext(UpdateUserDataContext);
-
-  const updateUserData = async () => {
-    console.log("updateData:::", _updateUserData);
-    const username = user?user.username:"default123";
-    try {
-      await axios.put(BASE_API + `update/${username}`, {
-        _updateUserData
-      }).then(()=>{
-        navigate("/verifysuccess");
-      });
-      // Handle success, e.g., show a success message
-      console.log('User updated successfully');
-    } catch (error) {
-      alert("Failed to change your information");
-      props.close;
-      // Handle error, e.g., show an error message
-      console.error('Error updating user:', error);
-    }
-  }
+  const context = useContext(OtpContext);
 
   useEffect(() => {
     if (time === 0) {
         console.log("close");
-        updateUserData();
+        setTimeExpire(true);
       }
     }, [time]);
 
   // count down timer
+
   useEffect(() => {
-    const user_id = user?user.username:"default123";
-    async function getOTP() {
-      await axios.post(BASE_API+"getsecondotp",{user_id : user_id})
-      .then(res => {
-        console.log("res",res.data);
-        setOtp(res.data.otp);
-      })
-    } 
-    getOTP();
+    console.log("context otp", context);
+    const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
+    setOtp(otpToken);
+
     let timer = setInterval(() => {
       setTime((time) => {
         if (time === 0) {
+          setOtp("");
           clearInterval(timer);
+          props.close();
           return 0;
         } else return time - 1;
       });
@@ -87,18 +59,20 @@ export default function VerifyModal1(props: VerifyModal1Props) {
         <p className="font-semibold text-[20px] text-center pt-8 leading-6">Verify your Human Likeness in ImHuman App with this code</p>
         <p className="font-normal text-base text-center pt-5">Paste your one-time passcode into your ImHuman Telegram Bot page by navigating to:</p>
         <p className="font-semibold text-base text-center leading-[22px]">{"Proof > Test your Liveness > TG Bot"}</p>
-        <div className="grid grid-cols-4 gap-4 pt-4">
-        {
-            String(otp).split('').map((i:any,index:number)=>(
-              <label className="w-[50px] h-[70px] rounded-lg bg-[#EAECF1] text-center text-2xl font-semibold py-5" key={index}>{i}</label>
-            )) 
+        <div className="w-full h-[50px] rounded-[6px] bg-[#EAECF1] text-center p-[12px] mt-[20px] leading-[29.05px] text-[20px] font-[600] justify-center items-center flex">{otp}</div>
+        <div className="text-center mt-4">
+          {!timeExpire && 
+            <>
+              <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
+            </>
+          }
+          {
+            timeExpire &&
+            <span>Try again</span>
           }
         </div>
-        <div className="text-center mt-4" onClick={()=>clipboardCopy(String(otp))}>
-          <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
-        </div>
         <div className="py-2">
-          <Button background={true} disabled={false} text="Copy code" onClick={()=>{navigate('/verifypassed')}}/>
+          <Button background={true} disabled={false} text="Copy code" onClick={()=>clipboardCopy(String(otp))}/>
           <Button background={false} disabled={false} text="Cancel" onClick={props.close}/>
         </div> 
       </div>

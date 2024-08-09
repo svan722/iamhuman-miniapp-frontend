@@ -13,6 +13,17 @@ export const TelegramProvider: React.FC <({ children?:React.ReactNode })> = ({ c
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
 
   useEffect(() => {
+    // function initWebApp () {
+    // const app = (window as any).Telegram?.WebApp;
+    // if (app) {
+    //   app.ready();
+    //   setWebApp(app);
+    // }else {
+    //   console.log('Telegram WebApp is undefined, retrying…');
+    //   setTimeout(initWebApp, 500);
+    //   }
+    // }
+    // initWebApp();
     const app = (window as any).Telegram?.WebApp;
     if (app) {
       app.ready();

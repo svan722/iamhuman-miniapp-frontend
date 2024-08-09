@@ -64,15 +64,28 @@ export default function ViewProfile() {
 
   useEffect(() => {
     console.log("profile");
-    const username = user?user.username:"user131";
+    const username = user?user.username:"imhuman1";
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
+          // console.log("res", res);
+          // setBio(res.data.user.bio);
+          // setXlink(res.data.user.x_link);
+          // setDiscordUsername(res.data.user.discordUsername);
+          // setPersonal(res.data.user.personal_website);
           console.log("res", res);
-          setBio(res.data.user.bio);
-          setXlink(res.data.user.x_link);
-          setDiscordUsername(res.data.user.discordUsername);
-          setPersonal(res.data.user.personal_website);
+        if (res.data.user) {
+          if(res.data.user.bio && res.data.user.bio.length>150) {
+            setBio(res.data.user.bio.slice(0,150));
+          } 
+          else 
+          {
+            !res.data.user ? setBio("") : res.data.user.bio ? setBio(res.data.user.bio) : setBio("");
+          };
+          res.data.user.x_link ? setXlink(res.data.user.x_link) : setXlink("");
+          res.data.user.x_link ? setDiscordUsername(res.data.user.discordUsername) : setDiscordUsername("");
+          res.data.user.x_link ? setPersonal(res.data.user.personal_website) : setPersonal("");
+        }
 
         })
     }
