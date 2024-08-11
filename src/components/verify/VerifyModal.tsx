@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import closeSVG from "../../assets/images/bclose.svg";
 import CopyIcon from "../../assets/images/ic_copy.svg";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Button from "../button/Button";
 import { BASE_API } from "../../config/config";
@@ -13,7 +13,7 @@ interface VerifyModalProps {
 }
 
 export default function VerifyModal(props: VerifyModalProps) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
   const [time, setTime] = useState(900);
