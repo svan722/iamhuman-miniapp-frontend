@@ -4,6 +4,7 @@ import SmallSpaceImg from "../assets/images/small_space.png";
 import PencilImg from "../assets/images/pencil.png";
 import LinkImg from "../assets/images/link.png";
 import { IoSearchSharp } from "react-icons/io5";
+import { IoIosArrowForward } from "react-icons/io";
 import Footer from "../components/footer/Footer";
 import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from 'react-router-dom';
@@ -125,7 +126,7 @@ export default function ViewProfile() {
                 </div>
               </div>
             </div>
-            <div className="border rounded-lg border-[#D3D3D3] px-4 py-4">
+            <div className="border rounded-lg border-[#D3D3D3] px-4 py-4 mb-[20px]">
               <div className="flex items-center justify-between">
                 <h1 className="font-[600] text-[20px] leading-[24.2px]">My profile</h1>
                 <img src={PencilImg} className="cursor-pointer w-[10.9px] h-[10.9px]" alt="pencil" onClick={() => {navigate('/editprofile')}}/>
@@ -163,6 +164,14 @@ export default function ViewProfile() {
                   <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
                   <div className="">{personal}</div>
                 </div>
+              </div>
+            </div>
+            <div className="border rounded-lg border-[#D3D3D3] p-[23px]">
+              <div className="text-[16px] leading-[19.36px] font-[600] mb-[10px]">Link a new ImHuman account</div>
+              <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
+              <div className="flex justify-end items-center mt-[10px]" onClick={() => {navigate('/')}}>
+                <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
+                <IoIosArrowForward className="text-[23px] ml-[5px]" />
               </div>
             </div>
           </div>

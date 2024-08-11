@@ -17,6 +17,7 @@ export default function VerifyModal(props: VerifyModalProps) {
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
   const [time, setTime] = useState(900);
+  const [osType, setOsType] = useState('');
 
   const context = useContext(OtpContext);
 
@@ -54,6 +55,21 @@ export default function VerifyModal(props: VerifyModalProps) {
     })
  }
 
+  const clickDownload = () => {
+    if (osType == 'Android')
+      window.open('https://play.google.com/store/apps/details?id=com.app.imhuman&hl=en');
+    else if (osType == 'Mac')
+      window.open('https://apps.apple.com/se/app/imhuman/id6482989056?l=en-GB');
+  }
+  useEffect(() => {
+    let userAgent = navigator.userAgent || navigator.vendor;
+    console.log('starting point', userAgent);
+    if (userAgent.includes('Android', 0))
+      setOsType('Android')
+    else if (userAgent.includes('iPhone', 0) || userAgent.includes('Mac OS', 0))
+      setOsType('Mac')
+  }, []);
+
   return (
     <div className={`w-full h-full absolute bottom-[-14px] block rounded-lg bg-white border-[#D3D3D3] border modal-anim-slideIn`} style={{fontFamily: "Inter"}}>
       <div className="px-8 py-5">
@@ -74,7 +90,7 @@ export default function VerifyModal(props: VerifyModalProps) {
           </CopyToClipboard>
         </div>
         <div className="py-2">
-          <Button background={true} disabled={false} text="Download ImHuman" onClick={()=>{navigate('/verifysuccess')}}/>
+          <Button background={true} disabled={false} text="Download ImHuman" onClick={()=>{clickDownload()}}/>
           <Button background={false} disabled={false} text="Cancel" onClick={handleCancel}/>
         </div> 
       </div>
