@@ -88,7 +88,7 @@ export default function WelcomeBoard() {
 
   return (
     <OtpContext.Provider value={otp}>
-    <div className="py-[10px] w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden" style={{fontFamily: "Inter"}}>
+    <div className="py-[10px] w-full h-screen bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden" style={{fontFamily: "Inter"}}>
       {/* <Header isDark={false}/> */}
       <div className="px-4 py-1">
         <div className="p-4 rounded-lg bg-white border-[#D3D3D3] border">
