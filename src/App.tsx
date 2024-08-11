@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WelcomeBoard from './pages/WelcomeBoard';
 import VerifySuccess from './pages/VerifySuccess';
+import LinkVerify from './pages/LinkVerify';
 import HelloHuman from './pages/HelloHuman';
 import EditProfile from './pages/EditProfile';
 import ViewProfile from "./pages/ViewProfile";
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<WelcomeBoard />} />
           <Route path="/verifysuccess" element={<VerifySuccess />} />
+          <Route path="/linkverify" element={<LinkVerify />} />
           <Route path="/hellohuman" element={<HelloHuman />} />
           <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/viewprofile" element={<ViewProfile />} />

@@ -2,8 +2,6 @@ import { useState, useEffect, createContext } from "react";
 import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
 import Button from "../components/button/Button";
-import VerifyModal from "../components/verify/VerifyModal";
-import RefreshModal from "../components/refresh/RefreshModal";
 import axios from "axios";
 import {BASE_API} from "../config/config";
 import { useTelegram } from "../context/TelegramProvider";
@@ -12,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
-  const [openVerifyModal, setOpenVerifyModal] = useState(false);
-  const [openRefreshModal, setOpenRefreshModal] = useState(false);
   const [isVisible, setIsvisible] = useState(true);
   const [username, setUsername] = useState<any>("imhuman1");
   const [otp, setOtp] = useState("00000000");
@@ -40,7 +36,6 @@ export default function WelcomeBoard() {
                   console.log("GET USER IN OTP >>>", res.data);
                   if(res.data.user) {
                     if(res.data.user.user_id)  {
-                      setOpenRefreshModal(true);
                       setOtp(res.data.user.otp);
                     }
                   }
@@ -67,31 +62,29 @@ export default function WelcomeBoard() {
 
   useEffect(() => {
     if( isVisible && otp !== "00000000") {
-      setOpenRefreshModal(true);
-      setOpenVerifyModal(false);
+      // setOpenVerifyModal(false);
     }
   }, [isVisible]);
 
   const linkApp = async () => {
-    await axios.get(BASE_API+`getotp/${user?user.username:username}`)
-    .then(res => {
-      if(res.data.code === 200) {
-        setOtp(res.data.otp);
-        setOpenVerifyModal(true);
-      }  else {
-        console.log("You can't create OTP code");
-      }
-    }).catch((error) => {
-      console.log(error);
-    })
+    navigate("/linkverify");
+    // await axios.get(BASE_API+`getotp/${user?user.username:username}`)
+    // .then(res => {
+    //   if(res.data.code === 200) {
+    //     setOtp(res.data.otp);
+    //     // setOpenVerifyModal(true);
+    //   }  else {
+    //     console.log("You can't create OTP code");
+    //   }
+    // }).catch((error) => {
+    //   console.log(error);
+    // })
   }
 
   return (
     <OtpContext.Provider value={otp}>
-    <div className="py-[10px] w-full h-screen bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover relative overflow-hidden" style={{fontFamily: "Inter"}}>
-      {/* <Header isDark={false}/> */}
-      <div className="px-4 py-1">
-        <div className="p-4 rounded-lg bg-white border-[#D3D3D3] border">
+    <div className="p-4 w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover absolute" style={{fontFamily: "Inter"}}>
+        <div className="relative flex flex-col justify-between p-4 rounded-lg bg-white border-[#D3D3D3] border h-full">
           <div>
             <h2 className="text-[40px] font-[600] leading-[48.41px]">Welcome to PrivaseaBot</h2>
             <p className="text-[16px] font-[400] leading-[22px]">Verify your human liveness, edit personal information, and verify your group members' liveness on Telegram.</p>
@@ -111,9 +104,6 @@ export default function WelcomeBoard() {
             <Button background={true} disabled={false} text="Link ImHuman APP" onClick={linkApp}/>
           </div>
         </div>
-      </div> 
-      {openVerifyModal && <VerifyModal close={()=>{setOpenVerifyModal(false)}}/>}
-      {openRefreshModal && <RefreshModal close={()=>{setOpenRefreshModal(false)}}/>}
     </div>
     </OtpContext.Provider>
   )
