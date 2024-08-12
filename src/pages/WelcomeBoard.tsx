@@ -18,47 +18,73 @@ export default function WelcomeBoard() {
   const { user } = useTelegram(); 
 
   useEffect(() => {
-    if(user !== undefined)
+    if(user !== undefined) {
       setUsername(user?user.username:username);
+      console.log(user.username, '<<< user effect username');
+      getOTP();
+    }
   }, [user]);
 
-  useEffect(() => {
-    console.log("username", username)
-    // if(username !== undefined && username !== "imhuman1") {
-      async function currentUser() {
-        axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
-          .then(res=> {
-            console.log("CURRENT USER", res);
-            if(res.data.user)  navigate("/hellohuman");
-            else if(res.data.code === 404){
-              axios.get(BASE_API + `getuserinotp/${username}`)
-                .then(res=> {
-                  console.log("GET USER IN OTP >>>", res.data);
-                  if(res.data.user) {
-                    if(res.data.user.user_id)  {
-                      setOtp(res.data.user.otp);
-                    }
-                  }
-                })
-                .catch(err=> {
-                  console.log("GET USER IN OTP ERR", err);
-                })
-            }
-          })
-      }
+  // useEffect(() => {
+  //   console.log("username", username)
+  //   // if(username !== undefined && username !== "imhuman1") {
+  //     async function currentUser() {
+  //       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
+  //         .then(res=> {
+  //           console.log("CURRENT USER", res);
+  //           if(res.data.user)  navigate("/hellohuman");
+  //           else if(res.data.code === 404){
+  //             axios.get(BASE_API + `getuserinotp/${username}`)
+  //               .then(res=> {
+  //                 console.log("GET USER IN OTP >>>", res.data);
+  //                 if(res.data.user) {
+  //                   if(res.data.user.user_id)  {
+  //                     setOtp(res.data.user.otp);
+  //                   }
+  //                 }
+  //               })
+  //               .catch(err=> {
+  //                 console.log("GET USER IN OTP ERR", err);
+  //               })
+  //           }
+  //         })
+  //     }
   
-      currentUser();
+  //     currentUser();
   
-      document.addEventListener('visibilitychange', function() {
-        if (document.visibilityState === 'visible') {
-          setIsvisible(true);
-        } else {
-          setIsvisible(false);
-        }
-      });
-    // }
+  //     document.addEventListener('visibilitychange', function() {
+  //       if (document.visibilityState === 'visible') {
+  //         setIsvisible(true);
+  //       } else {
+  //         setIsvisible(false);
+  //       }
+  //     });
+  //   // }
     
-  }, [username]);
+  // }, [username]);
+
+  async function createOtp() {
+    await axios.get(BASE_API+`getotp/${username}`).then(ret => {
+      console.log(ret.data, '<<<create otp');
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  async function getOTP() {
+    console.log(username, '<<< tg user name');
+    await axios.get(BASE_API+`getuserinotp/${username}`)
+    .then(res => {
+      console.log(res.data, 'get user in otp');
+      if(res.data.code === 200) {
+        // setOtp(res.data.otp);
+      }  else if(res.data.code === 404) {
+        createOtp();
+      }
+    }).catch((error) => {
+      console.log(error);
+    })
+  }
 
   useEffect(() => {
     if( isVisible && otp !== "00000000") {
@@ -67,23 +93,14 @@ export default function WelcomeBoard() {
   }, [isVisible]);
 
   const linkApp = async () => {
+    console.log("tg user name>>>", username);
+    getOTP();
     navigate("/linkverify");
-    // await axios.get(BASE_API+`getotp/${user?user.username:username}`)
-    // .then(res => {
-    //   if(res.data.code === 200) {
-    //     setOtp(res.data.otp);
-    //     // setOpenVerifyModal(true);
-    //   }  else {
-    //     console.log("You can't create OTP code");
-    //   }
-    // }).catch((error) => {
-    //   console.log(error);
-    // })
   }
 
   return (
     <OtpContext.Provider value={otp}>
-    <div className="p-4 w-full h-full bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover absolute" style={{fontFamily: "Inter"}}>
+    <div className="p-4 w-full h-screen bg-[url('/assets/images/bg.png')] bg-no-repeat bg-center bg-cover absolute" style={{fontFamily: "Inter"}}>
         <div className="relative flex flex-col justify-between p-4 rounded-lg bg-white border-[#D3D3D3] border h-full">
           <div>
             <h2 className="text-[40px] font-[600] leading-[48.41px]">Welcome to PrivaseaBot</h2>
