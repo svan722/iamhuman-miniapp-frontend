@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export const OtpContext = createContext<string>("");
 
 export default function WelcomeBoard() {
-  const [isVisible, setIsvisible] = useState(true);
+  // const [isVisible, setIsvisible] = useState(true);
   const [username, setUsername] = useState<any>("imhuman1");
   const [otp, setOtp] = useState("00000000");
 
@@ -20,6 +20,7 @@ export default function WelcomeBoard() {
   useEffect(() => {
     if(user !== undefined) {
       setUsername(user?user.username:username);
+      alert(user.username);
       console.log(user.username, '<<< user effect username');
       getOTP();
     }
@@ -77,7 +78,7 @@ export default function WelcomeBoard() {
     .then(res => {
       console.log(res.data, 'get user in otp');
       if(res.data.code === 200) {
-        // setOtp(res.data.otp);
+        setOtp(res.data.otp);
       }  else if(res.data.code === 404) {
         createOtp();
       }
@@ -86,11 +87,11 @@ export default function WelcomeBoard() {
     })
   }
 
-  useEffect(() => {
-    if( isVisible && otp !== "00000000") {
-      // setOpenVerifyModal(false);
-    }
-  }, [isVisible]);
+  // useEffect(() => {
+  //   if( isVisible && otp !== "00000000") {
+  //     // setOpenVerifyModal(false);
+  //   }
+  // }, [isVisible]);
 
   const linkApp = async () => {
     console.log("tg user name>>>", username);
