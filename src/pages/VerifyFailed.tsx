@@ -4,27 +4,32 @@ import Button from '../components/button/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { BASE_API } from "../config/config";
-import { useSelector } from 'react-redux';
+// import { OtpContext } from "./WelcomeBoard";
+import { useAppSelector } from "../app/hooks";
+import { getOtpVal } from "../actions/OtpAction";
 
 export default function VerifyFaied() {
   const navigate = useNavigate();
-  const otp = useSelector((state: { value: string }) => state.otp.value);
+  // const [otp, setOtp] = useState("");
+  // const otpContext = useContext(OtpContext);
+  const otp = useAppSelector(getOtpVal);
 
   const genernateNewCode = async () => {
     await axios.delete(BASE_API + `delete/opt/${otp}`)
-      .then(() => {
+      .then((res) => {
+        console.log("handle cancel", res)
         navigate("/linkverify");
       }).catch(err=> {
         console.log("OTP delete failed", err)
       })
     }
 
-    useEffect(() => {
-      console.log(otp, '<<<<<<<<get otp')
-    }, [])
+  useEffect(()=>{
+    console.log("OTP redux >>>", otp);
+  },[])
 
   return (
-    <div className="pt-[10px]" style={{fontFamily: "Inter"}}>
+    <div className="pt-[10px] " style={{fontFamily: "Inter"}}>
       <div className='px-8'>
         <div className='flex justify-center mt-[80px]'>
           <img src={VerifyFaiedImg} alt="verify success" />

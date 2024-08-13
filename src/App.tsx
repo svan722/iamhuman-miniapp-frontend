@@ -20,7 +20,7 @@ import VerifyNotCompleted from './pages/VerifyNotCompleted';
 import VerifyFaied from './pages/VerifyFailed';
 import useTelegram from './useTelegram';
 import { Provider } from 'react-redux';
-import store from './store'; // Adjust the path as necessary
+import {store} from './app/store'; // Adjust the path as necessary
 
 export const OtpContext = createContext<{ username?: string }>({});
 

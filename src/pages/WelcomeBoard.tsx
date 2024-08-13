@@ -7,7 +7,8 @@ import { BASE_API } from "../config/config";
 import { OtpContext } from "../App";
 // import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from "../app/hooks";
+import { setOtpVal } from "../actions/OtpAction";
 
 export default function WelcomeBoard() {
   // const [isVisible, setIsvisible] = useState(true);
@@ -17,7 +18,7 @@ export default function WelcomeBoard() {
   const navigate = useNavigate();
   // const { user } = useTelegram();
   const { username } = useContext(OtpContext);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   async function getOTP() {
     console.log(username, "<<< tg user name");
@@ -27,7 +28,7 @@ export default function WelcomeBoard() {
         console.log(res.data, "get user in otp");
         if (res.data.code === 200) {
           console.log("get success OTP",res.data.user.otp);
-          dispatch({ type: 'SET_OTP', payload: {value: res.data.user.otp} });
+          dispatch(setOtpVal(res.data.user.otp));
         } else if (res.data.code === 404) {
           console.log("Can't get OTP code");
         }
