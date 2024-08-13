@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useContext } from "react";
 import axios from "axios";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import PencilImg from "../assets/images/pencil.png";
@@ -6,7 +6,8 @@ import LinkImg from "../assets/images/link.png";
 import { IoSearchSharp } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import Footer from "../components/footer/Footer";
-import { useTelegram } from "../context/TelegramProvider";
+// import { useTelegram } from "../context/TelegramProvider";
+import { OtpContext } from "../../src/App";
 import { useNavigate } from 'react-router-dom';
 import { BASE_API } from "../config/config";
 import SearchProfileView from "../components/searchComponents/SearchProfileView";
@@ -19,9 +20,9 @@ interface IUpdateUserData {
 export const UpdateUserDataContext = createContext<IUpdateUserData>({});
 
 export default function ViewProfile() {
-  const { user } = useTelegram();
+  // const { user } = useTelegram();
   const navigate = useNavigate();
-
+  const { username } = useContext(OtpContext);
   const [bio, setBio] = useState("");
   const [xlink, setXlink] = useState("");
   const [discordUsername, setDiscordUsername] = useState("");
@@ -63,7 +64,7 @@ export default function ViewProfile() {
   }, [searchName]);
 
   useEffect(() => {
-    const username = user?.username;
+    // const username = user?.username;
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
@@ -137,7 +138,7 @@ export default function ViewProfile() {
                 </div>
                 <div>
                   <div className="text-[16px] font-[400] leading-[19.36px] text-black opacity-[60%] ">ImHuman account</div>
-                  <span className="text-[16px] font-[400] leading-[19.36px] text-black">{user?.username}</span>
+                  <span className="text-[16px] font-[400] leading-[19.36px] text-black">{username}</span>
                 </div>
               </div>
               <div>

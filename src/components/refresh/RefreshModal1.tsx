@@ -1,53 +1,53 @@
-import { useState, useEffect, useContext } from "react";
+import {  useEffect } from "react";
 import NeverNodeImg from "../../assets/images/nerve_node.png";
 import Button from "../button/Button";
-import axios from "axios";
-import { BASE_API } from "../../config/config";
-import { OtpContext } from "../../pages/EditProfile";
-import { UpdateUserDataContext } from "../../pages/EditProfile";
-import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { BASE_API } from "../../config/config";
+// import { OtpContext } from "../../pages/EditProfile";
+// import { UpdateUserDataContext } from "../../pages/EditProfile";
+// import { useNavigate } from "react-router-dom";
 
-interface RefreshModalProps {
-  close: () => void
-}
+// interface RefreshModalProps {
+//   close: () => void
+// }
 
 // const path = "/api/v1/verification/link?channel=TGBot&code=";
 
-export default function RefreshModal1(props: RefreshModalProps) {
+export default function RefreshModal1() {
 
-  const [otp, setOtp] = useState<string>("");
-  const  navigate = useNavigate();
+  // const [otp, setOtp] = useState<string>("");
+  // const  navigate = useNavigate();
   
-  const context = useContext(OtpContext);
-  const userContext = useContext(UpdateUserDataContext);
+  // const context = useContext(OtpContext);
+  // const userContext = useContext(UpdateUserDataContext);
 
   useEffect(() => {
-    setOtp(context);
+    // setOtp(context);
   
     return () => { };
   }, []);
 
   const onclickRefresh = async () => {
-    const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
-    console.log("Updated User Data >>>", context, userContext);
-    await axios.post(BASE_API+`get/tgbot/verification/edit/${otpToken}`, userContext)
-      .then(res=>{
-        console.log("verification",res);
-        if(res.data.code === 200) {
-          navigate("/verifysuccess");
-        }
-      })
+    // const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
+    // console.log("Updated User Data >>>", context, userContext);
+    // await axios.post(BASE_API+`get/tgbot/verification/edit/${otpToken}`, userContext)
+      // .then(res=>{
+      //   console.log("verification",res);
+      //   if(res.data.code === 200) {
+      //     navigate("/verifysuccess");
+      //   }
+      // })
 
   }
 
     const handleCancel = async () => {
-      await axios.delete(BASE_API + `delete/opt/${otp}`)
-        .then((res) => {
-          console.log("handle cancel", res)
-          props.close()
-        }).catch(err=> {
-          console.log("OTP delete failed", err)
-        })
+      // await axios.delete(BASE_API + `delete/opt/${otp}`)
+      //   .then((res) => {
+      //     console.log("handle cancel", res)
+      //     props.close()
+      //   }).catch(err=> {
+      //     console.log("OTP delete failed", err)
+      //   })
 
     }
     

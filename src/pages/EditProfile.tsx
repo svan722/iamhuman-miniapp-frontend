@@ -1,13 +1,14 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useContext } from "react";
 import axios from "axios";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import Button from "../components/button/Button";
 import Footer from "../components/footer/Footer";
 import VerifyModal1 from "../components/verify/VerifyModal1";
-import { useTelegram } from "../context/TelegramProvider";
+// import { useTelegram } from "../context/TelegramProvider";
+import { OtpContext } from "../App";
 import { validateDiscordUsername, validateURL, validateTwitterUrl } from "../utils/validate";
 import { BASE_API } from "../config/config";
-import RefreshModal1 from "../components/refresh/RefreshModal1";
+// import RefreshModal1 from "../components/refresh/RefreshModal1";
 
 interface IUpdateUserData {
   xlink?: String,
@@ -15,10 +16,11 @@ interface IUpdateUserData {
   personalWeb?: String
 }
 export const UpdateUserDataContext = createContext<IUpdateUserData>({});
-export const OtpContext = createContext<string>("");
+// export const OtpContext = createContext<string>("");
 
 export default function EditProfile() {
-  const { user } = useTelegram();
+  // const { user } = useTelegram();
+  const { username } = useContext(OtpContext);
 
   const [bio, setBio] = useState("");
   const [xlink, setXlink] = useState("");
@@ -29,9 +31,9 @@ export default function EditProfile() {
   const [isXvalid, setIsXvalid] = useState(true);
   const [discordValid, setDiscordValid] = useState(true);
   const [personalValid, setPersonalValid] = useState(true);
-  const [openRefreshModal, setOpenRefreshModal] = useState(false);
+  // const [openRefreshModal, setOpenRefreshModal] = useState(false);
   const [isVisible, setIsvisible] = useState(false);
-  const [otp, setOtp] = useState<string>("");
+  // const [otp, setOtp] = useState<string>("");
   const [isVerify, setIsVerify] = useState(false);
 
   const [updateUserData, setUpdateUserData]  = useState({});
@@ -56,18 +58,18 @@ export default function EditProfile() {
 
   const verify = async () => {
     setIsVerify(true);
-    await axios.get(BASE_API+`getotp/${user_id}`)
+    await axios.get(BASE_API+`getotp/${username}`)
     .then(res => {
       if(res.data.code === 200) {
         console.log("OTP >>>", res.data)
-        setOtp(res.data.otp);
+        // setOtp(res.data.otp);
       }  else {
         alert("You can't create OTP code");
       }
     })
 
     const userData = {
-      user_id: user?user.username:"imhuman1",
+      user_id: username,
       bio: bio,
       x_link: xlink,
       discordUsername: discordUsername,
@@ -83,7 +85,7 @@ export default function EditProfile() {
     }
   }
 
-  const username = user?user.username:"imhuman1";
+  // const username = user?user.username:"imhuman1";
   async function currentUser() {
     axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
       .then(res=> {
@@ -103,7 +105,7 @@ export default function EditProfile() {
       })
   }
 
-  const user_id = user?user.username:"imhuman1";
+  // const user_id = user?user.username:"imhuman1";
 
   useEffect(() => {
     console.log("profile");
@@ -121,14 +123,14 @@ export default function EditProfile() {
 
   useEffect(() => {
     if( isVisible && isVerify) {
-      setOpenRefreshModal(true);
+      // setOpenRefreshModal(true);
       setOpenModal(false);
     }
   }, [isVisible]);
 
   return (
     <UpdateUserDataContext.Provider value={updateUserData}>
-      <OtpContext.Provider value={otp}>
+      {/* <OtpContext.Provider value={otp}> */}
         <div className="pt-[20px] " style={{fontFamily: "Inter"}}>
           <div className="-z-20">
             <div className="px-4 pb-[115px] bg-white">
@@ -138,7 +140,7 @@ export default function EditProfile() {
                   <div className="w-6 h-6 bg-black rounded-md p-[1px]">
                     <img className="w-[24px]" src={SmallSpaceImg} alt="logo"/>
                   </div>
-                  <span className="font-[400] text-[16px] leading-[19.36px] mx-2 my-2">{user?.username}</span>
+                  <span className="font-[400] text-[16px] leading-[19.36px] mx-2 my-2">{username}</span>
                 </div>
                 <div>
                   <label className="text-[16px] leading-[19.36px] font-[400]">Personal bio</label>
@@ -164,13 +166,13 @@ export default function EditProfile() {
               </div>
             </div>
             {openModal&&<VerifyModal1 close={()=>{setOpenModal(false)}}/>}
-            {openRefreshModal &&  <RefreshModal1 close={()=>{setOpenRefreshModal(false)}}/>}
+            {/* {openRefreshModal &&  <RefreshModal1 close={()=>{setOpenRefreshModal(false)}}/>} */}
           </div>
           <div className="fixed bottom-0 w-full z-10">
             <Footer/>
           </div>
         </div>
-      </OtpContext.Provider>
+      {/* </OtpContext.Provider> */}
     </UpdateUserDataContext.Provider>
   )
 }

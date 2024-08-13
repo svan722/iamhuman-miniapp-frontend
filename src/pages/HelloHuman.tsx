@@ -1,16 +1,18 @@
+import { useContext } from "react";
 import HumanSpaceImg from "../assets/images/human_space.png";
 import HumanIdLogo from "../assets/images/HumanId_logo.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import ArrowRight from "../assets/images/arrow-right.png";
 import Button from "../components/button/Button";
 import Footer from "../components/footer/Footer";
-import { useTelegram } from "../context/TelegramProvider";
+// import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from 'react-router-dom';
+import { OtpContext } from "../../src/App";
 
 export default function HelloHuman() {
   const navigate = useNavigate();
-  const { user } = useTelegram(); 
-
+  const { username } = useContext(OtpContext);
+  
   return (
     <div className="pt-[30px] " style={{fontFamily: "Inter"}}>
       <div className="px-8 pb-[90px]">
@@ -31,7 +33,7 @@ export default function HelloHuman() {
           </div>
           <div className="font-[400] text-[16px] leading-[19.36px] ml-[-50px]">
             <p className="opacity-[60%]">ImHuman account</p>
-            <p>{user?.username}</p>
+            <p>{username}</p>
           </div>
           <img src={ArrowRight} alt="arrow right"/>
         </div>
