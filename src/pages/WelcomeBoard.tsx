@@ -7,8 +7,7 @@ import { BASE_API } from "../config/config";
 import { OtpContext } from "../App";
 // import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from "react-router-dom";
-
-// export const OtpContext = createContext<{ username?: string }>({});
+import { useDispatch } from 'react-redux';
 
 export default function WelcomeBoard() {
   // const [isVisible, setIsvisible] = useState(true);
@@ -18,58 +17,7 @@ export default function WelcomeBoard() {
   const navigate = useNavigate();
   // const { user } = useTelegram();
   const { username } = useContext(OtpContext);
-
-  // useEffect(() => {
-  //   if (user !== undefined) {
-  //     setUsername(user ? user.username : username);
-  //   }
-  // }, [user]);
-
-  // useEffect(() => {
-  //   console.log("username", username)
-  //   // if(username !== undefined && username !== "imhuman1") {
-  //     async function currentUser() {
-  //       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
-  //         .then(res=> {
-  //           console.log("CURRENT USER", res);
-  //           if(res.data.user)  navigate("/hellohuman");
-  //           else if(res.data.code === 404){
-  //             axios.get(BASE_API + `getuserinotp/${username}`)
-  //               .then(res=> {
-  //                 console.log("GET USER IN OTP >>>", res.data);
-  //                 if(res.data.user) {
-  //                   if(res.data.user.user_id)  {
-  //                     setOtp(res.data.user.otp);
-  //                   }
-  //                 }
-  //               })
-  //               .catch(err=> {
-  //                 console.log("GET USER IN OTP ERR", err);
-  //               })
-  //           }
-  //         })
-  //     }
-
-  //     currentUser();
-
-  //     document.addEventListener('visibilitychange', function() {
-  //       if (document.visibilityState === 'visible') {
-  //         setIsvisible(true);
-  //       } else {
-  //         setIsvisible(false);
-  //       }
-  //     });
-  //   // }
-
-  // }, [username]);
-
-  // async function createOtp() {
-  //   await axios.get(BASE_API+`getotp/${username}`).then(ret => {
-  //     console.log(ret.data, '<<<create otp');
-  //   }).catch(error => {
-  //     console.log(error);
-  //   })
-  // }
+  const dispatch = useDispatch();
 
   async function getOTP() {
     console.log(username, "<<< tg user name");
@@ -79,6 +27,7 @@ export default function WelcomeBoard() {
         console.log(res.data, "get user in otp");
         if (res.data.code === 200) {
           console.log("get success OTP",res.data.user.otp);
+          dispatch({ type: 'SET_OTP', payload: {value: res.data.user.otp} });
         } else if (res.data.code === 404) {
           console.log("Can't get OTP code");
         }

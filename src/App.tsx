@@ -19,7 +19,8 @@ import IndividualActivePortal from './pages/IndividualActivePortal';
 import VerifyNotCompleted from './pages/VerifyNotCompleted';
 import VerifyFaied from './pages/VerifyFailed';
 import useTelegram from './useTelegram';
-
+import { Provider } from 'react-redux';
+import store from './store'; // Adjust the path as necessary
 
 export const OtpContext = createContext<{ username?: string }>({});
 
@@ -42,28 +43,30 @@ function App() {
 
 
   return (
-    <OtpContext.Provider value={{ username }}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<WelcomeBoard />} />
-          <Route path="/verifysuccess" element={<VerifySuccess />} />
-          <Route path="/linkverify" element={<LinkVerify />} />
-          <Route path="/linkverifyback" element={<LinkVerifyBack />} />
-          <Route path="/linkverify/verifynotcompleted" element={<VerifyNotCompleted />} />
-          <Route path="/linkverify/verifyfailed" element={<VerifyFaied />} />
-          <Route path="/hellohuman" element={<HelloHuman />} />
-          <Route path="/editprofile" element={<EditProfile />} />
-          <Route path="/viewprofile" element={<ViewProfile />} />
-          <Route path="/verifypassed" element={<VerifyPassed />} />
-          <Route path="/upgrade_premium" element={<UpgradePremium />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/account_upgraded" element={<AccountUpgraded />} />
-          <Route path="/select_verification" element={<SelectVerification />} />
-          <Route path="/individual_verification" element={<IndividualVerification />} />
-          <Route path="/individual_active_portal" element={<IndividualActivePortal />} />
-        </Routes>
-      </Router>
-    </OtpContext.Provider>
+    <Provider store={store}>
+      <OtpContext.Provider value={{ username }}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<WelcomeBoard />} />
+            <Route path="/verifysuccess" element={<VerifySuccess />} />
+            <Route path="/linkverify" element={<LinkVerify />} />
+            <Route path="/linkverifyback" element={<LinkVerifyBack />} />
+            <Route path="/linkverify/verifynotcompleted" element={<VerifyNotCompleted />} />
+            <Route path="/linkverify/verifyfailed" element={<VerifyFaied />} />
+            <Route path="/hellohuman" element={<HelloHuman />} />
+            <Route path="/editprofile" element={<EditProfile />} />
+            <Route path="/viewprofile" element={<ViewProfile />} />
+            <Route path="/verifypassed" element={<VerifyPassed />} />
+            <Route path="/upgrade_premium" element={<UpgradePremium />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/account_upgraded" element={<AccountUpgraded />} />
+            <Route path="/select_verification" element={<SelectVerification />} />
+            <Route path="/individual_verification" element={<IndividualVerification />} />
+            <Route path="/individual_active_portal" element={<IndividualActivePortal />} />
+          </Routes>
+        </Router>
+      </OtpContext.Provider>
+    </Provider>
   )
 }
 
