@@ -1,7 +1,7 @@
-import {useState, useEffect, useContext} from "react";
+import {useState, useEffect } from "react";
 import closeSVG from "../../assets/images/bclose.svg";
 import Button from "../button/Button";
-import { OtpContext } from "../../pages/EditProfile";
+// import { OtpContext } from "../../pages/EditProfile";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 
 interface VerifyModal1Props {
@@ -11,7 +11,7 @@ export default function VerifyModal1(props: VerifyModal1Props) {
   const [time, setTime] = useState(900);
   const [timeExpire, setTimeExpire] = useState(false);
   const [otp, setOtp] = useState<string>("");
-  const context = useContext(OtpContext);
+  // const context = useContext(OtpContext);
 
   useEffect(() => {
     if (time === 0) {
@@ -22,9 +22,9 @@ export default function VerifyModal1(props: VerifyModal1Props) {
 
   // count down timer
   useEffect(() => {
-    console.log("context otp", context);
-    const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
-    setOtp(otpToken);
+    // console.log("context otp", context);
+    // const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
+    // setOtp(otpToken);
 
     let timer = setInterval(() => {
       setTime((time) => {

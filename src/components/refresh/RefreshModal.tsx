@@ -1,50 +1,46 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect } from "react";
 import NeverNodeImg from "../../assets/images/nerve_node.png";
 import Button from "../button/Button";
-import axios from "axios";
-import { BASE_API } from "../../config/config";
-import { OtpContext } from "../../pages/WelcomeBoard";
-import { useNavigate } from "react-router-dom";
-import { useTelegram } from "../../context/TelegramProvider";
+// import axios from "axios";
+// import { BASE_API } from "../../config/config";
+// import { OtpContext } from "../../pages/WelcomeBoard";
+// import { useNavigate } from "react-router-dom";
+// import { useTelegram } from "../../context/TelegramProvider";
 
-interface RefreshModalProps {
-  close: () => void
-}
+export default function RefreshModal() {
 
-export default function RefreshModal(props: RefreshModalProps) {
-
-  const [otp, setOtp] = useState<string>("");
-  const  navigate = useNavigate();
+  // const [otp, setOtp] = useState<string>("");
+  // const  navigate = useNavigate();
   
-  const context = useContext(OtpContext);
-  const { user } = useTelegram(); 
+  // const context = useContext(OtpContext);
+  // const { user } = useTelegram(); 
 
   useEffect(() => {
-    setOtp(context);
+    // setOtp(context);
   
     return () => { };
   }, []);
 
   const onclickRefresh = async () => {
-    console.log("otpToken", context);
-    const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
-    await axios.post(BASE_API+`get/tgbot/verification/link/${otpToken}`, {user_id:user?user.username:"imhuman1"})
-      .then(res=>{
-        console.log("verification",res);
-        if(res.data.msg === "ok" && res.data.code === 200) {
-          navigate("/verifysuccess");
-        }
-      })
+    // console.log("otpToken", context);
+    // const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
+    // await axios.post(BASE_API+`get/tgbot/verification/link/${otpToken}`, {user_id:user?user.username:"imhuman1"})
+      // .then(res=>{
+      //   console.log("verification",res);
+      //   if(res.data.msg === "ok" && res.data.code === 200) {
+      //     navigate("/verifysuccess");
+      //   }
+      // })
   }
 
     const handleCancel = async () => {
-      await axios.delete(BASE_API + `delete/opt/${otp}`)
-        .then((res) => {
-          console.log("handle cancel", res)
-          props.close()
-        }).catch(err=> {
-          console.log("OTP delete failed", err)
-        })
+      // await axios.delete(BASE_API + `delete/opt/${otp}`)
+      //   .then((res) => {
+      //     console.log("handle cancel", res)
+      //     props.close()
+      //   }).catch(err=> {
+      //     console.log("OTP delete failed", err)
+      //   })
     }
     
   return ( 

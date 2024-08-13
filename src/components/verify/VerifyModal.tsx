@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import closeSVG from "../../assets/images/bclose.svg";
 import CopyIcon from "../../assets/images/ic_copy.svg";
 // import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Button from "../button/Button";
 import { BASE_API } from "../../config/config";
-import { OtpContext } from "../../pages/WelcomeBoard";
+// import { OtpContext } from "../../pages/WelcomeBoard";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 interface VerifyModalProps {
@@ -19,12 +19,12 @@ export default function VerifyModal(props: VerifyModalProps) {
   const [time, setTime] = useState(900);
   const [osType, setOsType] = useState('');
 
-  const context = useContext(OtpContext);
+  // const context = useContext(OtpContext);
 
   // count down timer
   useEffect(() => {
-    const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
-    setOtp(otpToken);
+    // const otpToken = context.split("-")[0] + "-" + context.split("-")[1];
+    // setOtp(otpToken);
     let timer = setInterval(() => {
       setTime((time) => {
         if (time === 0) {

@@ -1,4 +1,5 @@
 import './App.css';
+import { useEffect, useState, createContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WelcomeBoard from './pages/WelcomeBoard';
 import VerifySuccess from './pages/VerifySuccess';
@@ -13,17 +14,41 @@ import AccountUpgraded from './pages/AccountUpgraded';
 import SelectVerification from './pages/SelectVerification';
 import IndividualVerification from './pages/IndividualVerification';
 import IndividualActivePortal from './pages/IndividualActivePortal';
-import { TelegramProvider } from "./context/TelegramProvider";
+// import { useTelegram } from "../src/context/TelegramProvider";
+import VerifyNotCompleted from './pages/VerifyNotCompleted';
+import VerifyFaied from './pages/VerifyFailed';
+import useTelegram from './useTelegram';
 
+
+export const OtpContext = createContext<{ username?: string }>({});
 
 function App() {
+  const [username, setUsername] = useState<string>("imhuman1");
+  // const { user } = useTelegram();
+  const tg = useTelegram();
+
+
+  useEffect(() => {
+      if (tg) {
+          tg?.ready();
+          console.log("tg???", tg.initDataUnsafe)
+          const user  = tg?.initDataUnsafe.user;
+          console.log("user>>>", user)
+          setUsername(user?.username || "imhuman1");
+          console.log('Username:', user?.username);
+      }
+  }, [tg]);
+
+
   return (
-    <TelegramProvider>
+    <OtpContext.Provider value={{ username }}>
       <Router>
         <Routes>
           <Route path="/" element={<WelcomeBoard />} />
           <Route path="/verifysuccess" element={<VerifySuccess />} />
           <Route path="/linkverify" element={<LinkVerify />} />
+          <Route path="/linkverify/verifynotcompleted" element={<VerifyNotCompleted />} />
+          <Route path="/linkverify/verifyfailed" element={<VerifyFaied />} />
           <Route path="/hellohuman" element={<HelloHuman />} />
           <Route path="/editprofile" element={<EditProfile />} />
           <Route path="/viewprofile" element={<ViewProfile />} />
@@ -36,7 +61,7 @@ function App() {
           <Route path="/individual_active_portal" element={<IndividualActivePortal />} />
         </Routes>
       </Router>
-    </TelegramProvider>
+    </OtpContext.Provider>
   )
 }
 

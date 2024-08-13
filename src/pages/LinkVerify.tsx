@@ -1,127 +1,177 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import CopyIcon from "../assets/images/ic_copy.svg";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "../components/button/Button";
 import { BASE_API } from "../config/config";
-// import { OtpContext } from "./WelcomeBoard";
+import { OtpContext } from "../../src/App";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { useTelegram } from "../context/TelegramProvider";
 
-interface LinkVerifyProps {
-  close: () => void
-}
-
-export default function LinkVerify(props: LinkVerifyProps) {
+export default function LinkVerify() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
-  const [time, setTime] = useState(900);
-  const [username, setUsername] = useState<any>("imhuman1");
+  const [time, setTime] = useState(NaN);
 
-  const { user } = useTelegram(); 
-
-  useEffect(() => {
-    if(user !== undefined)
-      setUsername(user?user.username:username);
-  }, []);
+  const { username } = useContext(OtpContext);
 
   async function currentUser() {
-    console.log(username, '>>>>>>>>> tg username');
-    axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
-      .then(res=> {
+    console.log("context username", username);
+    axios
+      .post(BASE_API + `getcurrentuser/${username}`, { username: username })
+      .then((res) => {
         console.log("CURRENT USER", res);
-        if(res.data.user)  navigate("/hellohuman");
-        else if(res.data.code === 404){
-          axios.get(BASE_API + `getuserinotp/${username}`)
-            .then(res=> {
+        if (res.data.user) navigate("/hellohuman");
+        else if (res.data.code === 404) {
+          axios
+            .get(BASE_API + `getuserinotp/${username}`)
+            .then((res) => {
               console.log("GET USER IN OTP >>>", res.data);
-              if(res.data.user) {
-                if(res.data.user.user_id)  {
+              if (res.data.user) {
+                if (res.data.user.user_id) {
                   setOtp(res.data.user.otp);
+                  hexToInt(res.data.user.otp);
                 }
+              } else {
+                createOtp();
               }
             })
-            .catch(err=> {
+            .catch((err) => {
               console.log("GET USER IN OTP ERR", err);
-            })
+            });
         }
-      })
+      });
   }
 
-  async function getOTP() {
-    await axios.get(BASE_API+`getotp/${user?user.username:username}`)
-    .then(res => {
-      if(res.data.code === 200) {
-        setOtp(res.data.otp);
-        // setOpenVerifyModal(true);
-      }  else {
-        console.log("You can't create OTP code");
-      }
-    }).catch((error) => {
-      console.log(error);
-    })
+  async function createOtp() {
+    await axios
+      .get(BASE_API + `getotp/${username}`)
+      .then((res) => {
+        console.log(res.data, "<<<create otp");
+        // if(ret.data._otp)  setOtp(ret.data._otp.otp);
+        if (res.data) setOtp(res.data.otp);
+        hexToInt(res.data.otp);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // return otp;
+  }
+
+  function hexToInt(otpToken: any) {
+    const timestampHex = otpToken.split("-")[1];
+    const timestampInt = Number.parseInt(timestampHex, 16);
+    const timer = timestampInt - Date.now();
+    if (timer < 0) setTime(0);
+    else setTime(Math.floor(timer / 1000));
+    return Math.floor(timer / 1000);
   }
 
   // count down timer
   useEffect(() => {
     currentUser();
-
-    let timer = setInterval(() => {
-      setTime((time) => {
-        if (time === 0) {
-          setOtp("");
-          clearInterval(timer);
-          return 0;
-        } else return time - 1;
-      });
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
   }, []);
 
- const clipboardCopy = () => {
+  useEffect(() => {
+    if (NaN) return;
+    let timer = setTimeout(() => {
+      if (time === 0) {
+        setOtp("");
+        clearTimeout(timer);
+        return 0;
+      } else {
+        setTime(time - 1);
+      }
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [time]);
+
+  const clipboardCopy = () => {
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
- }
+  };
 
- const handleCancel = async () => {
-  await axios.delete(BASE_API + `delete/opt/${otp}`)
-    .then((res) => {
-      console.log("handle cancel", res)
-      props.close()
-    }).catch(err=> {
-      console.log("OTP delete failed", err)
-    })
- }
+  const handleCancel = async () => {
+    navigate("/");
+  };
 
- const getResult = () => {
-
- }
+  const getResult = async () => {
+    await axios
+      .post(BASE_API + `get/tgbot/verification/link/${otp}`, {
+        user_id: username,
+      })
+      .then((res) => {
+        console.log("verification", res);
+        if (res.data.msg === "ok" && res.data.code === 200) {
+          navigate("/verifypassed");
+        } else {
+          navigate("verifynotcompleted");
+        }
+      });
+  };
 
   return (
-    <div className={`w-full h-screen absolute bg-cover bg-white p-[35px]`} style={{fontFamily: "Inter"}}>
-        <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Verify your Human Likeness in the ImHuman App with this code`}</p>
-        <p className="font-[400] text-[16px] px-[10px] leading-[22px] text-center pt-5">Paste your one-time passcode into your ImHuman <span className="font-[600]">TG Bot Link portal</span> by navigating to:</p>
-        <p className="font-[600] text-[16px] text-center px-[45px] leading-[22px]">{"Proof > Liveness check > TG Bot Link"}</p>
-        <div className="w-full h-[50px] rounded-[6px] bg-[#EAECF1] text-center p-[12px] mt-[20px] leading-[29.05px] text-[20px] font-[600] justify-center items-center flex">{otp}</div>
-        <div className="text-center mt-[30px] text-[14px] font-[400] leading-[22px]">
-            <span >The code is valid for </span><span className="text-red-500">{`${Math.floor(time / 60)}`.padStart(2, "0")}:{`${time % 60}`.padStart(2, "0")}</span>
-        </div>
-        <div className="flex justify-center mt-4">
-            <CopyToClipboard text={String(otp)}>
-            <div onClick={() => {clipboardCopy()}}>
-                <span className="font-[700] text-[14px] leading-[22px] inline-block hover: cursor-pointer">{!isCopied?"Copy code":"Copied"}</span>
-                <img className="ml-[10px] inline-block hover:cursor-pointer w-[24px] h-[24px]" src={CopyIcon} alt="ic_copy"/>
-            </div>
-            </CopyToClipboard>
-        </div>
-        <div className="py-2">
-            <Button background={true} disabled={false} text="Retrieve verification result" onClick={()=>{getResult()}}/>
-            <Button background={false} disabled={false} text="Cancel" onClick={handleCancel}/>
-        </div> 
+    <div
+      className={`w-full h-screen absolute bg-cover bg-white p-[35px]`}
+      style={{ fontFamily: "Inter" }}
+    >
+      <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Verify your Human Likeness in the ImHuman App with this code`}</p>
+      <p className="font-[400] text-[16px] px-[10px] leading-[22px] text-center pt-5">
+        Paste your one-time passcode into your ImHuman{" "}
+        <span className="font-[600]">TG Bot Link portal</span> by navigating to:
+      </p>
+      <p className="font-[600] text-[16px] text-center px-[45px] leading-[22px]">
+        {"Proof > Liveness check > TG Bot Link"}
+      </p>
+      <div className="w-full h-[50px] rounded-[6px] bg-[#EAECF1] text-center p-[12px] mt-[20px] leading-[29.05px] text-[20px] font-[600] justify-center items-center flex">
+        {otp}
+      </div>
+      <div className="text-center mt-[30px] text-[14px] font-[400] leading-[22px]">
+        <span>The code is valid for </span>
+        <span className="text-red-500">
+          {isNaN(time)
+            ? "Loading time..."
+            : `${`${Math.floor(time / 60)}`.padStart(2, "0")}:${`${
+                time % 60
+              }`.padStart(2, "0")}`}
+        </span>
+      </div>
+      <div className="flex justify-center mt-4">
+        <CopyToClipboard text={String(otp)}>
+          <div
+            onClick={() => {
+              clipboardCopy();
+            }}
+          >
+            <span className="font-[700] text-[14px] leading-[22px] inline-block hover: cursor-pointer">
+              {!isCopied ? "Copy code" : "Copied"}
+            </span>
+            <img
+              className="ml-[10px] inline-block hover:cursor-pointer w-[24px] h-[24px]"
+              src={CopyIcon}
+              alt="ic_copy"
+            />
+          </div>
+        </CopyToClipboard>
+      </div>
+      <div className="py-2">
+        <Button
+          background={true}
+          disabled={false}
+          text="Retrieve verification result"
+          onClick={() => {
+            getResult();
+          }}
+        />
+        <Button
+          background={false}
+          disabled={false}
+          text="Cancel"
+          onClick={handleCancel}
+        />
+      </div>
     </div>
-  )
+  );
 }
