@@ -49,8 +49,8 @@ export default function LinkVerify() {
       .then((res) => {
         console.log(res.data, "<<<create otp");
         // if(ret.data._otp)  setOtp(ret.data._otp.otp);
-        if (res.data) setOtp(res.data.otp);
-        hexToInt(res.data.otp);
+        if (res.data) setOtp(res.data.otp.otp);
+        hexToInt(res.data.otp.otp);
       })
       .catch((error) => {
         console.log(error);

@@ -1,4 +1,4 @@
-import {  useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
 import Button from "../components/button/Button";
@@ -27,7 +27,7 @@ export default function WelcomeBoard() {
       .then((res) => {
         console.log(res.data, "get user in otp");
         if (res.data.code === 200) {
-          console.log("get success OTP",res.data.user.otp);
+          console.log("get success OTP", res.data.user.otp);
           dispatch(setOtpVal(res.data.user.otp));
         } else if (res.data.code === 404) {
           console.log("Can't get OTP code");
@@ -76,7 +76,7 @@ export default function WelcomeBoard() {
                     await axios
                       .post(
                         BASE_API +
-                          `get/tgbot/verification/edit/${res.data.user.otp}`,
+                          `get/tgbot/verification/link/${res.data.user.otp}`,
                         username
                       )
                       .then((res) => {
