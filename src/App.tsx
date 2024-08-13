@@ -51,8 +51,8 @@ function App() {
             <Route path="/verifysuccess" element={<VerifySuccess />} />
             <Route path="/linkverify" element={<LinkVerify />} />
             <Route path="/linkverifyback" element={<LinkVerifyBack />} />
-            <Route path="/linkverify/verifynotcompleted" element={<VerifyNotCompleted />} />
-            <Route path="/linkverify/verifyfailed" element={<VerifyFaied />} />
+            <Route path="/verifynotcompleted" element={<VerifyNotCompleted />} />
+            <Route path="/verifyfailed" element={<VerifyFaied />} />
             <Route path="/hellohuman" element={<HelloHuman />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/viewprofile" element={<ViewProfile />} />

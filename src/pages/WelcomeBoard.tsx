@@ -84,11 +84,11 @@ export default function WelcomeBoard() {
                         if (res.data.code === 200) {
                           navigate("/verifypassed");
                         } else {
-                          navigate("/linkverify/verifyfailed");
+                          navigate("/verifyfailed");
                         }
                       })
                       .catch(() => {
-                        navigate("/linkverify/verifyfailed");
+                        navigate("/verifyfailed");
                       });
                   }
                 }
