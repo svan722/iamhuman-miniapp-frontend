@@ -2,6 +2,7 @@ import HumanSpaceImg from "../assets/images/human_space.png";
 import HumanIdLogo from "../assets/images/HumanId_logo.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import ArrowRight from "../assets/images/arrow-right.png";
+import { IoIosArrowForward } from "react-icons/io";
 import Button from "../components/button/Button";
 import Footer from "../components/footer/Footer";
 import { useTelegram } from "../context/TelegramProvider";
@@ -35,7 +36,15 @@ export default function HelloHuman() {
           </div>
           <img src={ArrowRight} alt="arrow right"/>
         </div>
-        <Button background={true} disabled={false} text="Edit personal information" onClick={()=>navigate("/editprofile")}/>
+        <Button background={true} disabled={false} text="Edit my profile" onClick={()=>navigate("/editprofile")}/>
+        <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
+          <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Link a new ImHuman account</div>
+          <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
+          <div className="flex justify-end items-center mt-[10px]" onClick={() => {navigate('/linkverify')}}>
+            <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
+            <IoIosArrowForward className="text-[23px] ml-[5px]" />
+          </div>
+        </div>
       </div>
       <div className="fixed bottom-0 w-full">
         <Footer/>
