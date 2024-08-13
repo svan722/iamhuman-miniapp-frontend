@@ -107,7 +107,7 @@ export default function LinkVerifyBack() {
         if (res.data.msg === "ok" && res.data.code === 200) {
           navigate("/verifysuccess");
         } else {
-          navigate("verifynotcompleted");
+          navigate("/linkverify/verifynotcompleted");
         }
       });
   };
