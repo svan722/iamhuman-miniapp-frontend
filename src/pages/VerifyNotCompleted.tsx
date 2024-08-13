@@ -15,7 +15,7 @@ export default function VerifyNotCompleted() {
           <p className='font-normal text-[14px] pt-3'>Please try to verify again before your code expires</p>
         </div>
         <div className='absolute bottom-5 w-full right-0 px-8'>
-          <Button background={true} disabled={false} text={"View my verification code"} onClick={()=> {navigate("/linkverify")}}/>
+          <Button background={true} disabled={false} text={"View my verification code"} onClick={()=> {navigate("/linkverifyback")}}/>
           <Button background={false} disabled={false} text={"Cancel"} onClick={()=> {navigate("/")}}/>
         </div>
       </div>

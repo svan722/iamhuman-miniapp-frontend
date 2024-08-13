@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WelcomeBoard from './pages/WelcomeBoard';
 import VerifySuccess from './pages/VerifySuccess';
 import LinkVerify from './pages/LinkVerify';
+import LinkVerifyBack from './pages/LinkVerifyBack';
 import HelloHuman from './pages/HelloHuman';
 import EditProfile from './pages/EditProfile';
 import ViewProfile from "./pages/ViewProfile";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/" element={<WelcomeBoard />} />
           <Route path="/verifysuccess" element={<VerifySuccess />} />
           <Route path="/linkverify" element={<LinkVerify />} />
+          <Route path="/linkverifyback" element={<LinkVerifyBack />} />
           <Route path="/linkverify/verifynotcompleted" element={<VerifyNotCompleted />} />
           <Route path="/linkverify/verifyfailed" element={<VerifyFaied />} />
           <Route path="/hellohuman" element={<HelloHuman />} />

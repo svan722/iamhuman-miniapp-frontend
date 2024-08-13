@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "../components/button/Button";
 import { BASE_API } from "../config/config";
-import { OtpContext } from "../../src/App";
+import { OtpContext } from "../App";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-export default function LinkVerify() {
+export default function LinkVerifyBack() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
@@ -117,11 +117,12 @@ export default function LinkVerify() {
       className={`w-full h-screen absolute bg-cover bg-white p-[35px]`}
       style={{ fontFamily: "Inter" }}
     >
-      <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Verify your Human Likeness in the ImHuman App with this code`}</p>
+      <p className="font-[600] text-[20px] text-center pt-6 leading-[24.2px]">{`Welcome Back!`}</p>
       <p className="font-[400] text-[16px] px-[10px] leading-[22px] text-center pt-5">
-        Paste your one-time passcode into your ImHuman{" "}
-        <span className="font-[600]">TG Bot Link portal</span> by navigating to:
+        If you haven't verified yourself yet, you can still use the code to complete verification. If you've already done so, click the button below to{" "}
+        <span className="font-[600]">retrieve your verification result.</span>
       </p>
+      <p className="font-[400] text-[16px] px-[10px] leading-[22px] text-center pt-5">Paste your one-time passcode into your ImHuman{" "}<span className="font-[600]">TG Bot Link portal</span> by navigating to:</p>
       <p className="font-[600] text-[16px] text-center px-[45px] leading-[22px]">
         {"Proof > Liveness check > TG Bot Link"}
       </p>
