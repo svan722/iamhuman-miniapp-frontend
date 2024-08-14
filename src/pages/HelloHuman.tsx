@@ -13,43 +13,51 @@ import { OtpContext } from "../../src/App";
 export default function HelloHuman() {
   const navigate = useNavigate();
   const { username } = useContext(OtpContext);
-  
+
   return (
-    <div className="pt-[30px] " style={{fontFamily: "Inter"}}>
+    <div className="pt-[30px] " style={{ fontFamily: "Inter" }}>
       <div className="px-8 pb-[90px]">
         <div className="text-center">
           <p className="font-[600] text-[32px] leading-[38.73px] mt-[-10px]">Hello human!</p>
           <p className="font-[400] text-[16px] leading-[22px] px-6">Explore your ImHuman NFTs and rewards in ImHuman App </p>
         </div>
         <div className="flex justify-center my-[20px]">
-          <img src={HumanSpaceImg} alt="Hello Human logo" className="w-[160px]"/>
+          <img src={HumanSpaceImg} alt="Hello Human logo" className="w-[160px]" />
         </div>
         <div className="flex justify-center items-center">
-          <img className="w-[24px]" src={HumanIdLogo} alt="Human logo"/>
+          <img className="w-[24px]" src={HumanIdLogo} alt="Human logo" />
           <span className="font-[700] text-[16px] leading-[19.36px] ml-[5px]">#4455</span>
         </div>
         <div className="w-full cursor-pointer rounded-lg bg-[#F5F5F5] px-5 py-3 flex justify-between items-center mt-4" onClick={() => navigate('/viewprofile')}>
           <div className="w-8 h-8 bg-black rounded-md flex justify-center items-center">
-            <img className="w-[32px]" src={SmallSpaceImg} alt="logo"/>
+            <img className="w-[32px]" src={SmallSpaceImg} alt="logo" />
           </div>
           <div className="font-[400] text-[16px] leading-[19.36px] ml-[-50px]">
             <p className="opacity-[60%]">ImHuman account</p>
             <p>{username}</p>
           </div>
-          <img src={ArrowRight} alt="arrow right"/>
+          <img src={ArrowRight} alt="arrow right" />
         </div>
-        <Button background={true} disabled={false} text="Edit my profile" onClick={()=>navigate("/editprofile")}/>
+        <div className="rounded-[8px] p-[10px] mt-[20px]" style={{ background: "linear-gradient(90deg, white 50%, #6486FF)" }}>
+          <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">You have pending profile edits</div>
+          <div className="text-[12px] font-[400] leading-[14.52px]">Your edits will be saved once you have verified your Human Likeness. You can retrieve verification result if you have already done so.</div>
+          <div className="flex justify-end items-center mt-[10px]" onClick={() => { navigate('/pendingprofile') }}>
+            <div className="text-[16px] font-[600] leading-[19.36px]">View</div>
+            <IoIosArrowForward className="text-[23px] ml-[5px]" />
+          </div>
+        </div>
+        <Button background={true} disabled={false} text="Edit my profile" onClick={() => navigate("/editprofile")} />
         <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Link a new ImHuman account</div>
           <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
-          <div className="flex justify-end items-center mt-[10px]" onClick={() => {navigate('/linkverify')}}>
+          <div className="flex justify-end items-center mt-[10px]" onClick={() => { navigate('/linkverify') }}>
             <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
             <IoIosArrowForward className="text-[23px] ml-[5px]" />
           </div>
         </div>
       </div>
       <div className="fixed bottom-0 w-full">
-        <Footer/>
+        <Footer />
       </div>
     </div>
   )

@@ -5,6 +5,8 @@ import WelcomeBoard from './pages/WelcomeBoard';
 import VerifySuccess from './pages/VerifySuccess';
 import LinkVerify from './pages/LinkVerify';
 import LinkVerifyBack from './pages/LinkVerifyBack';
+import ProfileVerify from './pages/ProfileVerify';
+import PendingProfile from './pages/PendingProfile';
 import HelloHuman from './pages/HelloHuman';
 import EditProfile from './pages/EditProfile';
 import ViewProfile from "./pages/ViewProfile";
@@ -50,6 +52,8 @@ function App() {
             <Route path="/" element={<WelcomeBoard />} />
             <Route path="/verifysuccess" element={<VerifySuccess />} />
             <Route path="/linkverify" element={<LinkVerify />} />
+            <Route path="/profileverify" element={<ProfileVerify />} />
+            <Route path="/pendingprofile" element={<PendingProfile />} />
             <Route path="/linkverifyback" element={<LinkVerifyBack />} />
             <Route path="/verifynotcompleted" element={<VerifyNotCompleted />} />
             <Route path="/verifyfailed" element={<VerifyFaied />} />
