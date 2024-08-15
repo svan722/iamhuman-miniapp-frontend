@@ -1,10 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import otpAction from '../actions/OtpAction';
+import { configureStore } from "@reduxjs/toolkit";
+import otpAction from "../actions/OtpAction";
+import editAction from "../actions/EditAction";
 
 export const store = configureStore({
   reducer: {
-    action: otpAction
+    action: otpAction,
+    editAction: editAction,
   },
+  devTools: true,
 });
 
 // export type AppDispatch = typeof store.dispatch;

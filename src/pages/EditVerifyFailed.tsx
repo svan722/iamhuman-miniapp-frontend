@@ -8,7 +8,7 @@ import { BASE_API } from "../config/config";
 import { useAppSelector } from "../app/hooks";
 import { getOtpVal } from "../actions/OtpAction";
 
-export default function VerifyFailed() {
+export default function EditVerifyFailed() {
   const navigate = useNavigate();
   // const [otp, setOtp] = useState("");
   // const otpContext = useContext(OtpContext);
@@ -16,10 +16,10 @@ export default function VerifyFailed() {
 
   const genernateNewCode = async () => {
     await axios
-      .delete(BASE_API + `delete/opt/${otp}`)
+      .delete(BASE_API + `edit/delete/opt/${otp}`)
       .then((res) => {
         console.log("handle cancel", res);
-        navigate("/linkverify");
+        navigate("/editlinkverify");
       })
       .catch((err) => {
         console.log("OTP delete failed", err);
@@ -57,7 +57,7 @@ export default function VerifyFailed() {
             disabled={false}
             text={"Cancel"}
             onClick={() => {
-              navigate("/");
+              navigate("/editprofile");
             }}
           />
         </div>
