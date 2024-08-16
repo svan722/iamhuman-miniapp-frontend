@@ -3,7 +3,6 @@ import axios from "axios";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import Button from "../components/button/Button";
 import Footer from "../components/footer/Footer";
-import VerifyModal1 from "../components/verify/VerifyModal1";
 import { OtpContext } from "../App";
 import {
   validateDiscordUsername,
@@ -14,7 +13,6 @@ import { BASE_API } from "../config/config";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { setEditVal } from "../actions/EditAction";
-// import RefreshModal1 from "../components/refresh/RefreshModal1";
 
 interface IUpdateUserData {
   xlink?: String;
@@ -34,7 +32,6 @@ export default function EditProfile() {
   const [xlink, setXlink] = useState("");
   const [discordUsername, setDiscordUsername] = useState("");
   const [personal, setPersonal] = useState("");
-  const [openModal, setOpenModal] = useState(false);
   const [characterLimit] = useState(150);
   const [isXvalid, setIsXvalid] = useState(true);
   const [discordValid, setDiscordValid] = useState(true);
@@ -60,7 +57,6 @@ export default function EditProfile() {
   };
 
   const verify = async () => {
-    // setIsVerify(true);
     const editData = {
       bio: bio,
       x_link: xlink,
@@ -69,6 +65,7 @@ export default function EditProfile() {
     };
 
     dispatch(setEditVal(editData));
+    navigate('/profileverify');
     axios
       .get(BASE_API + `edit/getuserinotp/${username}`)
       .then(async (res) => {
@@ -243,14 +240,6 @@ export default function EditProfile() {
               />
             </div>
           </div>
-          {openModal && (
-            <VerifyModal1
-              close={() => {
-                setOpenModal(false);
-              }}
-            />
-          )}
-          {/* {openRefreshModal &&  <RefreshModal1 close={()=>{setOpenRefreshModal(false)}}/>} */}
         </div>
         <div className="fixed bottom-0 w-full z-10">
           <Footer />

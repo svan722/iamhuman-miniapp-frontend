@@ -61,7 +61,6 @@ export default function ProfileVerify() {
     if (NaN) return;
     let timer = setTimeout(() => {
       if (time === 0) {
-        // setEditOtp("");
         clearTimeout(timer);
         return 0;
       } else {
