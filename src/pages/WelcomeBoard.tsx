@@ -50,7 +50,7 @@ export default function WelcomeBoard() {
 
   const linkApp = async () => {
     console.log("tg user name>>>", username);
-    // getOTP();
+    getOTP();
     // alert(username);
     axios
       .post(BASE_API + `getcurrentuser/${username}`, { username: username })

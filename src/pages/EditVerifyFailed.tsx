@@ -1,22 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import VerifyFailedImg from "../assets/images/verify_failed.png";
 import Button from "../components/button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_API } from "../config/config";
-// import { OtpContext } from "./WelcomeBoard";
+import { OtpContext } from "../App";
 import { useAppSelector } from "../app/hooks";
 import { getOtpVal } from "../actions/OtpAction";
 
 export default function EditVerifyFailed() {
   const navigate = useNavigate();
   // const [otp, setOtp] = useState("");
-  // const otpContext = useContext(OtpContext);
+  const {username} = useContext(OtpContext);
   const otp = useAppSelector(getOtpVal);
 
   const genernateNewCode = async () => {
     await axios
-      .delete(BASE_API + `edit/delete/opt/${otp}`)
+      .delete(BASE_API + `edit/delete/opt/${username}`)
       .then((res) => {
         console.log("handle cancel", res);
         navigate("/editlinkverify");
