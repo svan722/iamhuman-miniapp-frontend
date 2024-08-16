@@ -71,8 +71,10 @@ export default function WelcomeBoard() {
                   );
                   const timer = hexToInt(res.data.user.otp);
                   console.log("welcome Timer", timer);
-                  if (timer > 0) navigate("/linkverify");
-                  else if (timer < 0) {
+                  if (timer > 0) {
+                    navigate("/linkverify");
+                  }
+                  else {
                     await axios
                       .post(
                         BASE_API +

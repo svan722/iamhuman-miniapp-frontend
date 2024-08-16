@@ -76,7 +76,6 @@ export default function EditLinkVerifyBack() {
     if (NaN) return;
     let timer = setTimeout(() => {
       if (time === 0) {
-        setOtp("");
         clearTimeout(timer);
         return 0;
       } else {

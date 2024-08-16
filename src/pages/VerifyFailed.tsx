@@ -16,6 +16,7 @@ export default function VerifyFailed() {
   const { username } = useContext(OtpContext);
 
   const genernateNewCode = async () => {
+    console.log(username, '<<<<<<<<<username for delete')
     await axios
       .delete(BASE_API + `delete/opt/${username}`)
       .then((res) => {

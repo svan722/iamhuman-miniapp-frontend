@@ -154,7 +154,7 @@ export default function ViewProfile() {
               </div>
               <div className="my-[25px]">
                 <label className="text-[16px] leading-[19.36px] font-[500]" >Discord username</label>
-                <div className="flex items-center cursor-pointer" onClick={() => {linkSocial(discordUsername)}}>
+                <div className="flex items-center cursor-pointer">
                   <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
                   <div className="">{discordUsername}</div>
                 </div>

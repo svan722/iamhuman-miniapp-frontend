@@ -1,5 +1,5 @@
-// const BASE_API = "http://localhost:7000/api/"; // local backend url
-const BASE_API = "https://iamhuman-miniapp-backend.onrender.com/api/"; // render.com test url
+const BASE_API = "http://localhost:7000/api/"; // local backend url
+// const BASE_API = "https://iamhuman-miniapp-backend.onrender.com/api/"; // render.com test url
 // const BASE_API = "https://miniapp.privasea.ai/"; // live url
 // const BASE_API = "https://privasea-backend.onrender.com/api/";
 const HUMAN_VERIFY_API = "https://face-dev.privasea.ai"; // app backend url for dev
