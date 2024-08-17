@@ -126,7 +126,10 @@ export default function ProfileVerify() {
         if (res.data.msg === "ok" && res.data.code === 200) {
           navigate("/verifysuccess");
         } else {
-          navigate("/editverifynotcompleted");
+          if (time > 0)
+            navigate("/editverifynotcompleted");
+          else
+            navigate("/editverifyfailed");
         }
       });
   };

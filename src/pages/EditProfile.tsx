@@ -66,46 +66,6 @@ export default function EditProfile() {
 
     dispatch(setEditVal(editData));
     navigate('/profileverify');
-    // axios
-    //   .get(BASE_API + `edit/getuserinotp/${username}`)
-    //   .then(async (res) => {
-    //     console.log("GET USER IN OTP >>>", res.data);
-    //     if (res.data.user) {
-    //       if (res.data.user.user_id) {
-    //         // setOtp(res.data.user.otp);
-    //         console.log(
-    //           "editprofile remained time",
-    //           hexToInt(res.data.user.otp)
-    //         );
-    //         const timer = hexToInt(res.data.user.otp);
-    //         console.log("editprofile Timer", timer);
-    //         if (timer < 0) {
-    //           await axios
-    //             .post(
-    //               BASE_API +
-    //                 `edit/get/tgbot/verification/edit/${res.data.user.otp}`,
-    //               username
-    //             )
-    //             .then((res) => {
-    //               console.log("verification", res);
-    //               if (res.data.code === 200) {
-    //                 navigate("/verifypassed");
-    //               } else {
-    //                 navigate("/verifyfailed");
-    //               }
-    //             })
-    //             .catch(() => {
-    //               navigate("/verifyfailed");
-    //             });
-    //         } else if (timer > 0) navigate("/profileverify");
-    //       }
-    //     } else {
-    //       navigate("/profileverify");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("GET USER IN OTP ERR", err);
-    //   });
   };
 
   // const username = user?user.username:"imhuman1";
