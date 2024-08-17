@@ -19,7 +19,7 @@ export default function EditVerifyFailed() {
       .delete(BASE_API + `edit/delete/opt/${username}`)
       .then((res) => {
         console.log("handle cancel", res);
-        navigate("/editlinkverify");
+        navigate("/profileverify");
       })
       .catch((err) => {
         console.log("OTP delete failed", err);

@@ -11,8 +11,8 @@ import {
 } from "../utils/validate";
 import { BASE_API } from "../config/config";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hooks";
-import { setEditVal } from "../actions/EditAction";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { setEditVal, getEditVal } from "../actions/EditAction";
 
 interface IUpdateUserData {
   xlink?: String;
@@ -27,6 +27,7 @@ export default function EditProfile() {
   const { username } = useContext(OtpContext);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const profileData = useAppSelector(getEditVal);
 
   const [bio, setBio] = useState("");
   const [xlink, setXlink] = useState("");
@@ -55,6 +56,13 @@ export default function EditProfile() {
     setPersonal(event.target.value);
     setPersonalValid(validateURL(event.target.value));
   };
+
+  useEffect(() => {
+    setBio(profileData.bio);
+    setXlink(profileData.x_link);
+    setDiscordUsername(profileData.discordUsername);
+    setPersonal(profileData.personal_website);
+  }, [])
 
   const verify = async () => {
     const editData = {

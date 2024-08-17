@@ -24,7 +24,7 @@ export default function EditVerifyNotCompleted() {
             disabled={false}
             text={"View my verification code"}
             onClick={() => {
-              navigate("/editlinkverifyback");
+              navigate("/profileverify");
             }}
           />
           <Button
