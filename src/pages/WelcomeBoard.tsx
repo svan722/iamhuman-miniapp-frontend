@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import BoxIllustraionImg from "../assets/images/box_illustration.png";
 import Shape from "../assets/images/shape.png";
 import Button from "../components/button/Button";
@@ -9,6 +9,7 @@ import { OtpContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { setOtpVal } from "../actions/OtpAction";
+import IDCheckModal from "../components/IDCheckModal";
 
 export default function WelcomeBoard() {
   // const [isVisible, setIsvisible] = useState(true);
@@ -18,10 +19,36 @@ export default function WelcomeBoard() {
   const navigate = useNavigate();
   // const { user } = useTelegram();
   const { username } = useContext(OtpContext);
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const dispatch = useAppDispatch();
+  const [osType, setOsType] = useState('');
+
+  const hideModal = () => {
+    setIsOpenModal(false);
+  }
+
+  const clickDownload = () => {
+    if (osType == 'Android')
+      window.open('https://play.google.com/store/apps/details?id=com.app.imhuman&hl=en');
+    else if (osType == 'Mac')
+      window.open('https://apps.apple.com/se/app/imhuman/id6482989056?l=en-GB');
+  }
+
+  useEffect(() => {
+    let userAgent = navigator.userAgent || navigator.vendor;
+    console.log('starting point', userAgent);
+    if (userAgent.includes('Android', 0))
+      setOsType('Android')
+    else if (userAgent.includes('iPhone', 0) || userAgent.includes('Mac OS', 0))
+      setOsType('Mac')
+  }, []);
 
   async function getOTP() {
     console.log(username, "<<< tg user name");
+    if (username === "imhuman1") {
+      setIsOpenModal(true);
+      return;
+    }
     await axios
       .get(BASE_API + `getuserinotp/${username}`)
       .then((res) => {
@@ -42,14 +69,12 @@ export default function WelcomeBoard() {
     getOTP();
   }, []);
 
-  // useEffect(() => {
-  //   if( isVisible && otp !== "00000000") {
-  //     // setOpenVerifyModal(false);
-  //   }
-  // }, [isVisible]);
-
   const linkApp = async () => {
     console.log("tg user name>>>", username);
+    if (username === "imhuman1") {
+      setIsOpenModal(true);
+      return;
+    }
     getOTP();
     // alert(username);
     axios
@@ -156,9 +181,11 @@ export default function WelcomeBoard() {
               text="Link ImHuman APP"
               onClick={linkApp}
             />
+            <div className="text-[16px] font-[500] leading-[22px] text-[#6486FF] mt-[20px] text-center" onClick={() => {clickDownload()}}>Download ImHuman App</div>
           </div>
         </div>
       </div>
+      { isOpenModal && <IDCheckModal close={hideModal} />}
     </OtpContext.Provider>
   );
 }
