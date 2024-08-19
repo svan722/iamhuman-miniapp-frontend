@@ -38,14 +38,14 @@ export default function HelloHuman() {
           </div>
           <img src={ArrowRight} alt="arrow right" />
         </div>
-        <div className="rounded-[8px] p-[10px] mt-[20px]" style={{ background: "linear-gradient(90deg, white 50%, #6486FF)" }}>
+        {/* <div className="rounded-[8px] p-[10px] mt-[20px]" style={{ background: "linear-gradient(90deg, white 50%, #6486FF)" }}>
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">You have pending profile edits</div>
           <div className="text-[12px] font-[400] leading-[14.52px]">Your edits will be saved once you have verified your Human Likeness. You can retrieve verification result if you have already done so.</div>
           <div className="flex justify-end items-center mt-[10px]" onClick={() => { navigate('/pendingprofile') }}>
             <div className="text-[16px] font-[600] leading-[19.36px]">View</div>
             <IoIosArrowForward className="text-[23px] ml-[5px]" />
           </div>
-        </div>
+        </div> */}
         <Button background={true} disabled={false} text="Edit my profile" onClick={() => navigate("/editprofile")} />
         <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Link a new ImHuman account</div>
