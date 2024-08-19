@@ -145,7 +145,7 @@ export default function EditProfile() {
                   onChange={handleChange}
                 />
                 <span className="opacity-[60%] text-[14px]">
-                  {bio.length}/{characterLimit} characters
+                  {bio?.length}/{characterLimit} characters
                 </span>
               </div>
               <div className="my-[25px]">
