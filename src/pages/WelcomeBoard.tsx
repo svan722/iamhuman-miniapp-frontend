@@ -44,7 +44,7 @@ export default function WelcomeBoard() {
   }, []);
 
   async function getOTP() {
-    console.log(username, "<<< tg user name");
+    // console.log(username, "<<< tg user name");
     // if (username === "imhuman1") {
     //   setIsOpenModal(true);
     //   return;
