@@ -45,10 +45,10 @@ export default function WelcomeBoard() {
 
   async function getOTP() {
     console.log(username, "<<< tg user name");
-    if (username === "imhuman1") {
-      setIsOpenModal(true);
-      return;
-    }
+    // if (username === "imhuman1") {
+    //   setIsOpenModal(true);
+    //   return;
+    // }
     await axios
       .get(BASE_API + `getuserinotp/${username}`)
       .then((res) => {
