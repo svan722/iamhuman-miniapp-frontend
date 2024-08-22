@@ -65,15 +65,21 @@ export default function EditProfile() {
   }, [])
 
   const verify = async () => {
+    console.log('verify edit profile')
     const editData = {
+      user_id: username,
       bio: bio,
       x_link: xlink,
       discordUsername: discordUsername,
       personal_website: personal,
     };
 
-    dispatch(setEditVal(editData));
-    navigate('/profileverify');
+    await axios.post(BASE_API + `edit/savependingprofile`, editData)
+    .then(res => {
+      console.log(res.data, "<<<save pending profile");
+      dispatch(setEditVal(editData));
+      navigate('/profileverify');
+    })
   };
 
   // const username = user?user.username:"imhuman1";
@@ -93,10 +99,10 @@ export default function EditProfile() {
               : setBio("");
           }
           res.data.user.x_link ? setXlink(res.data.user.x_link) : setXlink("");
-          res.data.user.x_link
+          res.data.user.discordUsername
             ? setDiscordUsername(res.data.user.discordUsername)
             : setDiscordUsername("");
-          res.data.user.x_link
+          res.data.user.personal_website
             ? setPersonal(res.data.user.personal_website)
             : setPersonal("");
         }

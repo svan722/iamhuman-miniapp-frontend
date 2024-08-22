@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import HumanSpaceImg from "../assets/images/human_space.png";
 import HumanIdLogo from "../assets/images/HumanId_logo.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
@@ -20,6 +20,23 @@ export default function HelloHuman() {
   const dispatch = useAppDispatch();
   const { username } = useContext(OtpContext);
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isShowPendingView, setIsShowPendingView] = useState(false);
+
+  useEffect(() => {
+    console.log(username, '>>>username hellohuman')
+    async function getPendingProfile() {
+      await axios.get(BASE_API + `edit/getpendingprofile/${username}`)
+        .then((res)=> {
+          console.log("res", res);
+        if (res.data.code === 404) {
+          setIsShowPendingView(false);
+        } else {
+          setIsShowPendingView(true);
+        }
+      })
+    }
+    getPendingProfile();
+  }, []);
 
   const hideModal = () => {
     setIsShowModal(false);
@@ -27,6 +44,18 @@ export default function HelloHuman() {
 
   const clickGotit = () => {
     setIsShowModal(false);
+  }
+
+  const editProfile = async() => {
+    await axios
+    .delete(BASE_API + `edit/delete/opt/${username}`)
+    .then((res) => {
+      console.log(res.data.code, '<<<delete resp code')
+      navigate("/editprofile");
+    })
+    .catch((err) => {
+      console.log("OTP delete failed", err);
+    });
   }
 
   const getLimitAcnt = async() => {
@@ -83,15 +112,15 @@ export default function HelloHuman() {
           </div>
           <img src={ArrowRight} alt="arrow right" />
         </div>
-        {/* <div className="rounded-[8px] p-[10px] mt-[20px]" style={{ background: "linear-gradient(90deg, white 50%, #6486FF)" }}>
+        {isShowPendingView && <div className="rounded-[8px] p-[10px] mt-[20px]" style={{ background: "linear-gradient(90deg, white 50%, #6486FF)" }}>
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">You have pending profile edits</div>
           <div className="text-[12px] font-[400] leading-[14.52px]">Your edits will be saved once you have verified your Human Likeness. You can retrieve verification result if you have already done so.</div>
           <div className="flex justify-end items-center mt-[10px]" onClick={() => { navigate('/pendingprofile') }}>
             <div className="text-[16px] font-[600] leading-[19.36px]">View</div>
             <IoIosArrowForward className="text-[23px] ml-[5px]" />
           </div>
-        </div> */}
-        <Button background={true} disabled={false} text="Edit my profile" onClick={() => navigate("/editprofile")} />
+        </div>}
+        {!isShowPendingView && <Button background={true} disabled={false} text="Edit my profile" onClick={() => editProfile()} />}
         <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Link a new ImHuman account</div>
           <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>

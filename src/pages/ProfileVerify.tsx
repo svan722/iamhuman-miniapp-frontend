@@ -106,11 +106,12 @@ export default function ProfileVerify() {
     setTimeout(() => setIsCopied(false), 2000);
   };
   const handleCancel = async () => {
-    navigate("/editprofile");
+    navigate("/hellohuman");
   };
 
   const getResult = async () => {
     const userData = {
+      user_id: username,
       bio: editData.bio,
       x_link: editData.x_link,
       discordUsername: editData.discordUsername,
@@ -123,7 +124,8 @@ export default function ProfileVerify() {
       .post(BASE_API + `edit/get/tgbot/verification/edit/${editOtp}`, userData)
       .then((res) => {
         console.log("verification", res);
-        if (res.data.msg === "ok" && res.data.code === 200) {
+        // alert(res.data.code);
+        if (res.data.code === 200) {
           navigate("/verifysuccess");
         } else {
           if (time > 0)

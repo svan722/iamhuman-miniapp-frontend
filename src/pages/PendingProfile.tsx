@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 // import axios from "axios";
 import LinkImg from "../assets/images/link.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
@@ -7,6 +7,10 @@ import { OtpContext } from "../App";
 import { useNavigate } from "react-router-dom";
 // import { BASE_API } from "../config/config";
 import Button from "../components/button/Button";
+import { useAppDispatch } from "../app/hooks";
+import { setEditVal } from "../actions/EditAction";
+import { BASE_API } from "../config/config";
+import axios from "axios";
 
 interface IUpdateUserData {
   xlink?: String;
@@ -18,11 +22,38 @@ export const UpdateUserDataContext = createContext<IUpdateUserData>({});
 export default function PendingProfile() {
   const navigate = useNavigate();
   const { username } = useContext(OtpContext);
-  // const [bio, setBio] = useState("");
-  // const [xlink, setXlink] = useState("");
-  // const [discordUsername, setDiscordUsername] = useState("");
-  // const [personal, setPersonal] = useState("")
+  const dispatch = useAppDispatch();
+  const [bio, setBio] = useState("");
+  const [xlink, setXlink] = useState("");
+  const [discordUsername, setDiscordUsername] = useState("");
+  const [personal, setPersonal] = useState("")
   const [updateUserData] = useState({});
+
+  useEffect(() => {
+    async function getPendingData() {
+      axios.get(BASE_API + `edit/getpendingprofile/${username}`)
+      .then(res => {
+        console.log(res, '<<<pending profile');
+        if (res.data.code === 404) {
+          alert("Can't find pending profile!");
+          return;
+        }
+        const editData = {
+          user_id: res.data.profile.user_id,
+          bio: res.data.profile.bio,
+          x_link: res.data.profile.xlink,
+          discordUsername: res.data.profile.discordUsername,
+          personal_website: res.data.profile.personal,
+        };    
+        dispatch(setEditVal(editData));
+        setBio(res.data.profile.bio);
+        setXlink(res.data.profile.x_link);
+        setDiscordUsername(res.data.profile.discordUsername);
+        setPersonal(res.data.profile.personal_website);
+      })
+    }
+    getPendingData();
+  }, [])
 
   return (
     <UpdateUserDataContext.Provider value={updateUserData}>
@@ -51,10 +82,7 @@ export default function PendingProfile() {
                     Personal bio
                   </h1>
                   <div className="text-[12px] font-[400] leading-[14.52px]">
-                    The WorkHeart NFT ensures that nodes are live and maintained
-                    by humans, providing seamless FHE AI services. Currently,
-                    the WorkHeart Combo is available for reservation with a fee
-                    of 0.015 ETH, applied towards the total payment.
+                    {bio}
                   </div>
                 </div>
                 <div className="mb-[20px]">
@@ -68,7 +96,7 @@ export default function PendingProfile() {
                       alt="xlink"
                     />
                     <div className="text-[12px] font-[400] leading-[14.52px]">
-                      https://x.com/yunan_minami
+                      {xlink}
                     </div>
                   </div>
                 </div>
@@ -77,7 +105,7 @@ export default function PendingProfile() {
                     Discord username
                   </h1>
                   <div className="text-[12px] font-[400] leading-[14.52px]">
-                    @102020
+                    {discordUsername}
                   </div>
                 </div>
                 <div className="">
@@ -91,7 +119,7 @@ export default function PendingProfile() {
                       alt="websitelink"
                     />
                     <div className="text-[12px] font-[400] leading-[14.52px]">
-                      www.privasea.ai
+                      {personal}
                     </div>
                   </div>
                 </div>

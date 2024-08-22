@@ -1,6 +1,7 @@
 import { useState, createContext, useEffect, useContext } from "react";
 import axios from "axios";
 import SmallSpaceImg from "../assets/images/small_space.png";
+import NFTLogo from "../assets/images/nftlogo.png";
 import PencilImg from "../assets/images/pencil.png";
 import LinkImg from "../assets/images/link.png";
 import { IoSearchSharp } from "react-icons/io5";
@@ -36,14 +37,19 @@ export default function ViewProfile() {
   const [userItems, setuserItems] = useState([]);
   const [updateUserData]  = useState({});
   const [isShowModal, setIsShowModal] = useState(false);
-  
+  const [userid, setUserid] = useState(username);
+  const [nftid, setNftid] = useState('');
+  const [nftImage, setNftImage] = useState('');
 
   const onchangeSearchTxt = (e:any) => {
     setSearchName(e.target.value);
-    if (e.target.value !== null) {
-      setIsShowClearBtn(true);
-    } else {
+    console.log(e.target.value, e.target.value === null, e.target.value === "")
+    if (e.target.value === null || e.target.value === "") {
       setIsShowClearBtn(false);
+      setuserItems([]);
+    } else {
+      console.log('false')
+      setIsShowClearBtn(true);
     }
   }
 
@@ -85,11 +91,10 @@ export default function ViewProfile() {
             !res.data.user ? setBio("") : res.data.user.bio ? setBio(res.data.user.bio) : setBio("");
           };
           res.data.user.x_link ? setXlink(res.data.user.x_link) : setXlink("");
-          res.data.user.x_link ? setDiscordUsername(res.data.user.discordUsername) : setDiscordUsername("");
-          res.data.user.x_link ? setPersonal(res.data.user.personal_website) : setPersonal("");
+          res.data.user.discordUsername ? setDiscordUsername(res.data.user.discordUsername) : setDiscordUsername("");
+          res.data.user.personal_website ? setPersonal(res.data.user.personal_website) : setPersonal("");
         }
-
-        })
+      })
     }
     currentUser();
   }, []);
@@ -99,11 +104,13 @@ export default function ViewProfile() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
           console.log("res", res);
+          setUserid(res.data.user.user_id);
+          setNftid(res.data.user.nft_id);
+          setNftImage(res.data.user.nft_image_uri);
           setBio(res.data.user.bio);
           setXlink(res.data.user.x_link);
           setDiscordUsername(res.data.user.discordUsername);
           setPersonal(res.data.user.personal_website);
-
         })
     }
     currentUser();
@@ -164,7 +171,7 @@ export default function ViewProfile() {
                   </div>
                   {isShowClearBtn && <div className="font-[400] text-[16px] leading-[22px] mt-[3px] cursor-pointer" onClick={() => {setSearchName('');setIsShowClearBtn(false);}}>Clear</div>}
                 </div>
-                <div className=" w-full">
+                <div className=" w-full mt-[5px]">
                   {
                     userItems.map((data:any, index:any) => {
                       return <SearchProfileView key={index} user={data.user_id} viewProfile={()=>viewProfile(data.user_id)}/>
@@ -173,20 +180,28 @@ export default function ViewProfile() {
                 </div>
               </div>
             </div>
-            <div className="border rounded-lg border-[#D3D3D3] px-4 py-4 mb-[20px]">
-              <div className="flex items-center justify-between">
+            <div className={`border rounded-lg ${username === userid ? 'border-[#D3D3D3]' : 'border-none'} px-4 py-4 mb-[20px] ${username === userid ? '' : 'bg-[#F5F5F5]'}`}>
+              {username === userid && <div className="flex items-center justify-between">
                 <h1 className="font-[600] text-[20px] leading-[24.2px]">My profile</h1>
                 <img src={PencilImg} className="cursor-pointer w-[10.9px] h-[10.9px]" alt="pencil" onClick={() => {navigate('/editprofile')}}/>
-              </div>
+              </div>}
               <div className="flex items-center rounded-lg bg-[#F5F5F5] p-[20px] my-[20px]">
                 <div className="w-[32px] h-[32px] bg-black rounded-md p-[3px] mr-[10px]">
                   <img className="" src={SmallSpaceImg} alt="logo"/>
                 </div>
                 <div>
                   <div className="text-[16px] font-[400] leading-[19.36px] text-black opacity-[60%] ">ImHuman account</div>
-                  <span className="text-[16px] font-[400] leading-[19.36px] text-black">{username}</span>
+                  <span className="text-[16px] font-[400] leading-[19.36px] text-black">{userid}</span>
                 </div>
               </div>
+              {username !== userid && <div className="bg-white rounded-[8px] p-[10px] flex flex-col items-center mb-[10px]">
+                <img src={nftImage} alt="nft image" className="rounded-[50%] w-[48px] h-[48px]" />
+                <div className="text-[16px] font-[500] leading-[19.36px] mt-[10px]">{userid}'s ImHuman NFT</div>
+                <div className="flex justify-center items-center mt-[5px]">
+                  <img src={NFTLogo} alt="nft id logo" className="w-[20px] h-[20px]" />
+                  <div className="text-[16px] font-[700] leading-[19.36px] ml-[5px]">#{nftid}</div>
+                </div>
+              </div>}
               <div>
                 <label className="text-[16px] leading-[19.36px] font-[500]">Personal bio</label>
                 <div className="text-[14px] font-[400] leading-[16.94px]">{bio}</div>
@@ -201,7 +216,7 @@ export default function ViewProfile() {
               <div className="my-[25px]">
                 <label className="text-[16px] leading-[19.36px] font-[500]" >Discord username</label>
                 <div className="flex items-center cursor-pointer">
-                  <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" />
+                  {/* <img src={LinkImg} className="w-[20px] h-[20px] mr-[5px]" alt="link" /> */}
                   <div className="">{discordUsername}</div>
                 </div>
               </div>
