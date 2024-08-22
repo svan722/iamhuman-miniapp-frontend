@@ -6,12 +6,15 @@ import Button from "../components/button/Button";
 import { BASE_API } from "../config/config";
 import { OtpContext } from "../../src/App";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { getLimitAcntVal } from "../actions/UserAction";
+import { useAppSelector } from "../app/hooks";
 
 export default function LinkVerify() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState<string>("");
   const [isCopied, setIsCopied] = useState(false);
   const [time, setTime] = useState(NaN);
+  const limit_acnt = useAppSelector(getLimitAcntVal);
 
   const { username } = useContext(OtpContext);
 
@@ -101,6 +104,7 @@ export default function LinkVerify() {
     await axios
       .post(BASE_API + `get/tgbot/verification/link/${otp}`, {
         user_id: username,
+        limit_acnt: limit_acnt
       })
       .then((res) => {
         console.log("verification", res);

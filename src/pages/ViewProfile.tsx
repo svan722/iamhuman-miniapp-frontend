@@ -9,8 +9,11 @@ import Footer from "../components/footer/Footer";
 // import { useTelegram } from "../context/TelegramProvider";
 import { OtpContext } from "../../src/App";
 import { useNavigate } from 'react-router-dom';
-import { BASE_API } from "../config/config";
+import { BASE_API, LIMIT_ACNT } from "../config/config";
 import SearchProfileView from "../components/searchComponents/SearchProfileView";
+import LimitModal from "../components/LimitModal";
+import { useAppDispatch } from "../app/hooks";
+import { setLimitAcntVal } from "../actions/UserAction";
 
 interface IUpdateUserData {
   xlink?: String,
@@ -22,6 +25,7 @@ export const UpdateUserDataContext = createContext<IUpdateUserData>({});
 export default function ViewProfile() {
   // const { user } = useTelegram();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { username } = useContext(OtpContext);
   const [bio, setBio] = useState("");
   const [xlink, setXlink] = useState("");
@@ -31,6 +35,7 @@ export default function ViewProfile() {
   const [isShowClearBtn, setIsShowClearBtn] = useState(false);
   const [userItems, setuserItems] = useState([]);
   const [updateUserData]  = useState({});
+  const [isShowModal, setIsShowModal] = useState(false);
   
 
   const onchangeSearchTxt = (e:any) => {
@@ -43,6 +48,8 @@ export default function ViewProfile() {
   }
 
   const linkSocial = (linkVal:any) => {
+    if (!linkVal)
+      return;
     window.open(linkVal);
   }
 
@@ -103,6 +110,45 @@ export default function ViewProfile() {
     setSearchName('');
     setIsShowClearBtn(false);
   }
+
+  const hideModal = () => {
+    setIsShowModal(false);
+  }
+
+  const clickGotit = () => {
+    setIsShowModal(false);
+  }
+
+  const getLimitAcnt = async() => {
+    console.log('username>>>>>', username);
+    await axios
+      .get(BASE_API + `getlimitacnt/${username}`)
+      .then((res) => {
+        console.log(res.data, '<<<getlimitacnt');
+        dispatch(setLimitAcntVal(res.data.user.limit_acnt+1));
+        if(res.data.code === 200) {
+          if(res.data.user.limit_acnt < LIMIT_ACNT) {
+            axios
+            .delete(BASE_API + `delete/user/${username}`)
+            .then((res) => {
+              console.log("handle cancel", res);
+              navigate("/linkverify");
+            })
+            .catch((err) => {
+              console.log("OTP delete failed", err);
+            });
+          } else {
+            setIsShowModal(true);
+          }
+        } else {
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <UpdateUserDataContext.Provider value={updateUserData}>
       <div className="pt-[20px] " style={{fontFamily: "Inter"}}>
@@ -170,13 +216,14 @@ export default function ViewProfile() {
             <div className="border rounded-lg border-[#D3D3D3] p-[23px]">
               <div className="text-[16px] leading-[19.36px] font-[600] mb-[10px]">Link a new ImHuman account</div>
               <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
-              <div className="flex justify-end items-center mt-[10px]" onClick={() => {navigate('/')}}>
+              <div className="flex justify-end items-center mt-[10px]" onClick={() => {getLimitAcnt()}}>
                 <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
                 <IoIosArrowForward className="text-[23px] ml-[5px]" />
               </div>
             </div>
           </div>
         </div>
+        {isShowModal && <LimitModal gotit={clickGotit} close={hideModal} />}
         <div className="fixed bottom-0 w-full z-10">
           <Footer/>
         </div>

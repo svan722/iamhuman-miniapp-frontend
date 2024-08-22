@@ -6,5 +6,6 @@ const HUMAN_VERIFY_API = "https://face-dev.privasea.ai"; // app backend url for 
 const API_KEY = "XOodrATw05lq2m4QhntbIYY8BQJ2SdQE";
 const API_SECRET =
   "vDE9BTDtRlPMYc4GRagCItyAdQULPrQntzuReode7cAfTQgzxQ0Umsr4vbs4iuAV";
+const LIMIT_ACNT = 20;
 
-export { BASE_API, HUMAN_VERIFY_API, API_KEY, API_SECRET };
+export { LIMIT_ACNT, BASE_API, HUMAN_VERIFY_API, API_KEY, API_SECRET };

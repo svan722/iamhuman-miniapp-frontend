@@ -10,12 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { setOtpVal } from "../actions/OtpAction";
 import IDCheckModal from "../components/IDCheckModal";
+// import { setLimitAcntVal } from "../actions/UserAction";
 
 export default function WelcomeBoard() {
-  // const [isVisible, setIsvisible] = useState(true);
-  // const [username, setUsername] = useState<string>("imhuman1");
-  // const [otp, setOtp] = useState("00000000");
-
   const navigate = useNavigate();
   // const { user } = useTelegram();
   const { username } = useContext(OtpContext);
@@ -44,7 +41,7 @@ export default function WelcomeBoard() {
   }, []);
 
   async function getOTP() {
-    // console.log(username, "<<< tg user name");
+    console.log(username, "<<< tg user name");
     // if (username === "imhuman1") {
     //   setIsOpenModal(true);
     //   return;
@@ -103,9 +100,10 @@ export default function WelcomeBoard() {
                     await axios
                       .post(
                         BASE_API +
-                          `get/tgbot/verification/link/${res.data.user.otp}`,
-                        username
-                      )
+                          `get/tgbot/verification/link/${res.data.user.otp}`, {
+                        user_id: username,
+                        limit_acnt: 1
+                  })
                       .then((res) => {
                         console.log("verification", res);
                         if (res.data.code === 200) {

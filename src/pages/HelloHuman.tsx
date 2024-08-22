@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import HumanSpaceImg from "../assets/images/human_space.png";
 import HumanIdLogo from "../assets/images/HumanId_logo.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
@@ -9,10 +9,55 @@ import Footer from "../components/footer/Footer";
 // import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from 'react-router-dom';
 import { OtpContext } from "../../src/App";
+import axios from "axios";
+import { BASE_API, LIMIT_ACNT } from "../config/config";
+import LimitModal from "../components/LimitModal";
+import { setLimitAcntVal } from "../actions/UserAction";
+import { useAppDispatch } from "../app/hooks";
 
 export default function HelloHuman() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { username } = useContext(OtpContext);
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const hideModal = () => {
+    setIsShowModal(false);
+  }
+
+  const clickGotit = () => {
+    setIsShowModal(false);
+  }
+
+  const getLimitAcnt = async() => {
+    console.log('username>>>>>', username);
+    await axios
+      .get(BASE_API + `getlimitacnt/${username}`)
+      .then((res) => {
+        console.log(res.data, '<<<getlimitacnt');
+        dispatch(setLimitAcntVal(res.data.user.limit_acnt+1));
+        if(res.data.code === 200) {
+          if(res.data.user.limit_acnt < LIMIT_ACNT) {
+            axios
+            .delete(BASE_API + `delete/user/${username}`)
+            .then((res) => {
+              console.log("handle cancel", res);
+              navigate("/linkverify");
+            })
+            .catch((err) => {
+              console.log("OTP delete failed", err);
+            });
+          } else {
+            setIsShowModal(true);
+          }
+        } else {
+          navigate('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div className="pt-[30px] " style={{ fontFamily: "Inter" }}>
@@ -50,12 +95,13 @@ export default function HelloHuman() {
         <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Link a new ImHuman account</div>
           <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
-          <div className="flex justify-end items-center mt-[10px]" onClick={() => { navigate('/linkverify') }}>
+          <div className="flex justify-end items-center mt-[10px]" onClick={() => { getLimitAcnt() }}>
             <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
             <IoIosArrowForward className="text-[23px] ml-[5px]" />
           </div>
         </div>
       </div>
+      {isShowModal && <LimitModal gotit={clickGotit} close={hideModal} />}
       <div className="fixed bottom-0 w-full">
         <Footer />
       </div>
