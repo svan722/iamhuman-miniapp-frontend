@@ -21,8 +21,24 @@ export default function HelloHuman() {
   const { username } = useContext(OtpContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowPendingView, setIsShowPendingView] = useState(false);
+  const [appName, setAppName] = useState('');
+  const [nftId, setNftId] = useState('');
+  const [nftImage, setNftImage] = useState('');
+
+  async function currentUser() {
+    axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
+      .then(res=> {
+        console.log("res current user", res);
+      if (res.data.user) {
+        setAppName(res.data.user.user_name);
+        setNftId(res.data.user.nft_id);
+        setNftImage(res.data.user.nft_image_uri);
+      }
+    })
+  }
 
   useEffect(() => {
+    currentUser();
     console.log(username, '>>>username hellohuman')
     async function getPendingProfile() {
       await axios.get(BASE_API + `edit/getpendingprofile/${username}`)
@@ -96,11 +112,11 @@ export default function HelloHuman() {
           <p className="font-[400] text-[16px] leading-[22px] px-6">Explore your ImHuman NFTs and rewards in ImHuman App </p>
         </div>
         <div className="flex justify-center my-[20px]">
-          <img src={HumanSpaceImg} alt="Hello Human logo" className="w-[160px]" />
+          <img src={nftImage} alt="Hello Human logo" className="w-[160px]" />
         </div>
         <div className="flex justify-center items-center">
           <img className="w-[24px]" src={HumanIdLogo} alt="Human logo" />
-          <span className="font-[700] text-[16px] leading-[19.36px] ml-[5px]">#4455</span>
+          <span className="font-[700] text-[16px] leading-[19.36px] ml-[5px]">#{nftId}</span>
         </div>
         <div className="w-full cursor-pointer rounded-lg bg-[#F5F5F5] px-5 py-3 flex justify-between items-center mt-4" onClick={() => navigate('/viewprofile')}>
           <div className="w-8 h-8 bg-black rounded-md flex justify-center items-center">
@@ -108,7 +124,7 @@ export default function HelloHuman() {
           </div>
           <div className="font-[400] text-[16px] leading-[19.36px] ml-[-50px]">
             <p className="opacity-[60%]">ImHuman account</p>
-            <p>{username}</p>
+            <p>{appName}</p>
           </div>
           <img src={ArrowRight} alt="arrow right" />
         </div>

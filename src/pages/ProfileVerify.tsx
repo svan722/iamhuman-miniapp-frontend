@@ -126,7 +126,7 @@ export default function ProfileVerify() {
         console.log("verification", res);
         // alert(res.data.code);
         if (res.data.code === 200) {
-          navigate("/verifysuccess");
+          navigate("/verifypassed");
         } else {
           if (time > 0)
             navigate("/editverifynotcompleted");

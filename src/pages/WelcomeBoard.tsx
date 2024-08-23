@@ -64,6 +64,12 @@ export default function WelcomeBoard() {
 
   useEffect(() => {
     getOTP();
+    axios
+    .post(BASE_API + `getcurrentuser/${username}`, { username: username })
+    .then((res) => {
+      console.log("CURRENT USER", res);
+      if (res.data.user) navigate("/hellohuman");
+    });
   }, []);
 
   const linkApp = async () => {
@@ -73,7 +79,6 @@ export default function WelcomeBoard() {
       return;
     }
     getOTP();
-    // alert(username);
     axios
       .post(BASE_API + `getcurrentuser/${username}`, { username: username })
       .then((res) => {

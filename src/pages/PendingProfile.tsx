@@ -28,8 +28,20 @@ export default function PendingProfile() {
   const [discordUsername, setDiscordUsername] = useState("");
   const [personal, setPersonal] = useState("")
   const [updateUserData] = useState({});
+  const [appName, setAppName] = useState('');
+
+  async function currentUser() {
+    axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
+      .then(res=> {
+        console.log("res pending profile", res);
+        if (res.data.user) {
+          setAppName(res.data.user.user_name);
+        }
+      })
+  }
 
   useEffect(() => {
+    currentUser();
     async function getPendingData() {
       axios.get(BASE_API + `edit/getpendingprofile/${username}`)
       .then(res => {
@@ -44,7 +56,7 @@ export default function PendingProfile() {
           x_link: res.data.profile.xlink,
           discordUsername: res.data.profile.discordUsername,
           personal_website: res.data.profile.personal,
-        };    
+        };
         dispatch(setEditVal(editData));
         setBio(res.data.profile.bio);
         setXlink(res.data.profile.x_link);
@@ -73,7 +85,7 @@ export default function PendingProfile() {
                   <img className="w-[24px]" src={SmallSpaceImg} alt="logo" />
                 </div>
                 <span className="font-[400] text-[16px] leading-[19.36px] mx-2 my-2">
-                  {username}
+                  {appName}
                 </span>
               </div>
               <div className="bg-[#F5F5F5] rounded-[8px] p-[16px]">

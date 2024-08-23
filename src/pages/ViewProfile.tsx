@@ -40,6 +40,7 @@ export default function ViewProfile() {
   const [userid, setUserid] = useState(username);
   const [nftid, setNftid] = useState('');
   const [nftImage, setNftImage] = useState('');
+  const [appName, setAppName] = useState('');
 
   const onchangeSearchTxt = (e:any) => {
     setSearchName(e.target.value);
@@ -83,6 +84,7 @@ export default function ViewProfile() {
         .then(res=> {
           console.log("res", res);
         if (res.data.user) {
+          setAppName(res.data.user.user_name);
           if(res.data.user.bio && res.data.user.bio.length>150) {
             setBio(res.data.user.bio.slice(0,150));
           } 
@@ -103,7 +105,8 @@ export default function ViewProfile() {
     async function currentUser() {
       axios.post(BASE_API + `getcurrentuser/${username}`,{username:username})
         .then(res=> {
-          console.log("res", res);
+          console.log("res view profile", res);
+          setAppName(res.data.user.user_name);
           setUserid(res.data.user.user_id);
           setNftid(res.data.user.nft_id);
           setNftImage(res.data.user.nft_image_uri);
@@ -191,12 +194,12 @@ export default function ViewProfile() {
                 </div>
                 <div>
                   <div className="text-[16px] font-[400] leading-[19.36px] text-black opacity-[60%] ">ImHuman account</div>
-                  <span className="text-[16px] font-[400] leading-[19.36px] text-black">{userid}</span>
+                  <span className="text-[16px] font-[400] leading-[19.36px] text-black">{appName}</span>
                 </div>
               </div>
               {username !== userid && <div className="bg-white rounded-[8px] p-[10px] flex flex-col items-center mb-[10px]">
                 <img src={nftImage} alt="nft image" className="rounded-[50%] w-[48px] h-[48px]" />
-                <div className="text-[16px] font-[500] leading-[19.36px] mt-[10px]">{userid}'s ImHuman NFT</div>
+                <div className="text-[16px] font-[500] leading-[19.36px] mt-[10px]">{appName}'s ImHuman NFT</div>
                 <div className="flex justify-center items-center mt-[5px]">
                   <img src={NFTLogo} alt="nft id logo" className="w-[20px] h-[20px]" />
                   <div className="text-[16px] font-[700] leading-[19.36px] ml-[5px]">#{nftid}</div>

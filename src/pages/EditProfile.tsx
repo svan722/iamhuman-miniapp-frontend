@@ -29,6 +29,7 @@ export default function EditProfile() {
   const dispatch = useAppDispatch();
   const profileData = useAppSelector(getEditVal);
 
+  const [appName, setAppName] = useState('');
   const [bio, setBio] = useState("");
   const [xlink, setXlink] = useState("");
   const [discordUsername, setDiscordUsername] = useState("");
@@ -89,6 +90,7 @@ export default function EditProfile() {
       .then((res) => {
         console.log("res", res);
         if (res.data.user) {
+          setAppName(res.data.user.user_name);
           if (res.data.user.bio && res.data.user.bio.length > 150) {
             setBio(res.data.user.bio.slice(0, 150));
           } else {
@@ -135,7 +137,7 @@ export default function EditProfile() {
                   <img className="w-[24px]" src={SmallSpaceImg} alt="logo" />
                 </div>
                 <span className="font-[400] text-[16px] leading-[19.36px] mx-2 my-2">
-                  {username}
+                  {appName}
                 </span>
               </div>
               <div>
