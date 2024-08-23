@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react";
-import HumanSpaceImg from "../assets/images/human_space.png";
 import HumanIdLogo from "../assets/images/HumanId_logo.png";
 import SmallSpaceImg from "../assets/images/small_space.png";
 import ArrowRight from "../assets/images/arrow-right.png";
