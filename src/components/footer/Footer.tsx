@@ -24,13 +24,13 @@ export default function Footer() {
   }
   const navigateToProfile = () => {
     setSelectState(2);
-    navigate("/editprofile");
+    navigate("/viewprofile");
   }
   
   useEffect(() => {
   	if(location.pathname === "/hellohuman") {setSelectState(0)}
     if(location.pathname === "/upgrade_premium") {setSelectState(1)}
-    if(location.pathname === "/editprofile") {setSelectState(2)}
+    if(location.pathname === "/viewprofile") {setSelectState(2)}
   	return () => {
       
   	};

@@ -21,11 +21,13 @@ import IndividualActivePortal from "./pages/IndividualActivePortal";
 import VerifyNotCompleted from "./pages/VerifyNotCompleted";
 import VerifyFailed from "./pages/VerifyFailed";
 import useTelegram from "./useTelegram";
-import { Provider } from "react-redux";
-import { store } from "./app/store"; // Adjust the path as necessary
+// import { Provider } from "react-redux";
+// import { store } from "./app/store"; // Adjust the path as necessary
 import EditVerifyFailed from "./pages/EditVerifyFailed";
 import EditVerifyNotCompleted from "./pages/EditVerifyNotCompleted";
 import EditLinkVerifyBack from "./pages/EditLinkVerifyBack";
+import { useAppDispatch } from "./app/hooks";
+import { setTgUserId } from "./actions/TgUserAction";
 
 export const OtpContext = createContext<{ username?: string }>({});
 
@@ -33,6 +35,7 @@ function App() {
   const [username, setUsername] = useState<string>("imhuman1");
   // const { user } = useTelegram();
   const tg = useTelegram();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (tg) {
@@ -42,11 +45,12 @@ function App() {
       console.log("user>>>", user);
       setUsername(user?.username || "imhuman1");
       console.log("Username:", user?.username);
+      dispatch(setTgUserId(user?.username));
     }
   }, [tg]);
 
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
       <OtpContext.Provider value={{ username }}>
         <Router>
           <Routes>
@@ -92,7 +96,7 @@ function App() {
           </Routes>
         </Router>
       </OtpContext.Provider>
-    </Provider>
+    // </Provider>
   );
 }
 

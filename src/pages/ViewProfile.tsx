@@ -1,6 +1,7 @@
 import { useState, createContext, useEffect, useContext } from "react";
 import axios from "axios";
 import SmallSpaceImg from "../assets/images/small_space.png";
+import UnverifiedUserImg from "../assets/images/unverifieduser.png";
 import NFTLogo from "../assets/images/nftlogo.png";
 import PencilImg from "../assets/images/pencil.png";
 import LinkImg from "../assets/images/link.png";
@@ -41,6 +42,7 @@ export default function ViewProfile() {
   const [nftid, setNftid] = useState('');
   const [nftImage, setNftImage] = useState('');
   const [appName, setAppName] = useState('');
+  const [isUnverifiedUser, setIsUnverifiedUser] = useState(false);
 
   const onchangeSearchTxt = (e:any) => {
     setSearchName(e.target.value);
@@ -48,6 +50,7 @@ export default function ViewProfile() {
     if (e.target.value === null || e.target.value === "") {
       setIsShowClearBtn(false);
       setuserItems([]);
+      setIsUnverifiedUser(false);
     } else {
       console.log('false')
       setIsShowClearBtn(true);
@@ -65,6 +68,11 @@ export default function ViewProfile() {
       try {
         const response = await axios.get(`${BASE_API}searchprofile?user_id=${searchName}`);
         setuserItems(response.data.data);
+        if (response.data.data.length === 0 && searchName !== "") {
+          setIsUnverifiedUser(true);
+        } else {
+          setIsUnverifiedUser(false);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -172,7 +180,7 @@ export default function ViewProfile() {
                     <IoSearchSharp className="text-[20px] text-[#00000099]" />
                     <input className="border-none ml-[10px] bg-[#F5F5F5] outline-none" value={searchName} onChange={(e) => {onchangeSearchTxt(e)}} placeholder="Search with user name" />
                   </div>
-                  {isShowClearBtn && <div className="font-[400] text-[16px] leading-[22px] mt-[3px] cursor-pointer" onClick={() => {setSearchName('');setIsShowClearBtn(false);}}>Clear</div>}
+                  {isShowClearBtn && <div className="font-[400] text-[16px] leading-[22px] mt-[3px] cursor-pointer" onClick={() => {setSearchName('');setIsShowClearBtn(false);setIsUnverifiedUser(false);}}>Clear</div>}
                 </div>
                 <div className=" w-full mt-[5px]">
                   {
@@ -181,9 +189,14 @@ export default function ViewProfile() {
                     })
                   }
                 </div>
+                {isUnverifiedUser && <div className="bg-[#F5F5F5] rounded-lg flex flex-col items-center p-[10px] mt-[20px]">
+                  <img src={UnverifiedUserImg} alt="unverified user" className="w-[70px] h-[70px] rounded-[50%]" />
+                  <div className="text-[16px] font-[600] leading-[22px] text-center mt-[20px]">Unverified user</div>
+                  <div className="text-[16px] font-[400] leading-[22px] mt-[10px]">Oops! This user hasn't linked an ImHuman account yet.</div>
+                </div>}
               </div>
             </div>
-            <div className={`border rounded-lg ${username === userid ? 'border-[#D3D3D3]' : 'border-none'} px-4 py-4 mb-[20px] ${username === userid ? '' : 'bg-[#F5F5F5]'}`}>
+            {!isUnverifiedUser && <div className={`border rounded-lg ${username === userid ? 'border-[#D3D3D3]' : 'border-none'} px-4 py-4 mb-[20px] ${username === userid ? '' : 'bg-[#F5F5F5]'}`}>
               {username === userid && <div className="flex items-center justify-between">
                 <h1 className="font-[600] text-[20px] leading-[24.2px]">My profile</h1>
                 <img src={PencilImg} className="cursor-pointer w-[10.9px] h-[10.9px]" alt="pencil" onClick={() => {navigate('/editprofile')}}/>
@@ -230,15 +243,15 @@ export default function ViewProfile() {
                   <div className="">{personal}</div>
                 </div>
               </div>
-            </div>
-            <div className="border rounded-lg border-[#D3D3D3] p-[23px]">
+            </div>}
+            {!isUnverifiedUser && <div className="border rounded-lg border-[#D3D3D3] p-[23px]">
               <div className="text-[16px] leading-[19.36px] font-[600] mb-[10px]">Link a new ImHuman account</div>
               <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
               <div className="flex justify-end items-center mt-[10px]" onClick={() => {getLimitAcnt()}}>
                 <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
                 <IoIosArrowForward className="text-[23px] ml-[5px]" />
               </div>
-            </div>
+            </div>}
           </div>
         </div>
         {isShowModal && <LimitModal gotit={clickGotit} close={hideModal} />}

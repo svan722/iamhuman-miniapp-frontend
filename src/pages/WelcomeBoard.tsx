@@ -5,20 +5,20 @@ import Button from "../components/button/Button";
 import axios from "axios";
 import { BASE_API } from "../config/config";
 import { OtpContext } from "../App";
-// import { useTelegram } from "../context/TelegramProvider";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setOtpVal } from "../actions/OtpAction";
 import IDCheckModal from "../components/IDCheckModal";
 // import { setLimitAcntVal } from "../actions/UserAction";
+import { getTgUserId } from "../actions/TgUserAction";
 
 export default function WelcomeBoard() {
   const navigate = useNavigate();
-  // const { user } = useTelegram();
   const { username } = useContext(OtpContext);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const dispatch = useAppDispatch();
   const [osType, setOsType] = useState('');
+  const tguserid = useAppSelector(getTgUserId);
 
   const hideModal = () => {
     setIsOpenModal(false);
@@ -42,10 +42,6 @@ export default function WelcomeBoard() {
 
   async function getOTP() {
     console.log(username, "<<< tg user name");
-    if (username === "imhuman1") {
-      setIsOpenModal(true);
-      return;
-    }
     await axios
       .get(BASE_API + `getuserinotp/${username}`)
       .then((res) => {
@@ -64,13 +60,16 @@ export default function WelcomeBoard() {
 
   useEffect(() => {
     getOTP();
+    console.log(tguserid, '<<<<<<<<<<<<userid');
+    if (username === 'imhuman1')
+      return;
     axios
-    .post(BASE_API + `getcurrentuser/${username}`, { username: username })
-    .then((res) => {
-      console.log("CURRENT USER", res);
-      if (res.data.user) navigate("/hellohuman");
-    });
-  }, []);
+      .post(BASE_API + `getcurrentuser/${username}`, { username: username })
+      .then((res) => {
+        console.log("CURRENT USER", res);
+        if (res.data.user) navigate("/hellohuman");
+      });
+  }, [username]);
 
   const linkApp = async () => {
     console.log("tg user name>>>", username);
@@ -78,7 +77,7 @@ export default function WelcomeBoard() {
       setIsOpenModal(true);
       return;
     }
-    getOTP();
+    // getOTP();
     axios
       .post(BASE_API + `getcurrentuser/${username}`, { username: username })
       .then((res) => {
