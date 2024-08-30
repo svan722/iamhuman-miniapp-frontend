@@ -20,6 +20,10 @@ import IndividualActivePortal from "./pages/IndividualActivePortal";
 // import { useTelegram } from "../src/context/TelegramProvider";
 import VerifyNotCompleted from "./pages/VerifyNotCompleted";
 import VerifyFailed from "./pages/VerifyFailed";
+import OtherTgVerifyFailed from "./pages/OtherTgVerifyFailed";
+import OtherTgVerifyNotCompleted from "./pages/OtherTgVerifyNotCompleted";
+import NoMatchVerifyNotCompleted from "./pages/NoMatchVerifyNotCompleted";
+import NoMatchVerifyFailed from "./pages/NoMatchVerifyFailed";
 import useTelegram from "./useTelegram";
 // import { Provider } from "react-redux";
 // import { store } from "./app/store"; // Adjust the path as necessary
@@ -65,6 +69,10 @@ function App() {
               element={<VerifyNotCompleted />}
             />
             <Route path="/verifyfailed" element={<VerifyFailed />} />
+            <Route path="/othertgverifynotcompleted" element={<OtherTgVerifyNotCompleted />} />
+            <Route path="/othertgverifyfailed" element={<OtherTgVerifyFailed />} />
+            <Route path="/nomatchverifynotcompleted" element={<NoMatchVerifyNotCompleted />} />
+            <Route path="/nomatchverifyfailed" element={<NoMatchVerifyFailed />} />
             <Route path="/hellohuman" element={<HelloHuman />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="/editverifyfailed" element={<EditVerifyFailed />} />

@@ -244,11 +244,11 @@ export default function ViewProfile() {
                 </div>
               </div>
             </div>}
-            {!isUnverifiedUser && <div className="border rounded-lg border-[#D3D3D3] p-[23px]">
-              <div className="text-[16px] leading-[19.36px] font-[600] mb-[10px]">Link a new ImHuman account</div>
-              <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
+            {!isUnverifiedUser && <div className="border rounded-lg border-[#D3D3D3] p-[15px]">
+              <div className="text-[16px] leading-[19.36px] font-[600] mb-[10px]">Unlink ImHuman account</div>
+              <div className="text-[16px] font-[400] leading-[19.36px]">We will remove the link and your profile completely. To unlink, you'll need to verify your human likeness again in the {" "}<span className="font-[600]">TG Bot Link</span> Portal in ImHuman.</div>
               <div className="flex justify-end items-center mt-[10px]" onClick={() => {getLimitAcnt()}}>
-                <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
+                <div className="text-[16px] font-[600] leading-[19.36px]">Unlink</div>
                 <IoIosArrowForward className="text-[23px] ml-[5px]" />
               </div>
             </div>}

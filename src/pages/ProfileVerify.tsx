@@ -128,10 +128,20 @@ export default function ProfileVerify() {
         if (res.data.code === 200) {
           navigate("/verifypassed");
         } else {
-          if (time > 0)
-            navigate("/editverifynotcompleted");
-          else
-            navigate("/editverifyfailed");
+          if (time > 0) {
+            if (res.data.code === 402) {
+              navigate("/nomatchverifynotcompleted")
+            } else {
+              navigate("/editverifynotcompleted");
+            }
+          }
+          else {
+            if (res.data.code === 402) {
+              navigate("/nomatchverifyfailed")
+            } else {
+              navigate("/editverifyfailed");
+            }
+          }
         }
       });
   };
@@ -212,7 +222,7 @@ export default function ProfileVerify() {
                 <span>TG Bot Edit portal</span> by navigating to:
               </div>
               <div className="text-[16px] leading-[22px] text-center font-[600] px-[70px]">
-                {"Proof > Liveness check > TG Bot Link"}
+                {"Proof > Liveness check > TG Bot Edit"}
               </div>
             </div>
             <div className="text-[20px] leading-[24.2px] rounded-[8px] bg-[#F5F5F5] px-[8px] py-[16px] text-center font-[600] my-[20px]">

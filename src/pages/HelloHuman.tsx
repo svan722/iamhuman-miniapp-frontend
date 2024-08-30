@@ -137,10 +137,10 @@ export default function HelloHuman() {
         </div>}
         {!isShowPendingView && <Button background={true} disabled={false} text="Edit my profile" onClick={() => editProfile()} />}
         <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
-          <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Link a new ImHuman account</div>
-          <div className="text-[16px] font-[400] leading-[19.36px]">You can link only one ImHuman account at a time. To relink, you'll need to verify your human likeness again.</div>
+          <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Unlink ImHuman account</div>
+          <div className="text-[16px] font-[400] leading-[19.36px]">We will remove the link and your profile completely. To unlink, you'll need to verify your human likeness again in the {" "}<span className="font-[600]">TG Bot Link</span> Portal in ImHuman.</div>
           <div className="flex justify-end items-center mt-[10px]" onClick={() => { getLimitAcnt() }}>
-            <div className="text-[16px] font-[600] leading-[19.36px]">Relink</div>
+            <div className="text-[16px] font-[600] leading-[19.36px]">Unlink</div>
             <IoIosArrowForward className="text-[23px] ml-[5px]" />
           </div>
         </div>

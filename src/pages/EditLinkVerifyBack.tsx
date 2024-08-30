@@ -106,7 +106,20 @@ export default function EditLinkVerifyBack() {
         if (res.data.msg === "ok" && res.data.code === 200) {
           navigate("/verifysuccess");
         } else {
-          navigate("/editverifynotcompleted");
+          if (time > 0) {
+            if (res.data.code === 402) {
+              navigate("/nomatchverifynotcompleted")
+            } else {
+              navigate("/editverifynotcompleted");
+            }
+          }
+          else {
+            if (res.data.code === 402) {
+              navigate("/nomatchverifyfailed")
+            } else {
+              navigate("/editverifyfailed");
+            }
+          }
         }
       });
   };
@@ -128,7 +141,7 @@ export default function EditLinkVerifyBack() {
         <span className="font-[600]">TG Bot Link portal</span> by navigating to:
       </p>
       <p className="font-[600] text-[16px] text-center px-[45px] leading-[22px]">
-        {"Proof > Liveness check > TG Bot Link"}
+        {"Proof > Liveness check > TG Bot Edit"}
       </p>
       <div className="w-full h-[50px] rounded-[6px] bg-[#EAECF1] text-center p-[12px] mt-[20px] leading-[29.05px] text-[20px] font-[600] justify-center items-center flex">
         {otp}

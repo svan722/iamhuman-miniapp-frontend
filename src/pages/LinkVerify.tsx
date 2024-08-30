@@ -25,12 +25,12 @@ export default function LinkVerify() {
       .then((res) => {
         console.log("CURRENT USER", res);
         if (res.data.user) navigate("/hellohuman");
-        else if (res.data.code === 404) {
+        else if (res.data.code !== 200) {
           axios
             .get(BASE_API + `getuserinotp/${username}`)
             .then((res) => {
               console.log("GET USER IN OTP >>>", res.data);
-              if (res.data.user) {
+              if (res.data.code === 200) {
                 if (res.data.user.user_id) {
                   setOtp(res.data.user.otp);
                   hexToInt(res.data.user.otp);
@@ -108,8 +108,10 @@ export default function LinkVerify() {
       })
       .then((res) => {
         console.log("verification", res);
-        if (res.data.msg === "ok" && res.data.code === 200) {
+        if (res.data.code === 200) {
           navigate("/verifysuccess");
+        } else if (res.data.code === 401) {
+          navigate("/othertgverifynotcompleted");
         } else {
           navigate("/verifynotcompleted");
         }

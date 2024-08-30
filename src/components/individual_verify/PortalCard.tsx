@@ -21,10 +21,10 @@ export default function PortalCard(props: PortalProps) {
       <div className="grid grid-cols-4 font-semibold text-base leading-[19px] text-[#D3D3D3] justify-between mt-5">
         <div className="flex items-center">
           <div className={`${active?"w-[9px] h-[9px]":"w-[0px] h-[0px]"}  rounded-[50%] mr-[5px]`}></div>
-          <div className={`${active?"text-[#6486FF]":"text-[#162749]"} cursor-pointer`}  onClick={!active?props.onClick:()=>("")}>Active</div>
+          <div className={`${active?"text-[#6486FF]":"text-[#162749]"} cursor-pointer`}  onClick={!active?props.onClick:()=>("")}>Activate</div>
         </div>
         <div className={`flex items-center justify-end col-span-3 ${active?"text-[#000000]":"text-[#D3D3D3]"}`}>
-          <span className="text-sm" onClick={active?()=>navigate("/individual_active_portal"):()=>("")}>Individual Verifications</span>
+          <span className="text-sm" onClick={active?()=>navigate("/individual_active_portal"):()=>("")}>Initiate Verifications</span>
           <IoIosArrowForward className="text-base ml-2"/>
         </div>
       </div>

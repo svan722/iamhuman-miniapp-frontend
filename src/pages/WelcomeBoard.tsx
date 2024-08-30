@@ -83,7 +83,7 @@ export default function WelcomeBoard() {
       .then((res) => {
         console.log("CURRENT USER", res);
         if (res.data.user) navigate("/hellohuman");
-        else if (res.data.code === 404) {
+        else if (res.data.code !== 200) {
           axios
             .get(BASE_API + `getuserinotp/${username}`)
             .then(async (res) => {
@@ -111,7 +111,9 @@ export default function WelcomeBoard() {
                       .then((res) => {
                         console.log("verification", res);
                         if (res.data.code === 200) {
-                          navigate("/verifypassed");
+                          navigate("/verifysuccess");
+                        } else if (res.data.code === 401) {
+                          navigate("/othertgverifyfailed");
                         } else {
                           navigate("/verifyfailed");
                         }
