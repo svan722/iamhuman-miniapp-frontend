@@ -19,7 +19,7 @@ export default function UpgradePremium() {
         <div className="px-4 py-4">
           <div className="flex justify-center mt-[20px]">
             {/* <div className={`font-semibold text-base leading-[19px] text-center px-4 py-1 rounded-[84px] transition-all duration-200 ${isFree?"translate-x-[50px] bg-[#EAECF1]":"-translate-x-[2.5rem] bg-[#FAF6F2]"} `} onClick={()=> {setIsFree(true)}}>Free</div> */}
-            <div className={`font-semibold text-base leading-[19px] text-center px-4 py-1 rounded-[84px] bg-[#FAF6F2]`}onClick={()=> {setIsFree(false)}}>Premium</div>
+            <div className={`font-semibold text-base leading-[19px] text-center px-4 py-1 rounded-[84px] bg-[#FAF6F2]`}>Premium</div>
           </div>
           <div className="text-center my-[5px] font-normal text-xs">
             <span className="inline mr-[3px]">{"Change Plan"}</span>
