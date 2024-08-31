@@ -32,7 +32,7 @@ export default function EditVerifyNotCompleted() {
             disabled={false}
             text={"Cancel"}
             onClick={() => {
-              navigate("/editprofile");
+              navigate("/hellohuman");
             }}
           />
         </div>

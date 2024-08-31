@@ -15,8 +15,8 @@ export default function NoMatchVerifyNotCompleted() {
           <p className='font-[400] text-[16px] leading-[19.36px] pt-3 px-[5px]'>The ImHuman account you are using to verify doesn’t match your linked ImHuman account. Please try again with the correct account.</p>
         </div>
         <div className='absolute bottom-5 w-full right-0 px-8'>
-          <Button background={true} disabled={false} text={"View my verification code"} onClick={()=> {navigate("/linkverifyback")}}/>
-          <Button background={false} disabled={false} text={"Cancel"} onClick={()=> {navigate("/")}}/>
+          <Button background={true} disabled={false} text={"View my verification code"} onClick={()=> {navigate("/profileverify")}}/>
+          <Button background={false} disabled={false} text={"Cancel"} onClick={()=> {navigate("/hellohuman")}}/>
         </div>
       </div>
     </div>

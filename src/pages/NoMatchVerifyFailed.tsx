@@ -18,10 +18,10 @@ export default function NoMatchVerifyFailed() {
   const genernateNewCode = async () => {
     console.log(username, '<<<<<<<<<username for delete')
     await axios
-      .delete(BASE_API + `delete/opt/${username}`)
+      .delete(BASE_API + `edit/delete/opt/${username}`)
       .then((res) => {
         console.log("handle cancel", res);
-        navigate("/linkverify");
+        navigate("/profileverify");
       })
       .catch((err) => {
         console.log("OTP delete failed", err);
@@ -58,7 +58,7 @@ export default function NoMatchVerifyFailed() {
             disabled={false}
             text={"Cancel"}
             onClick={() => {
-              navigate("/");
+              navigate("/hellohuman");
             }}
           />
         </div>
