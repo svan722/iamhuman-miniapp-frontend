@@ -24,6 +24,7 @@ import OtherTgVerifyFailed from "./pages/OtherTgVerifyFailed";
 import OtherTgVerifyNotCompleted from "./pages/OtherTgVerifyNotCompleted";
 import NoMatchVerifyNotCompleted from "./pages/NoMatchVerifyNotCompleted";
 import NoMatchVerifyFailed from "./pages/NoMatchVerifyFailed";
+import GroupCertification from "./pages/GroupCertification";
 import useTelegram from "./useTelegram";
 // import { Provider } from "react-redux";
 // import { store } from "./app/store"; // Adjust the path as necessary
@@ -101,6 +102,7 @@ function App() {
               path="/individual_active_portal"
               element={<IndividualActivePortal />}
             />
+            <Route path="/group_certification" element={<GroupCertification />} />
           </Routes>
         </Router>
       </OtpContext.Provider>

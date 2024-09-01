@@ -72,11 +72,11 @@ export default function WelcomeBoard() {
   }, [username]);
 
   const linkApp = async () => {
-    console.log("tg user name>>>", username);
-    if (username === "imhuman1") {
-      setIsOpenModal(true);
-      return;
-    }
+    // console.log("tg user name>>>", username);
+    // if (username === "imhuman1") {
+    //   setIsOpenModal(true);
+    //   return;
+    // }
     // getOTP();
     axios
       .post(BASE_API + `getcurrentuser/${username}`, { username: username })
@@ -137,7 +137,7 @@ export default function WelcomeBoard() {
   function hexToInt(otpToken: any) {
     const timestampHex = otpToken.split("-")[1];
     const timestampInt = Number.parseInt(timestampHex, 16);
-    const timer = timestampInt - Date.now();
+    const timer = Math.floor(timestampInt - Date.now() / 1000) > 900 ? 900 : Math.floor(timestampInt - Date.now() / 1000);
     return timer;
   }
 

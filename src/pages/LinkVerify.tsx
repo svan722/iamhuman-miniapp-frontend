@@ -64,11 +64,10 @@ export default function LinkVerify() {
   function hexToInt(otpToken: any) {
     const timestampHex = otpToken.split("-")[1];
     const timestampInt = Number.parseInt(timestampHex, 16);
-    console.log(timestampInt, Date.now(), '<<<<<<<<<<<<<<<<hexToInt timestamp')
-    const timer = timestampInt - Date.now();
+    const timer = Math.floor(timestampInt - Date.now() / 1000) > 900 ? 900 : Math.floor(timestampInt - Date.now() / 1000);
     if (timer < 0) setTime(0);
-    else setTime(Math.floor(timer / 1000));
-    return Math.floor(timer / 1000);
+    else setTime(Math.floor(timer));
+    return Math.floor(timer);
   }
 
   // count down timer

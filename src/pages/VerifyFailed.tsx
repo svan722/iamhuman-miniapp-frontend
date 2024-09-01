@@ -15,7 +15,7 @@ export default function VerifyFailed() {
   const otp = useAppSelector(getOtpVal);
   const { username } = useContext(OtpContext);
 
-  const genernateNewCode = async () => {
+  const generateNewCode = async () => {
     console.log(username, '<<<<<<<<<username for delete')
     await axios
       .delete(BASE_API + `delete/opt/${username}`)
@@ -52,7 +52,7 @@ export default function VerifyFailed() {
             background={true}
             disabled={false}
             text={"Generate a new verification code"}
-            onClick={genernateNewCode}
+            onClick={generateNewCode}
           />
           <Button
             background={false}

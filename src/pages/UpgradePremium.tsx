@@ -40,7 +40,7 @@ export default function UpgradePremium() {
               <IoIosArrowForward className="inline text-xl ml-[5px]"/>
             </div>
           </div>
-          <div className="rounded-[8px] bg-[#F5F5F5] p-[15px] mt-[15px] cursor-pointer">
+          <div className="rounded-[8px] bg-[#F5F5F5] p-[15px] mt-[15px] cursor-pointer" onClick={() => navigate("/group_certification")}>
             <div className="flex items-center">
               <img src={GroupImg} alt="group verify" />
               <div className="text-[16px] font-[600] leading-[19.36px]">Group Verification</div>
