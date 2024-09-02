@@ -20,7 +20,7 @@ export default function Footer() {
   }
   const navigateToPremium = () => {
     setSelectState(1);
-    navigate("/upgrade_premium");
+    navigate("/upcoming_features");
   }
   const navigateToProfile = () => {
     setSelectState(2);
@@ -29,7 +29,7 @@ export default function Footer() {
   
   useEffect(() => {
   	if(location.pathname === "/hellohuman") {setSelectState(0)}
-    if(location.pathname === "/upgrade_premium") {setSelectState(1)}
+    if(location.pathname === "/upcoming_features") {setSelectState(1)}
     if(location.pathname === "/viewprofile") {setSelectState(2)}
   	return () => {
       

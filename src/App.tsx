@@ -31,6 +31,7 @@ import useTelegram from "./useTelegram";
 import EditVerifyFailed from "./pages/EditVerifyFailed";
 import EditVerifyNotCompleted from "./pages/EditVerifyNotCompleted";
 import EditLinkVerifyBack from "./pages/EditLinkVerifyBack";
+import UpcomingFeatures from "./pages/UpcomingFeatures";
 import { useAppDispatch } from "./app/hooks";
 import { setTgUserId } from "./actions/TgUserAction";
 
@@ -103,6 +104,7 @@ function App() {
               element={<IndividualActivePortal />}
             />
             <Route path="/group_certification" element={<GroupCertification />} />
+            <Route path="/upcoming_features" element={<UpcomingFeatures />} />
           </Routes>
         </Router>
       </OtpContext.Provider>
