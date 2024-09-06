@@ -24,13 +24,20 @@ export default function LinkVerify() {
       .post(BASE_API + `getcurrentuser/${username}`, { username: username })
       .then((res) => {
         console.log("CURRENT USER", res);
-        if (res.data.user) navigate("/hellohuman");
+        if (res.data.user && !res.data.user.relink) navigate("/hellohuman");
         else if (res.data.code !== 200) {
           axios
             .get(BASE_API + `getuserinotp/${username}`)
             .then((res) => {
               console.log("GET USER IN OTP >>>", res.data);
-              if (res.data.code === 200) {
+              if (res.data.user && res.data.user.relink === "yes") {
+                createOtp();
+              } else if (res.data.user && res.data.user.relink === "pending") {
+                if (res.data.user.user_id) {
+                  setOtp(res.data.user.otp);
+                  hexToInt(res.data.user.otp);
+                }
+              } else if (res.data.user && res.data.code === 200) {
                 if (res.data.user.user_id) {
                   setOtp(res.data.user.otp);
                   hexToInt(res.data.user.otp);
@@ -42,6 +49,8 @@ export default function LinkVerify() {
             .catch((err) => {
               console.log("GET USER IN OTP ERR", err);
             });
+        } else {
+          createOtp();
         }
       });
   }

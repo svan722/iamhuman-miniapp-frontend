@@ -20,6 +20,7 @@ export default function HelloHuman() {
   const { username } = useContext(OtpContext);
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowPendingView, setIsShowPendingView] = useState(false);
+  const [isShowPendingRelink, setIsShowPendingRelink] = useState(false);
   const [appName, setAppName] = useState('');
   const [nftId, setNftId] = useState('');
   const [nftImage, setNftImage] = useState('');
@@ -32,6 +33,9 @@ export default function HelloHuman() {
         setAppName(res.data.user.user_name);
         setNftId(res.data.user.nft_id);
         setNftImage(res.data.user.nft_image_uri);
+      }
+      if (res.data.user.relink) {
+        setIsShowPendingRelink(true);
       }
     })
   }
@@ -136,14 +140,22 @@ export default function HelloHuman() {
           </div>
         </div>}
         {!isShowPendingView && <Button background={true} disabled={false} text="Edit my profile" onClick={() => editProfile()} />}
-        <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
+        {!isShowPendingRelink && <div className="border border-[#D3D3D3] p-[16px] gap-[8px] rounded-[8px] my-[20px]">
           <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">Unlink ImHuman account</div>
           <div className="text-[16px] font-[400] leading-[19.36px]">We will remove the link and your profile completely. To unlink, you'll need to verify your human likeness again in the {" "}<span className="font-[600]">TG Bot Link</span> Portal in ImHuman.</div>
           <div className="flex justify-end items-center mt-[10px]" onClick={() => { getLimitAcnt() }}>
             <div className="text-[16px] font-[600] leading-[19.36px]">Unlink</div>
             <IoIosArrowForward className="text-[23px] ml-[5px]" />
           </div>
-        </div>
+        </div>}
+        {isShowPendingRelink && <div className="rounded-[8px] p-[10px] mt-[20px]" style={{ background: "linear-gradient(90deg, white 50%, #6486FF)" }}>
+          <div className="text-[16px] font-[600] leading-[19.36px] mb-[10px]">You have pending unlink</div>
+          <div className="text-[12px] font-[400] leading-[14.52px]">You will be relinked once you have verified your Human Likeness. You can retrieve verification result if you have already done so.</div>
+          <div className="flex justify-end items-center mt-[10px]" onClick={() => { navigate('/linkverify') }}>
+            <div className="text-[16px] font-[600] leading-[19.36px]">View</div>
+            <IoIosArrowForward className="text-[23px] ml-[5px]" />
+          </div>
+        </div>}
       </div>
       {isShowModal && <LimitModal gotit={clickGotit} close={hideModal} />}
       <div className="fixed bottom-0 w-full">
